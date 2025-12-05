@@ -88,10 +88,7 @@ export const Dashboard: React.FC = () => {
                                     <Tooltip
                                         cursor={{ fill: 'transparent' }}
                                         contentStyle={{ borderRadius: '10px', border: 'none', boxShadow: '0 5px 15px rgba(0,0,0,0.1)' }}
-                                        formatter={(_value, _entry) => [
-                                            `${_value}`,
-                                            `${_entry.name}`
-                                        ]}
+                                        formatter={(value, name) => [value, name]}
                                     />
                                     <Bar dataKey="value" radius={[10, 10, 0, 0]}>
                                         {barData.map((_entry, index) => (
