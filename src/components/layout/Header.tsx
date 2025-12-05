@@ -1,3 +1,12 @@
+import React from 'react';
+import { useAuth } from '../../context/AuthContext';
+import { Search, LogOut } from 'lucide-react';
+
+export const Header: React.FC = () => {
+    const { user, logout } = useAuth();
+
+    return (
+        <header className="premium-header h-20 px-8 flex items-center justify-between shadow-md z-20">
             <div className="flex items-center gap-4">
                 <h1 className="text-2xl font-bold tracking-tight">🏢 Asset Management</h1>
             </div>
@@ -27,6 +36,6 @@
                     </button>
                 </div>
             </div>
-        </header >
+        </header>
     );
 };
