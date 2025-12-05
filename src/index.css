@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+:root {
+  --font-family-sans: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --gradient-card-1: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  --gradient-card-2: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  --gradient-card-3: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  --gradient-card-4: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+
+  --shadow-premium: 0 20px 60px rgba(0, 0, 0, 0.3);
+  --shadow-card: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+body {
+  font-family: var(--font-family-sans);
+  background: var(--gradient-primary);
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+/* Premium Layout Utilities */
+.premium-card {
+  background: white;
+  border-radius: 15px;
+  box-shadow: var(--shadow-premium);
+}
+
+.premium-header {
+  background: var(--gradient-primary);
+  color: white;
+}
+
+.stat-card-1 {
+  background: var(--gradient-card-1);
+}
+
+.stat-card-2 {
+  background: var(--gradient-card-2);
+}
+
+.stat-card-3 {
+  background: var(--gradient-card-3);
+}
+
+.stat-card-4 {
+  background: var(--gradient-card-4);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}

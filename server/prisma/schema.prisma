@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      String   @default("USER") // "ADMIN" or "USER"
+  avatar    String?
+  companyId String
+  company   Company  @relation(fields: [companyId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Company {
+  id        String   @id @default(uuid())
+  name      String
+  address   String?
+  logo      String?
+  users     User[]
+  assets    Asset[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Asset {
+  id                 String   @id @default(uuid())
+  name               String
+  type               String
+  status             String   @default("AVAILABLE")
+  location           String
+  purchaseDate       String
+  warrantyExpiry     String
+  amcExpiry          String?
+  image              String?  @db.LongText
+  companyId          String
+  company            Company  @relation(fields: [companyId], references: [id])
+  maintenanceHistory Json?    // Storing history as JSON for simplicity
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
