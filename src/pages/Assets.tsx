@@ -144,27 +144,6 @@ export const Assets: React.FC = () => {
 
                                 <div className="space-y-2 text-sm text-gray-600 mb-4">
                                     <div className="flex items-center gap-2">
-                                        <Building2 size={16} className="text-gray-400" />
-                                        {asset.location}
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                        <Calendar size={16} className="text-gray-400" />
-                                        Warranty: {asset.warrantyExpiry}
-                                    </div>
-                                    {asset.amcExpiry && (
-                                        <div className="flex items-center gap-2 text-orange-600">
-                                            <AlertCircle size={16} />
-                                            AMC: {asset.amcExpiry}
-                                        </div>
-                                    )}
-                                </div>
-
-                                <div className="flex gap-2 pt-4 border-t border-gray-100">
-                                    <button
-                                        onClick={() => handleEdit(asset)}
-                                        className="flex-1 px-3 py-2 bg-gray-50 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-100 transition-colors"
-                                    >
-                                        Edit
                                     </button>
                                     <button
                                         onClick={() => handleDelete(asset.id)}
