@@ -33,18 +33,8 @@ export const Register: React.FC = () => {
         setLoading(true);
 
         try {
-            // 1. Create Company
-            const newCompanyId = `c${Date.now()}`;
-            const newCompany = {
-                id: newCompanyId,
-                name: formData.companyName,
-                address: 'Address Pending', // Placeholder
-                logo: `https://ui-avatars.com/api/?name=${formData.companyName}&background=random`,
-            };
-            addCompany(newCompany);
-
-            // 2. Register User linked to Company
-            await register(formData.companyName, formData.email, formData.password, newCompanyId);
+            // Register User and Company (Backend handles transaction)
+            await register(formData.companyName, formData.email, formData.password, '');
 
             navigate('/');
         } catch (err) {
