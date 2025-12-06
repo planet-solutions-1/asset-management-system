@@ -110,7 +110,6 @@ export const Assets: React.FC = () => {
                 ) : (
                     filteredAssets.map((asset) => (
                         <div key={asset.id} className="card group overflow-hidden">
-                            {/* ... asset card content ... */}
                             <div className="relative h-48 bg-gray-100">
                                 {asset.image ? (
                                     <img src={asset.image} alt={asset.name} className="w-full h-full object-cover" />
@@ -158,6 +157,14 @@ export const Assets: React.FC = () => {
                                         </div>
                                     )}
                                 </div>
+
+                                <div className="flex gap-2 pt-4 border-t border-gray-100">
+                                    <button
+                                        onClick={() => handleEdit(asset)}
+                                        className="flex-1 px-3 py-2 bg-gray-50 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-100 transition-colors"
+                                    >
+                                        Edit
+                                    </button>
                                     <button
                                         onClick={() => handleDelete(asset.id)}
                                         className="flex-1 px-3 py-2 bg-red-50 text-red-600 rounded-lg text-sm font-medium hover:bg-red-100 transition-colors"
@@ -200,12 +207,12 @@ export const Assets: React.FC = () => {
                                 amcExpiry: data.amcExpiry === '' ? undefined : data.amcExpiry,
                                 image: data.image === '' ? undefined : data.image,
                             };
-                            
+
                             if (editingAsset) {
                                 await updateAsset({ ...editingAsset, ...assetData });
                             } else {
                                 await addAsset({
-                                    id: undefined, 
+                                    id: undefined,
                                     maintenanceHistory: [],
                                     ...assetData,
                                 } as any);
@@ -244,7 +251,7 @@ export const Assets: React.FC = () => {
                                         description: complaint.description,
                                         performedBy: user?.name || 'Unknown',
                                         status: 'PENDING',
-                                    } as any 
+                                    } as any
                                 ]
                             };
                             updateAsset(updatedAsset);
@@ -253,7 +260,7 @@ export const Assets: React.FC = () => {
                     }}
                 />
             </Modal>
-        </div >
+        </div>
     );
 };
 
