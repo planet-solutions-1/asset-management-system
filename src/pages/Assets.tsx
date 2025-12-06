@@ -200,18 +200,24 @@ export const Assets: React.FC = () => {
                 <AssetForm
                     initialData={editingAsset}
                     onClose={handleCloseModal}
-                    onSubmit={(data) => {
-                        if (editingAsset) {
-                            updateAsset({ ...editingAsset, ...data });
-                        } else {
-                            addAsset({
-                                id: Math.random().toString(36).substr(2, 9),
-                                companyId: user?.companyId || 'c1', // Default to c1 if admin adds (simplified)
-                                maintenanceHistory: [],
-                                ...data,
-                            } as Asset);
+                    onSubmit={async (data) => {
+                        try {
+                            if (editingAsset) {
+                                updateAsset({ ...editingAsset, ...data });
+                            } else {
+                                await addAsset({
+                                    // Backend generates ID
+                                    id: undefined,
+                                    companyId: user?.companyId,
+                                    maintenanceHistory: [],
+                                    ...data,
+                                } as any);
+                            }
+                            handleCloseModal();
+                        } catch (error) {
+                            alert('Failed to save asset. Please try again.');
+                            console.error(error);
                         }
-                        handleCloseModal();
                     }}
                     user={user}
                 />

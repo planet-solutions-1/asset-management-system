@@ -65,11 +65,13 @@ export const Dashboard: React.FC = () => {
                     value={maintenanceAssets}
                     gradient="card-3"
                 />
-                <StatsCard
-                    title="Companies"
-                    value={user?.role === 'ADMIN' ? totalCompanies : 1}
-                    gradient="card-4"
-                />
+                {user?.role === 'ADMIN' && (
+                    <StatsCard
+                        title="Registered Companies"
+                        value={totalCompanies}
+                        gradient="card-4"
+                    />
+                )}
             </div>
 
             {/* Main Content Area */}

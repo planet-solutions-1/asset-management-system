@@ -6,7 +6,7 @@ import { useAuth } from './AuthContext';
 interface DataContextType {
     assets: Asset[];
     companies: Company[];
-    addAsset: (asset: Asset) => void;
+    addAsset: (asset: Asset) => Promise<any>;
     updateAsset: (asset: Asset) => void;
     deleteAsset: (id: string) => void;
     addCompany: (company: Company) => void;
@@ -42,8 +42,10 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
         try {
             const res = await api.post('/assets', asset);
             setAssets((prev) => [res.data, ...prev]);
+            return res.data;
         } catch (err) {
             console.error('Error adding asset:', err);
+            throw err;
         }
     };
 
