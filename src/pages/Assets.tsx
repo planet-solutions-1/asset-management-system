@@ -197,6 +197,37 @@ export const Assets: React.FC = () => {
                 onClose={handleCloseModal}
                 title={editingAsset ? 'Edit Asset' : 'Add New Asset'}
             >
+                <AssetForm
+                    initialData={editingAsset}
+                    onClose={handleCloseModal}
+                    onSubmit={async (data) => {
+                        try {
+                            const assetData = {
+                                ...data,
+                                // Sanitize optional fields
+                                amcExpiry: data.amcExpiry === '' ? null : data.amcExpiry,
+                                image: data.image === '' ? null : data.image,
+                            };
+
+                            if (editingAsset) {
+                                updateAsset({ ...editingAsset, ...assetData });
+                            } else {
+                                await addAsset({
+                                    id: undefined,
+                                    companyId: user?.companyId,
+                                    maintenanceHistory: [],
+                                    ...assetData,
+                                } as any);
+                            }
+                            handleCloseModal();
+                        } catch (error: any) {
+                            const msg = error.response?.data?.message || error.message || 'Failed to save asset';
+                            alert(`Error: ${msg}`);
+                            console.error(error);
+                        }
+                    }}
+                    user={user}
+                />
             </Modal>
 
             <Modal
