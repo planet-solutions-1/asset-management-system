@@ -205,8 +205,8 @@ export const Assets: React.FC = () => {
                             const assetData = {
                                 ...data,
                                 // Sanitize optional fields
-                                amcExpiry: data.amcExpiry === '' ? null : data.amcExpiry,
-                                image: data.image === '' ? null : data.image,
+                                amcExpiry: data.amcExpiry === '' ? undefined : data.amcExpiry,
+                                image: data.image === '' ? undefined : data.image,
                             };
 
                             if (editingAsset) {
