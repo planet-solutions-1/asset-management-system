@@ -26,8 +26,13 @@ if (process.env.NODE_ENV === 'production') {
     });
 }
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+const seed = require('./seed');
+
+// Run Seeder then start server
+seed().then(() => {
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
 });
 
 // Handle shutdown

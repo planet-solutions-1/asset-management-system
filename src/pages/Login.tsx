@@ -89,13 +89,10 @@ export const Login: React.FC = () => {
                 <div className="mt-8 p-4 bg-gray-50 rounded-lg text-sm text-gray-600">
                     <p className="font-bold text-[#667eea] mb-2">Demo Credentials:</p>
                     <div className="grid grid-cols-1 gap-1">
-                        <div className="flex justify-between cursor-pointer hover:text-[#667eea]" onClick={() => setEmail('admin@system.com')}>
-                            <span>Admin:</span>
-                            <span className="font-mono">admin@system.com</span>
-                        </div>
-                        <div className="flex justify-between cursor-pointer hover:text-[#667eea]" onClick={() => setEmail('john@techcorp.com')}>
-                            <span>Tech Solutions:</span>
-                            <span className="font-mono">john@techcorp.com</span>
+                        <div className="flex justify-between cursor-pointer hover:text-[#667eea]" onClick={() => setEmail('admin@planet.com')}>
+                            <span>Super Admin:</span>
+                            <span className="font-mono">admin@planet.com</span>
+                            <span className="text-xs text-gray-400">(pass: admin123)</span>
                         </div>
                     </div>
                     <div className="mt-6 text-center text-sm text-gray-600">
