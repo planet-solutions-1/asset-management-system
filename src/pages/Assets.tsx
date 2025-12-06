@@ -144,7 +144,20 @@ export const Assets: React.FC = () => {
 
                                 <div className="space-y-2 text-sm text-gray-600 mb-4">
                                     <div className="flex items-center gap-2">
-                                    </button>
+                                        <Building2 size={16} className="text-gray-400" />
+                                        {asset.location}
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <Calendar size={16} className="text-gray-400" />
+                                        Warranty: {asset.warrantyExpiry}
+                                    </div>
+                                    {asset.amcExpiry && (
+                                        <div className="flex items-center gap-2 text-orange-600">
+                                            <AlertCircle size={16} />
+                                            AMC: {asset.amcExpiry}
+                                        </div>
+                                    )}
+                                </div>
                                     <button
                                         onClick={() => handleDelete(asset.id)}
                                         className="flex-1 px-3 py-2 bg-red-50 text-red-600 rounded-lg text-sm font-medium hover:bg-red-100 transition-colors"
@@ -229,7 +242,7 @@ export const Assets: React.FC = () => {
                     }}
                 />
             </Modal>
-        </div>
+        </div >
     );
 };
 
