@@ -5,24 +5,33 @@ const prisma = new PrismaClient();
 
 async function seed() {
     try {
-        // Check if any company exists
-        const companyCount = await prisma.company.count();
-        if (companyCount > 0) {
-            console.log('Database already seeded.');
+        // Check if Default Admin exists
+        const existingAdmin = await prisma.user.findUnique({
+            where: { email: 'admin@planet.com' }
+        });
+
+        if (existingAdmin) {
+            console.log('Default admin already exists.');
             return;
         }
 
         console.log('Seeding database with default admin...');
 
-        // Create Default Company
-        const company = await prisma.company.create({
-            data: {
-                id: 'comp_default',
-                name: 'Planet Solutions',
-                address: 'HQ - Silicon Valley',
-                logo: 'https://ui-avatars.com/api/?name=Planet+Solutions&background=0D8ABC&color=fff'
-            }
+        // Check/Create Default Company
+        let company = await prisma.company.findFirst({
+            where: { name: 'Planet Solutions' }
         });
+
+        if (!company) {
+            company = await prisma.company.create({
+                data: {
+                    id: 'comp_default',
+                    name: 'Planet Solutions',
+                    address: 'HQ - Silicon Valley',
+                    logo: 'https://ui-avatars.com/api/?name=Planet+Solutions&background=0D8ABC&color=fff'
+                }
+            });
+        }
 
         // Hash password
         const salt = await bcrypt.genSalt(10);

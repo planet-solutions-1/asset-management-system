@@ -23,7 +23,7 @@ export const Login: React.FC = () => {
             await login(email, password);
             navigate(from, { replace: true });
         } catch (err) {
-            setError('Invalid email. Try admin@system.com');
+            setError(err instanceof Error ? err.message : 'Login failed');
         } finally {
             setLoading(false);
         }
