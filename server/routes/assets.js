@@ -20,39 +20,6 @@ router.get('/', auth, async (req, res) => {
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
-    }
-});
-
-// Add Asset
-router.post('/', auth, async (req, res) => {
-    try {
-        const { name, type, status, location, purchaseDate, warrantyExpiry, amcExpiry, image, specifications } = req.body;
-
-        const newAsset = await prisma.asset.create({
-            data: {
-                name,
-                type,
-                status,
-                location,
-                purchaseDate,
-                warrantyExpiry,
-                amcExpiry,
-                image,
-                companyId: req.user.companyId, // Always assign to user's company
-                maintenanceHistory: [] // Initialize empty
-            }
-        });
-
-        res.json(newAsset);
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error');
-    }
-});
-
-// Update Asset
-router.put('/:id', auth, async (req, res) => {
-    try {
         const asset = await prisma.asset.findUnique({ where: { id: req.params.id } });
 
         if (!asset) return res.status(404).json({ message: 'Asset not found' });
