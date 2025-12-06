@@ -30,8 +30,8 @@ router.post('/', auth, async (req, res) => {
         const { name, type, status, location, purchaseDate, warrantyExpiry, amcExpiry, image, companyId, maintenanceHistory } = req.body;
 
         // Verify company ownership or admin status
-        if (req.user.role !== 'ADMIN' && req.user.companyId !== companyId) {
-            console.error('Unauthorized asset addition: User company mismatch');
+        if (req.user.role !== 'ADMIN' && companyId && req.user.companyId !== companyId) {
+            console.error('Unauthorized asset addition: User company mismatch', { userCompany: req.user.companyId, bodyCompany: companyId });
             return res.status(403).json({ message: 'Unauthorized to add assets to this company' });
         }
 
