@@ -66,10 +66,13 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     const addCompany = async (company: Company) => {
-        // Admin only, usually. Or registration handles it.
-        // For now, we'll just update state locally or call API if we had one.
-        // Since registration handles creation, this might be unused or for Admin.
-        setCompanies((prev) => [...prev, company]);
+        try {
+            // For admin usage mainly, or handled by register
+            const res = await api.post('/companies', company);
+            setCompanies((prev) => [...prev, res.data]);
+        } catch (err) {
+            console.error('Error adding company:', err);
+        }
     };
 
     const getCompanyAssets = (companyId: string) => {

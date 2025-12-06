@@ -5,6 +5,7 @@ import { Building2, Lock, User } from 'lucide-react';
 
 export const Login: React.FC = () => {
     const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const { login } = useAuth();
@@ -19,7 +20,7 @@ export const Login: React.FC = () => {
         setLoading(true);
 
         try {
-            await login(email);
+            await login(email, password);
             navigate(from, { replace: true });
         } catch (err) {
             setError('Invalid email. Try admin@system.com');
@@ -61,9 +62,11 @@ export const Login: React.FC = () => {
                             <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
                             <input
                                 type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
                                 className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-[#667eea] transition-colors"
                                 placeholder="••••••••"
-                            // Password not actually checked in this demo
+                                required
                             />
                         </div>
                     </div>
