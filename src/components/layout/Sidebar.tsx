@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Box, Settings, Building2 } from 'lucide-react';
+import { LayoutDashboard, Box, Settings, Building2, User as UserIcon } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import clsx from 'clsx';
 
@@ -9,7 +9,12 @@ export const Sidebar: React.FC = () => {
     const navItems = [
         { icon: LayoutDashboard, label: 'Dashboard', path: '/' },
         { icon: Box, label: 'Assets', path: '/assets' },
-        ...(user?.role === 'ADMIN' ? [{ icon: Building2, label: 'Companies', path: '/companies' }] : []),
+        ...(user?.role === 'ADMIN'
+            ? [
+                { icon: Building2, label: 'Companies', path: '/companies' },
+                { icon: UserIcon, label: 'Users', path: '/users' }
+            ]
+            : []),
         { icon: Settings, label: 'Settings', path: '/settings' },
     ];
 

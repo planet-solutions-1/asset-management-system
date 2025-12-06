@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { useData } from '../context/DataContext';
 import { StatsCard } from '../components/dashboard/StatsCard';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, PieChart, Pie } from 'recharts';
-import { Activity, AlertTriangle, CheckCircle, Clock, Building2 } from 'lucide-react';
+import { Activity, AlertTriangle, CheckCircle, Clock, Building2, User as UserIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export const Dashboard: React.FC = () => {
@@ -182,13 +182,22 @@ export const Dashboard: React.FC = () => {
                                 Generate Report
                             </button>
                             {user?.role === 'ADMIN' && (
-                                <button
-                                    onClick={() => navigate('/companies')}
-                                    className="w-full py-3 bg-green-50 text-green-600 font-semibold rounded-xl hover:bg-green-100 transition-colors text-left px-4 flex items-center gap-3"
-                                >
-                                    <div className="p-2 bg-white rounded-lg shadow-sm"><Building2 size={18} /></div>
-                                    Manage Companies
-                                </button>
+                                <>
+                                    <button
+                                        onClick={() => navigate('/companies')}
+                                        className="w-full py-3 bg-green-50 text-green-600 font-semibold rounded-xl hover:bg-green-100 transition-colors text-left px-4 flex items-center gap-3"
+                                    >
+                                        <div className="p-2 bg-white rounded-lg shadow-sm"><Building2 size={18} /></div>
+                                        Manage Companies
+                                    </button>
+                                    <button
+                                        onClick={() => navigate('/users')}
+                                        className="w-full py-3 bg-indigo-50 text-indigo-600 font-semibold rounded-xl hover:bg-indigo-100 transition-colors text-left px-4 flex items-center gap-3"
+                                    >
+                                        <div className="p-2 bg-white rounded-lg shadow-sm"><UserIcon size={18} /></div>
+                                        Manage Users
+                                    </button>
+                                </>
                             )}
                         </div>
                     </div>

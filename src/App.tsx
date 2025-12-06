@@ -8,6 +8,7 @@ import { Login } from './pages/Login';
 import { Dashboard } from './pages/Dashboard';
 import { Assets } from './pages/Assets';
 import { Companies } from './pages/Companies';
+import { Users } from './pages/Users';
 import { Reports } from './pages/Reports';
 import { Settings } from './pages/Settings';
 
@@ -26,6 +27,7 @@ function App() {
               <Route path="/" element={<Dashboard />} />
               <Route path="/assets" element={<Assets />} />
               <Route path="/companies" element={<Companies />} />
+              <Route path="/users" element={<Users />} />
               <Route path="/reports" element={<Reports />} />
               <Route path="/settings" element={<Settings />} />
               {/* Redirect unknown routes to dashboard */}
