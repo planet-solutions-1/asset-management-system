@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "concurrently \"vite\" \"cd server && nodemon index.js\"",
     "build": "tsc -b && vite build && cd server && npm install && npx prisma generate",
-    "start": "node server/index.js",
+    "start": "cd server && npm start",
     "lint": "eslint .",
     "preview": "vite preview"
   },
