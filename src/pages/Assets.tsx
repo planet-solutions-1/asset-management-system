@@ -200,6 +200,17 @@ export const Assets: React.FC = () => {
                                 amcExpiry: data.amcExpiry === '' ? undefined : data.amcExpiry,
                                 image: data.image === '' ? undefined : data.image,
                             };
+                            
+                            if (editingAsset) {
+                                await updateAsset({ ...editingAsset, ...assetData });
+                            } else {
+                                await addAsset({
+                                    id: undefined, 
+                                    maintenanceHistory: [],
+                                    ...assetData,
+                                } as any);
+                            }
+                            handleCloseModal();
                         } catch (error: any) {
                             const msg = error.response?.data?.message || error.message || 'Failed to save asset';
                             alert(`Error: ${msg}`);
@@ -224,7 +235,7 @@ export const Assets: React.FC = () => {
                                 ...selectedAssetForComplaint,
                                 status: 'MAINTENANCE' as AssetStatus, // Auto set to maintenance
                                 maintenanceHistory: [
-                                    ...selectedAssetForComplaint.maintenanceHistory,
+                                    ...(selectedAssetForComplaint.maintenanceHistory || []),
                                     {
                                         id: `m${Date.now()}`,
                                         assetId: selectedAssetForComplaint.id,
@@ -233,7 +244,7 @@ export const Assets: React.FC = () => {
                                         description: complaint.description,
                                         performedBy: user?.name || 'Unknown',
                                         status: 'PENDING',
-                                    } as any // Type casting for simplicity in this step
+                                    } as any 
                                 ]
                             };
                             updateAsset(updatedAsset);
