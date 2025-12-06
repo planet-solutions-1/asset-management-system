@@ -208,18 +208,6 @@ export const Assets: React.FC = () => {
                                 amcExpiry: data.amcExpiry === '' ? undefined : data.amcExpiry,
                                 image: data.image === '' ? undefined : data.image,
                             };
-
-                            if (editingAsset) {
-                                updateAsset({ ...editingAsset, ...assetData });
-                            } else {
-                                await addAsset({
-                                    id: undefined,
-                                    companyId: user?.companyId,
-                                    maintenanceHistory: [],
-                                    ...assetData,
-                                } as any);
-                            }
-                            handleCloseModal();
                         } catch (error: any) {
                             const msg = error.response?.data?.message || error.message || 'Failed to save asset';
                             alert(`Error: ${msg}`);

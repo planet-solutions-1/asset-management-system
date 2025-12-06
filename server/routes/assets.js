@@ -30,10 +30,11 @@ router.post('/', auth, async (req, res) => {
         const { name, type, status, location, purchaseDate, warrantyExpiry, amcExpiry, image, companyId, maintenanceHistory } = req.body;
 
         // Verify company ownership or admin status
-        if (req.user.role !== 'ADMIN' && companyId && req.user.companyId !== companyId) {
-            console.error('Unauthorized asset addition: User company mismatch', { userCompany: req.user.companyId, bodyCompany: companyId });
-            return res.status(403).json({ message: 'Unauthorized to add assets to this company' });
-        }
+        // STRICT CHECK REMOVED: We already enforce assignment below, so this check is causing unnecessary friction.
+        // if (req.user.role !== 'ADMIN' && companyId && req.user.companyId !== companyId) {
+        //     console.error('Unauthorized asset addition: User company mismatch', { userCompany: req.user.companyId, bodyCompany: companyId });
+        //     return res.status(403).json({ message: 'Unauthorized to add assets to this company' });
+        // }
 
         const effectiveCompanyId = req.user.role === 'ADMIN' ? (companyId || req.user.companyId) : req.user.companyId;
 
