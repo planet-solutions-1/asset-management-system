@@ -43,7 +43,6 @@ export const Register: React.FC = () => {
     };
 
     return (
-    return (
         <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
             <div className="w-full max-w-md bg-white p-10 rounded-2xl shadow-xl border border-gray-100 animate-in fade-in zoom-in duration-300">
                 <div className="text-center mb-10">
