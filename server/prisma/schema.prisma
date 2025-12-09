@@ -27,6 +27,7 @@ model Company {
   logo      String?
   users     User[]
   assets    Asset[]
+  bills     Bill[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -44,6 +45,22 @@ model Asset {
   companyId          String
   company            Company  @relation(fields: [companyId], references: [id])
   maintenanceHistory Json?    // Storing history as JSON for simplicity
+  isPowered          Boolean  @default(false)
+  bills              Bill[]
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
+}
+
+model Bill {
+  id        String   @id @default(uuid())
+  amount    Float
+  date      DateTime
+  type      String   // "ELECTRICITY", "INTERNET", "REPAIR", "AMC", "OTHER"
+  fileUrl   String?  @db.LongText // Base64 or URL
+  assetId   String?
+  asset     Asset?   @relation(fields: [assetId], references: [id])
+  companyId String
+  company   Company  @relation(fields: [companyId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

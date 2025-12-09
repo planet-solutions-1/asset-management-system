@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Box, Settings, Building2, User as UserIcon, X } from 'lucide-react';
+import { LayoutDashboard, Box, Settings, Building2, User as UserIcon, X, FileText } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import clsx from 'clsx';
 
@@ -15,6 +15,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
     const navItems = [
         { icon: LayoutDashboard, label: 'Dashboard', path: '/' },
         { icon: Box, label: 'Assets', path: '/assets' },
+        { icon: FileText, label: 'Bills', path: '/bills' },
         ...(user?.role === 'ADMIN'
             ? [
                 { icon: Building2, label: 'Companies', path: '/companies' },

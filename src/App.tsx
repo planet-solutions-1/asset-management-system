@@ -10,6 +10,7 @@ import { Assets } from './pages/Assets';
 import { Companies } from './pages/Companies';
 import { Users } from './pages/Users';
 import { Reports } from './pages/Reports';
+import { Bills } from './pages/Bills';
 import { Settings } from './pages/Settings';
 
 import { Register } from './pages/Register';
@@ -29,6 +30,7 @@ function App() {
               <Route path="/companies" element={<Companies />} />
               <Route path="/users" element={<Users />} />
               <Route path="/reports" element={<Reports />} />
+              <Route path="/bills" element={<Bills />} />
               <Route path="/settings" element={<Settings />} />
               {/* Redirect unknown routes to dashboard */}
               <Route path="*" element={<Navigate to="/" replace />} />

@@ -141,6 +141,12 @@ export const Assets: React.FC = () => {
                                     </div>
                                 </div>
 
+                                <div className="flex items-center gap-2 mb-3">
+                                    <div className={`px-2 py-0.5 rounded text-xs font-bold border ${asset.isPowered ? 'bg-green-50 text-green-700 border-green-200' : 'bg-gray-50 text-gray-500 border-gray-200'}`}>
+                                        {asset.isPowered ? '⚡ Powered' : '🔌 Non-Powered'}
+                                    </div>
+                                </div>
+
                                 <div className="space-y-2 text-sm text-gray-600 mb-4">
                                     <div className="flex items-center gap-2">
                                         <Building2 size={16} className="text-gray-400" />
@@ -281,6 +287,7 @@ const AssetForm: React.FC<{
             warrantyExpiry: '',
             amcExpiry: '',
             image: '',
+            isPowered: false,
         }
     );
 
@@ -339,6 +346,17 @@ const AssetForm: React.FC<{
                         <option value="IN_USE">In Use</option>
                         <option value="MAINTENANCE">Maintenance</option>
                         <option value="BROKEN">Broken</option>
+                    </select>
+                </div>
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Power Type</label>
+                    <select
+                        value={formData.isPowered ? 'true' : 'false'}
+                        onChange={(e) => setFormData({ ...formData, isPowered: e.target.value === 'true' })}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                    >
+                        <option value="false">Non-Powered</option>
+                        <option value="true">Powered</option>
                     </select>
                 </div>
                 <div>

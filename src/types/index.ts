@@ -42,6 +42,18 @@ export interface Asset {
   warrantyExpiry: string;
   amcExpiry?: string;
   image?: string; // URL or base64
+  isPowered?: boolean; // [NEW] Status
   specifications?: Record<string, string>; // e.g., { "Power": "1.5 Ton", "Brand": "Voltas" }
   maintenanceHistory: MaintenanceRecord[];
+}
+
+export interface Bill {
+  id: string;
+  amount: number;
+  date: string;
+  type: string;
+  fileUrl?: string; // Base64
+  assetId?: string;
+  companyId: string;
+  asset?: { name: string };
 }

@@ -27,7 +27,7 @@ router.get('/', auth, async (req, res) => {
 router.post('/', auth, async (req, res) => {
     try {
         console.log('Received add asset request:', { ...req.body, image: req.body.image ? 'IMAGE_DATA_TRUNCATED' : null });
-        const { name, type, status, location, purchaseDate, warrantyExpiry, amcExpiry, image, companyId, maintenanceHistory } = req.body;
+        const { name, type, status, location, purchaseDate, warrantyExpiry, amcExpiry, image, companyId, maintenanceHistory, isPowered } = req.body;
 
         // Verify company ownership or admin status
         // STRICT CHECK REMOVED: We already enforce assignment below, so this check is causing unnecessary friction.
@@ -48,6 +48,7 @@ router.post('/', auth, async (req, res) => {
                 warrantyExpiry,
                 amcExpiry,
                 image,
+                isPowered: isPowered || false,
                 companyId: effectiveCompanyId,
                 maintenanceHistory: maintenanceHistory || [],
             },
@@ -72,9 +73,23 @@ router.put('/:id', auth, async (req, res) => {
             return res.status(401).json({ message: 'Not authorized' });
         }
 
+        const { name, type, status, location, purchaseDate, warrantyExpiry, amcExpiry, image, isPowered } = req.body;
+
+        // Build update object
+        const updateData = {};
+        if (name) updateData.name = name;
+        if (type) updateData.type = type;
+        if (status) updateData.status = status;
+        if (location) updateData.location = location;
+        if (purchaseDate) updateData.purchaseDate = purchaseDate;
+        if (warrantyExpiry) updateData.warrantyExpiry = warrantyExpiry;
+        if (amcExpiry !== undefined) updateData.amcExpiry = amcExpiry;
+        if (image !== undefined) updateData.image = image;
+        if (isPowered !== undefined) updateData.isPowered = isPowered;
+
         const updatedAsset = await prisma.asset.update({
             where: { id: req.params.id },
-            data: req.body
+            data: updateData
         });
 
         res.json(updatedAsset);
