@@ -12,9 +12,9 @@ export const StatsCard: React.FC<StatsCardProps> = ({ title, value, gradient }) 
     const gradientClass = `stat-card-${gradient.split('-')[1]}`;
 
     return (
-        <div className={`p-6 rounded-xl text-white shadow-lg transform transition-transform hover:-translate-y-1 ${gradientClass}`}>
-            <h3 className="text-lg font-medium opacity-90 mb-2">{title}</h3>
-            <div className="text-4xl font-bold">{value}</div>
+        <div className={`premium-card p-6 ${gradientClass} transition-transform hover:scale-105 duration-200`}>
+            <h3 className="text-gray-500 text-sm font-medium uppercase tracking-wider mb-2">{title}</h3>
+            <p className="text-3xl font-bold text-gray-900">{value}</p>
         </div>
     );
 };

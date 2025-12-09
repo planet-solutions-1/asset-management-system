@@ -30,41 +30,47 @@ export const Login: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center p-4">
-            <div className="premium-card w-full max-w-md p-10 animate-in fade-in zoom-in duration-300">
-                <div className="text-center mb-8">
-                    <h1 className="text-3xl font-bold text-[#667eea] mb-2 flex items-center justify-center gap-2">
-                        <Building2 size={32} />
-                        Asset Management
+    return (
+        <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
+            <div className="w-full max-w-md bg-white p-10 rounded-2xl shadow-xl border border-gray-100 animate-in fade-in zoom-in duration-300">
+                <div className="text-center mb-10">
+                    <div className="mx-auto w-12 h-12 bg-black text-white rounded-xl flex items-center justify-center mb-4">
+                        <Building2 size={24} />
+                    </div>
+                    <h1 className="text-2xl font-bold text-gray-900 tracking-tight mb-2">
+                        Welcome Back
                     </h1>
-                    <p className="text-gray-500">Multi-Company Asset Tracking System</p>
+                    <p className="text-gray-500 text-sm">Sign in to your asset management dashboard</p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
-                        <label className="block text-gray-700 font-semibold mb-2">Username / Email</label>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">Email Address</label>
                         <div className="relative">
-                            <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                            <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
                             <input
                                 type="text"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-[#667eea] transition-colors"
-                                placeholder="Enter your username"
+                                className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:bg-white focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all font-medium text-sm"
+                                placeholder="name@company.com"
                                 required
                             />
                         </div>
                     </div>
 
                     <div>
-                        <label className="block text-gray-700 font-semibold mb-2">Password</label>
+                        <div className="flex justify-between items-center mb-2">
+                            <label className="block text-sm font-semibold text-gray-700">Password</label>
+                            <a href="#" className="text-xs font-semibold text-gray-500 hover:text-gray-800">Forgot password?</a>
+                        </div>
                         <div className="relative">
-                            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
                             <input
                                 type="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-[#667eea] transition-colors"
+                                className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:bg-white focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all font-medium text-sm"
                                 placeholder="••••••••"
                                 required
                             />
@@ -72,7 +78,7 @@ export const Login: React.FC = () => {
                     </div>
 
                     {error && (
-                        <div className="p-3 bg-red-50 text-red-600 text-sm rounded-lg border border-red-100">
+                        <div className="p-3 bg-red-50 text-red-600 text-sm rounded-lg border border-red-100 font-medium">
                             {error}
                         </div>
                     )}
@@ -80,27 +86,28 @@ export const Login: React.FC = () => {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full py-3 bg-gradient-to-r from-[#667eea] to-[#764ba2] text-white font-bold rounded-lg hover:shadow-lg hover:-translate-y-0.5 transition-all disabled:opacity-70"
+                        className="w-full py-3 bg-black text-white font-bold rounded-lg hover:bg-gray-800 transition-all disabled:opacity-70 shadow-lg shadow-gray-200"
                     >
-                        {loading ? 'Logging in...' : 'Login'}
+                        {loading ? 'Logging in...' : 'Sign In'}
                     </button>
                 </form>
 
-                <div className="mt-8 p-4 bg-gray-50 rounded-lg text-sm text-gray-600">
-                    <p className="font-bold text-[#667eea] mb-2">Demo Credentials:</p>
-                    <div className="grid grid-cols-1 gap-1">
-                        <div className="flex justify-between cursor-pointer hover:text-[#667eea]" onClick={() => setEmail('admin@planet.com')}>
-                            <span>Super Admin:</span>
-                            <span className="font-mono">admin@planet.com</span>
-                            <span className="text-xs text-gray-400">(pass: admin123)</span>
+                <div className="mt-8 p-4 bg-gray-50 rounded-xl text-sm border border-gray-100">
+                    <p className="font-bold text-gray-900 mb-2 text-xs uppercase tracking-wide">Demo Credentials</p>
+                    <div className="flex justify-between items-center cursor-pointer hover:bg-gray-100 p-2 -mx-2 rounded-lg transition-colors" onClick={() => setEmail('admin@planet.com')}>
+                        <div>
+                            <span className="font-medium text-gray-900 block">Super Admin</span>
+                            <span className="font-mono text-xs text-gray-500">admin@planet.com</span>
                         </div>
+                        <span className="text-xs font-mono bg-white border border-gray-200 px-2 py-1 rounded">pass: admin123</span>
                     </div>
-                    <div className="mt-6 text-center text-sm text-gray-600">
-                        Don't have an account?{' '}
-                        <Link to="/register" className="text-[#667eea] font-bold hover:underline">
-                            Register your company
-                        </Link>
-                    </div>
+                </div>
+
+                <div className="mt-8 text-center text-sm text-gray-500">
+                    Don't have an account?{' '}
+                    <Link to="/register" className="text-black font-bold hover:underline">
+                        Create Company
+                    </Link>
                 </div>
             </div>
         </div>

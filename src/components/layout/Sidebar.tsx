@@ -37,36 +37,42 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
 
             {/* Sidebar */}
             <aside className={clsx(
-                "fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white shadow-xl transform transition-transform duration-200 ease-in-out lg:transform-none lg:flex flex-col h-full",
+                "fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-100 transform transition-transform duration-200 ease-in-out lg:transform-none lg:translate-x-0 flex flex-col h-full",
                 isOpen ? "translate-x-0" : "-translate-x-full"
             )}>
                 <div className="p-6 h-full flex flex-col">
-                    <div className="flex items-center justify-between lg:hidden mb-6">
-                        <span className="text-xl font-bold text-gray-800">Menu</span>
+                    <div className="flex items-center justify-between lg:hidden mb-8">
+                        <span className="text-xl font-bold text-gray-900 tracking-tight">Menu</span>
                         <button
                             onClick={onClose}
-                            className="p-2 text-gray-500 hover:bg-gray-100 rounded-full transition-colors"
+                            className="p-2 text-gray-500 hover:bg-gray-50 rounded-full transition-colors"
                         >
-                            <X size={24} />
+                            <X size={20} />
                         </button>
                     </div>
 
-                    <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4 hidden lg:block">Main Menu</p>
+                    <div className="flex items-center gap-3 px-2 mb-8 hidden lg:flex">
+                        <div className="w-8 h-8 bg-black rounded-lg flex items-center justify-center text-white font-bold">A</div>
+                        <span className="text-xl font-bold text-gray-900 tracking-tight">Asset.Sys</span>
+                    </div>
 
-                    <nav className="space-y-2 flex-1">
+                    <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-4 px-2">Overview</p>
+
+                    <nav className="space-y-1 flex-1">
                         {navItems.map((item) => (
                             <NavLink
                                 key={item.path}
                                 to={item.path}
-                                onClick={() => onClose()} // Close sidebar on nav click (mobile)
+                                onClick={() => onClose()}
                                 className={({ isActive }) =>
                                     clsx(
-                                        'flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200',
+                                        'flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200',
                                         isActive
-                                            ? 'bg-gradient-to-r from-[#667eea] to-[#764ba2] text-white shadow-md'
-                                            : 'text-gray-600 hover:bg-gray-50'
+                                            ? 'bg-black text-white shadow-lg shadow-black/5'
+                                            : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900'
                                     )
                                 }
+
                             >
                                 <item.icon size={20} />
                                 <span>{item.label}</span>

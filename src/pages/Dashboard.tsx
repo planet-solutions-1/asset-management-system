@@ -180,45 +180,40 @@ export const Dashboard: React.FC = () => {
 
                     {/* Quick Actions */}
                     <div className="premium-card p-6">
-                        <h3 className="text-xl font-bold text-gray-800 mb-6">Quick Actions</h3>
+                        <h3 className="text-xl font-bold text-gray-900 mb-6 tracking-tight">Quick Actions</h3>
                         <div className="space-y-3">
                             <button
                                 onClick={() => navigate('/assets')}
-                                className="w-full py-3 bg-blue-50 text-blue-600 font-semibold rounded-xl hover:bg-blue-100 transition-colors text-left px-4 flex items-center gap-3"
+                                className="w-full py-3 bg-white border border-gray-200 text-gray-700 font-medium rounded-xl hover:bg-gray-50 hover:border-blue-300 hover:text-blue-600 transition-all text-left px-4 flex items-center gap-3 group"
                             >
-                                <div className="p-2 bg-white rounded-lg shadow-sm"><CheckCircle size={18} /></div>
+                                <div className="p-2 bg-blue-50 text-blue-600 rounded-lg group-hover:bg-blue-100 transition-colors"><CheckCircle size={18} /></div>
                                 Manage Assets
                             </button>
-                            <button
-                                onClick={() => navigate('/reports')} // Will implement reports later
-                                className="w-full py-3 bg-purple-50 text-purple-600 font-semibold rounded-xl hover:bg-purple-100 transition-colors text-left px-4 flex items-center gap-3"
-                            >
-                                <div className="p-2 bg-white rounded-lg shadow-sm"><Activity size={18} /></div>
-                                Generate Report
-                            </button>
+                            {/* Reports Button - Hidden until implemented correctly or requested */}
+
                             {user?.role === 'ADMIN' && (
                                 <>
                                     <button
                                         onClick={() => navigate('/companies')}
-                                        className="w-full py-3 bg-green-50 text-green-600 font-semibold rounded-xl hover:bg-green-100 transition-colors text-left px-4 flex items-center gap-3"
+                                        className="w-full py-3 bg-white border border-gray-200 text-gray-700 font-medium rounded-xl hover:bg-gray-50 hover:border-green-300 hover:text-green-600 transition-all text-left px-4 flex items-center gap-3 group"
                                     >
-                                        <div className="p-2 bg-white rounded-lg shadow-sm"><Building2 size={18} /></div>
+                                        <div className="p-2 bg-green-50 text-green-600 rounded-lg group-hover:bg-green-100 transition-colors"><Building2 size={18} /></div>
                                         Manage Companies
                                     </button>
                                     <button
                                         onClick={() => navigate('/users')}
-                                        className="w-full py-3 bg-indigo-50 text-indigo-600 font-semibold rounded-xl hover:bg-indigo-100 transition-colors text-left px-4 flex items-center gap-3"
+                                        className="w-full py-3 bg-white border border-gray-200 text-gray-700 font-medium rounded-xl hover:bg-gray-50 hover:border-indigo-300 hover:text-indigo-600 transition-all text-left px-4 flex items-center gap-3 group"
                                     >
-                                        <div className="p-2 bg-white rounded-lg shadow-sm"><UserIcon size={18} /></div>
+                                        <div className="p-2 bg-indigo-50 text-indigo-600 rounded-lg group-hover:bg-indigo-100 transition-colors"><UserIcon size={18} /></div>
                                         Manage Users
                                     </button>
                                 </>
                             )}
                             <button
                                 onClick={() => navigate('/bills')}
-                                className="w-full py-3 bg-cyan-50 text-cyan-600 font-semibold rounded-xl hover:bg-cyan-100 transition-colors text-left px-4 flex items-center gap-3"
+                                className="w-full py-3 bg-white border border-gray-200 text-gray-700 font-medium rounded-xl hover:bg-gray-50 hover:border-cyan-300 hover:text-cyan-600 transition-all text-left px-4 flex items-center gap-3 group"
                             >
-                                <div className="p-2 bg-white rounded-lg shadow-sm"><Activity size={18} /></div>
+                                <div className="p-2 bg-cyan-50 text-cyan-600 rounded-lg group-hover:bg-cyan-100 transition-colors"><Activity size={18} /></div>
                                 Manage Bills
                             </button>
                         </div>
