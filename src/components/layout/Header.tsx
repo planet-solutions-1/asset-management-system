@@ -6,7 +6,7 @@ export const Header: React.FC<{ onMenuClick: () => void }> = ({ onMenuClick }) =
     const { user, logout } = useAuth();
 
     return (
-        <header className="premium-header h-20 px-4 md:px-8 flex items-center justify-between shadow-md z-20 sticky top-0">
+        <header className="premium-header h-20 px-4 md:px-8 flex items-center justify-between shadow-md z-30 sticky top-0 bg-white">
             <div className="flex items-center gap-4">
                 <button
                     onClick={onMenuClick}

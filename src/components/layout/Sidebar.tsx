@@ -29,14 +29,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
             {/* Mobile Overlay */}
             {isOpen && (
                 <div
-                    className="fixed inset-0 bg-black/50 z-20 lg:hidden"
+                    className="fixed inset-0 bg-black/50 z-40 lg:hidden"
                     onClick={onClose}
                 />
             )}
 
             {/* Sidebar */}
             <aside className={clsx(
-                "fixed lg:static inset-y-0 left-0 z-30 w-64 bg-white shadow-xl transform transition-transform duration-200 ease-in-out lg:transform-none lg:flex flex-col h-full",
+                "fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white shadow-xl transform transition-transform duration-200 ease-in-out lg:transform-none lg:flex flex-col h-full",
                 isOpen ? "translate-x-0" : "-translate-x-full"
             )}>
                 <div className="p-6 h-full flex flex-col">
