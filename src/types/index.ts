@@ -14,6 +14,7 @@ export interface Company {
   name: string;
   address: string;
   logo?: string;
+  sector?: string;
 }
 
 export type AssetType = 'AC' | 'FAN' | 'GENERATOR' | 'COMPUTER' | 'PRINTER' | 'PROJECTOR' | 'VEHICLE' | 'FURNITURE' | 'SERVER' | 'OTHER';

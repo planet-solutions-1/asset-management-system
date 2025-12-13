@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Box, Settings, Building2, User as UserIcon, X, FileText, Layers } from 'lucide-react';
+import { LayoutDashboard, Box, Settings, Building2, User as UserIcon, X, FileText } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import clsx from 'clsx';
 
@@ -19,8 +19,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         ...(user?.role === 'ADMIN'
             ? [
                 { icon: Building2, label: 'Companies', path: '/companies' },
-                { icon: UserIcon, label: 'Users', path: '/users' },
-                { icon: Layers, label: 'Departments', path: '/departments' }
+                { icon: UserIcon, label: 'Users', path: '/users' }
             ]
             : []),
         { icon: Settings, label: 'Settings', path: '/settings' },
