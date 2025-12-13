@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 
 // Register Company & Admin User
 router.post('/register', async (req, res) => {
-    const { companyName, email, password } = req.body;
+    const { companyName, email, password, sector } = req.body;
 
     try {
         // Check if user exists
@@ -26,6 +26,7 @@ router.post('/register', async (req, res) => {
                 data: {
                     name: companyName,
                     address: 'Address Pending',
+                    sector: sector || 'Other',
                     logo: `https://ui-avatars.com/api/?name=${companyName}&background=random`
                 }
             });

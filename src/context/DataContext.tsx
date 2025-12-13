@@ -17,7 +17,7 @@ interface DataContextType {
     deleteUser: (id: string) => Promise<void>;
     addBill: (bill: Partial<Bill>) => Promise<void>;
     deleteBill: (id: string) => Promise<void>;
-    addDepartment: (name: string) => Promise<void>;
+    addDepartment: (name: string) => Promise<Department>; // Update return type
     deleteDepartment: (id: string) => Promise<void>;
     getCompanyAssets: (companyId: string) => Asset[];
 }
@@ -25,6 +25,7 @@ interface DataContextType {
 const DataContext = createContext<DataContextType | undefined>(undefined);
 
 export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    // ... existing state ...
     const [assets, setAssets] = useState<Asset[]>([]);
     const [companies, setCompanies] = useState<Company[]>([]);
     const [users, setUsers] = useState<User[]>([]);
@@ -32,36 +33,15 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [departments, setDepartments] = useState<Department[]>([]);
     const { user } = useAuth();
 
-    const fetchData = async () => {
-        if (!user) return;
-        try {
-            const [assetsRes, companiesRes, usersRes, billsRes, deptsRes] = await Promise.all([
-                api.get('/assets'),
-                api.get('/companies'),
-                api.get('/users').catch(() => ({ data: [] })),
-                api.get('/bills').catch(() => ({ data: [] })),
-                api.get('/departments').catch(() => ({ data: [] }))
-            ]);
-            setAssets(assetsRes.data);
-            setCompanies(companiesRes.data);
-            setUsers(usersRes.data);
-            setBills(billsRes.data);
-            setDepartments(deptsRes.data);
-        } catch (err) {
-            console.error('Error fetching data:', err);
-        }
-    };
+    // ... fetchData and useEffect ...
 
-    useEffect(() => {
-        fetchData();
-    }, [user]);
-
-    // ... (existing asset/company/user functions)
+    // ... other functions ...
 
     const addDepartment = async (name: string) => {
         try {
             const res = await api.post('/departments', { name });
             setDepartments((prev) => [...prev, res.data].sort((a, b) => a.name.localeCompare(b.name)));
+            return res.data; // Return the new department
         } catch (err) {
             console.error('Error adding department:', err);
             throw err;

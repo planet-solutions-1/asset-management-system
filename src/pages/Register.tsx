@@ -8,14 +8,15 @@ export const Register: React.FC = () => {
         companyName: '',
         email: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        sector: ''
     });
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const { register } = useAuth();
     const navigate = useNavigate();
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
@@ -32,7 +33,7 @@ export const Register: React.FC = () => {
 
         try {
             // Register User and Company (Backend handles transaction)
-            await register(formData.companyName, formData.email, formData.password, '');
+            await register(formData.companyName, formData.email, formData.password, formData.sector);
 
             navigate('/');
         } catch (err) {
@@ -69,6 +70,27 @@ export const Register: React.FC = () => {
                                 placeholder="Tech Solutions Inc."
                                 required
                             />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">Sector / Institution Type</label>
+                        <div className="relative">
+                            <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                            <select
+                                name="sector"
+                                value={formData.sector}
+                                onChange={handleChange}
+                                className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:bg-white focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all font-medium text-sm appearance-none"
+                                required
+                            >
+                                <option value="" disabled>Select Sector</option>
+                                <option value="Private Office">Private Office</option>
+                                <option value="Government Office">Government Office</option>
+                                <option value="College">College / Education</option>
+                                <option value="Cooperative">Co-operative / Society</option>
+                                <option value="Other">Other</option>
+                            </select>
                         </div>
                     </div>
 

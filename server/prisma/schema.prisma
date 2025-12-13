@@ -29,6 +29,7 @@ model Company {
   assets    Asset[]
   bills     Bill[]
   departments Department[]
+  sector    String?  // [NEW] "College", "Government", "Private", "Cooperative"
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

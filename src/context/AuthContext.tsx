@@ -5,7 +5,7 @@ import api from '../services/api';
 interface AuthContextType {
     user: User | null;
     login: (email: string, password: string) => Promise<void>;
-    register: (companyName: string, email: string, password: string, _companyId: string) => Promise<void>;
+    register: (companyName: string, email: string, password: string, sector: string) => Promise<void>;
     logout: () => void;
     isAuthenticated: boolean;
     loading: boolean;
