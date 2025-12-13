@@ -13,7 +13,7 @@ export const Assets: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [filterType, setFilterType] = useState<AssetType | 'ALL'>('ALL');
     const [filterStatus, setFilterStatus] = useState<AssetStatus | 'ALL'>('ALL');
-    const [filterDepartment, setFilterDepartment] = useState<string>('ALL');
+    const [filterDepartment] = useState('ALL'); // Fixed: Removed unused setter as per user request to hide filter UI
     const [isComplaintModalOpen, setIsComplaintModalOpen] = useState(false);
     const [selectedAssetForComplaint, setSelectedAssetForComplaint] = useState<Asset | null>(null);
 
@@ -104,16 +104,7 @@ export const Assets: React.FC = () => {
                         <option value="MAINTENANCE">Maintenance</option>
                         <option value="BROKEN">Broken</option>
                     </select>
-                    <select
-                        value={filterDepartment}
-                        onChange={(e) => setFilterDepartment(e.target.value)}
-                        className="px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
-                    >
-                        <option value="ALL">All Departments</option>
-                        {departments.map((dept) => (
-                            <option key={dept.id} value={dept.id}>{dept.name}</option>
-                        ))}
-                    </select>
+
                 </div>
             </div>
 

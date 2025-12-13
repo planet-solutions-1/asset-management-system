@@ -85,6 +85,9 @@ export const Register: React.FC = () => {
                                 required
                             >
                                 <option value="" disabled>Select Sector</option>
+                                <option value="IT Company">IT Company</option>
+                                <option value="Production Company">Production Company</option>
+                                <option value="Public Sector">Public Sector</option>
                                 <option value="Private Office">Private Office</option>
                                 <option value="Government Office">Government Office</option>
                                 <option value="College">College / Education</option>
