@@ -4,7 +4,7 @@ import { Building2, Plus, Trash2, Layers } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export const Departments: React.FC = () => {
-    const { departments, addDepartment, deleteDepartment, assets } = useData();
+    const { departments, addDepartment, deleteDepartment } = useData();
     const { user } = useAuth();
     const [newDeptName, setNewDeptName] = useState('');
     const [loading, setLoading] = useState(false);
