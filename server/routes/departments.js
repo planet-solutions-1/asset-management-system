@@ -8,10 +8,13 @@ const prisma = new PrismaClient();
 // Get all departments for the authenticated user's company
 router.get('/', authenticateToken, async (req, res) => {
     try {
+        const where = {};
+        if (req.user.role !== 'ADMIN') {
+            where.companyId = req.user.companyId;
+        }
+
         const departments = await prisma.department.findMany({
-            where: {
-                companyId: req.user.companyId
-            },
+            where,
             include: {
                 _count: {
                     select: { assets: true }

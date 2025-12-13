@@ -86,6 +86,12 @@ export const Assets: React.FC = () => {
                         <option value="FAN">Fan</option>
                         <option value="GENERATOR">Generator</option>
                         <option value="COMPUTER">Computer</option>
+                        <option value="PRINTER">Printer</option>
+                        <option value="PROJECTOR">Projector</option>
+                        <option value="SERVER">Server</option>
+                        <option value="VEHICLE">Vehicle</option>
+                        <option value="FURNITURE">Furniture</option>
+                        <option value="OTHER">Other</option>
                     </select>
                     <select
                         value={filterStatus}
@@ -368,6 +374,11 @@ const AssetForm: React.FC<{
                         <option value="FAN">Fan</option>
                         <option value="GENERATOR">Generator</option>
                         <option value="COMPUTER">Computer</option>
+                        <option value="PRINTER">Printer</option>
+                        <option value="PROJECTOR">Projector</option>
+                        <option value="SERVER">Server</option>
+                        <option value="VEHICLE">Vehicle</option>
+                        <option value="FURNITURE">Furniture</option>
                         <option value="OTHER">Other</option>
                     </select>
                 </div>

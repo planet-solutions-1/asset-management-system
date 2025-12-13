@@ -16,7 +16,7 @@ export interface Company {
   logo?: string;
 }
 
-export type AssetType = 'AC' | 'FAN' | 'GENERATOR' | 'COMPUTER' | 'OTHER';
+export type AssetType = 'AC' | 'FAN' | 'GENERATOR' | 'COMPUTER' | 'PRINTER' | 'PROJECTOR' | 'VEHICLE' | 'FURNITURE' | 'SERVER' | 'OTHER';
 export type AssetStatus = 'AVAILABLE' | 'IN_USE' | 'MAINTENANCE' | 'BROKEN';
 
 export interface MaintenanceRecord {
