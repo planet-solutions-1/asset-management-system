@@ -238,9 +238,9 @@ export const Assets: React.FC = () => {
                             console.error(error);
                         }
                     }}
-                    }}
-                user={user}
-                departments={departments}
+
+                    user={user}
+                    departments={departments}
                 />
             </Modal>
 
