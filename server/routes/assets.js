@@ -28,7 +28,7 @@ router.get('/', auth, async (req, res) => {
 router.post('/', auth, async (req, res) => {
     try {
         console.log('Received add asset request:', { ...req.body, image: req.body.image ? 'IMAGE_DATA_TRUNCATED' : null });
-        const { name, type, status, location, purchaseDate, warrantyExpiry, amcExpiry, image, companyId, maintenanceHistory, isPowered, departmentId } = req.body;
+        const { name, type, status, location, purchaseDate, warrantyExpiry, amcExpiry, image, companyId, maintenanceHistory, isPowered, departmentId, industryCategory } = req.body;
 
         // Verify company ownership or admin status
         // STRICT CHECK REMOVED: We already enforce assignment below, so this check is causing unnecessary friction.
@@ -53,6 +53,7 @@ router.post('/', auth, async (req, res) => {
                 companyId: effectiveCompanyId,
                 maintenanceHistory: maintenanceHistory || [],
                 departmentId: departmentId || null,
+                industryCategory: industryCategory || null, // [NEW]
             },
         });
         console.log('Asset created successfully:', asset.id);
@@ -75,7 +76,7 @@ router.put('/:id', auth, async (req, res) => {
             return res.status(401).json({ message: 'Not authorized' });
         }
 
-        const { name, type, status, location, purchaseDate, warrantyExpiry, amcExpiry, image, isPowered, departmentId } = req.body;
+        const { name, type, status, location, purchaseDate, warrantyExpiry, amcExpiry, image, isPowered, departmentId, industryCategory } = req.body;
 
         // Build update object
         const updateData = {};
@@ -89,6 +90,7 @@ router.put('/:id', auth, async (req, res) => {
         if (image !== undefined) updateData.image = image;
         if (isPowered !== undefined) updateData.isPowered = isPowered;
         if (departmentId !== undefined) updateData.departmentId = departmentId;
+        if (industryCategory !== undefined) updateData.industryCategory = industryCategory;
 
         const updatedAsset = await prisma.asset.update({
             where: { id: req.params.id },

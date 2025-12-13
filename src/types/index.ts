@@ -53,6 +53,7 @@ export interface Asset {
   isPowered?: boolean; // [NEW] Status
   departmentId?: string; // [NEW]
   department?: Department; // [NEW]
+  industryCategory?: string; // [NEW]
   specifications?: Record<string, string>; // e.g., { "Power": "1.5 Ton", "Brand": "Voltas" }
   maintenanceHistory: MaintenanceRecord[];
 }

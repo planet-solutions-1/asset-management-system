@@ -50,6 +50,7 @@ model Asset {
   isPowered          Boolean  @default(false)
   departmentId       String?
   department         Department? @relation(fields: [departmentId], references: [id])
+  industryCategory   String?  // [NEW] "IT Company", "Public Sector", etc.
   bills              Bill[]
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt

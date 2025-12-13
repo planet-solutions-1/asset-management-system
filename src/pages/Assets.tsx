@@ -316,6 +316,7 @@ const AssetForm: React.FC<{
             image: '',
             isPowered: false,
             departmentId: '',
+            industryCategory: '',
         }
     );
     const [newDepartmentName, setNewDepartmentName] = useState('');
@@ -341,7 +342,22 @@ const AssetForm: React.FC<{
             className="space-y-4"
         >
             <div className="grid grid-cols-2 gap-4">
-                {/* ... existing fields ... */}
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Industry Category</label>
+                    <select
+                        value={formData.industryCategory}
+                        onChange={(e) => setFormData({ ...formData, industryCategory: e.target.value })}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                    >
+                        <option value="">Select Category</option>
+                        <option value="IT Company">IT Company</option>
+                        <option value="Production Company">Production Company</option>
+                        <option value="Public Sector">Public Sector</option>
+                        <option value="Private Sector">Private Sector</option>
+                        <option value="College">College</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Department</label>
                     <div className="space-y-2">
