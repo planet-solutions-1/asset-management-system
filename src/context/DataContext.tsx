@@ -33,9 +33,31 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [departments, setDepartments] = useState<Department[]>([]);
     const { user } = useAuth();
 
-    // ... fetchData and useEffect ...
+    const fetchData = async () => {
+        if (!user) return;
+        try {
+            const [assetsRes, companiesRes, usersRes, billsRes, deptsRes] = await Promise.all([
+                api.get('/assets'),
+                api.get('/companies'),
+                api.get('/users').catch(() => ({ data: [] })),
+                api.get('/bills').catch(() => ({ data: [] })),
+                api.get('/departments').catch(() => ({ data: [] }))
+            ]);
+            setAssets(assetsRes.data);
+            setCompanies(companiesRes.data);
+            setUsers(usersRes.data);
+            setBills(billsRes.data);
+            setDepartments(deptsRes.data);
+        } catch (err) {
+            console.error('Error fetching data:', err);
+        }
+    };
 
-    // ... other functions ...
+    useEffect(() => {
+        fetchData();
+    }, [user]);
+
+    // ... (existing asset/company/user functions)
 
     const addDepartment = async (name: string) => {
         try {

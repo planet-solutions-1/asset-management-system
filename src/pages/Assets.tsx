@@ -7,7 +7,7 @@ import { Plus, Search, MoreVertical, Image as ImageIcon, Calendar, AlertCircle, 
 
 export const Assets: React.FC = () => {
     const { user } = useAuth();
-    const { assets, addAsset, updateAsset, deleteAsset, getCompanyAssets, departments } = useData();
+    const { assets, addAsset, updateAsset, deleteAsset, getCompanyAssets, departments, addDepartment } = useData();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingAsset, setEditingAsset] = useState<Asset | null>(null);
     const [searchTerm, setSearchTerm] = useState('');
