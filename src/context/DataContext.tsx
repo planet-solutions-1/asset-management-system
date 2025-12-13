@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import type { Asset, Company, User, Bill } from '../types';
+import type { Asset, Company, User, Bill, Department } from '../types';
 import api from '../services/api';
 import { useAuth } from './AuthContext';
 
@@ -8,6 +8,7 @@ interface DataContextType {
     companies: Company[];
     users: User[];
     bills: Bill[];
+    departments: Department[];
     addAsset: (asset: Asset) => Promise<any>;
     updateAsset: (asset: Asset) => void;
     deleteAsset: (id: string) => void;
@@ -16,6 +17,8 @@ interface DataContextType {
     deleteUser: (id: string) => Promise<void>;
     addBill: (bill: Partial<Bill>) => Promise<void>;
     deleteBill: (id: string) => Promise<void>;
+    addDepartment: (name: string) => Promise<void>;
+    deleteDepartment: (id: string) => Promise<void>;
     getCompanyAssets: (companyId: string) => Asset[];
 }
 
@@ -26,21 +29,24 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [companies, setCompanies] = useState<Company[]>([]);
     const [users, setUsers] = useState<User[]>([]);
     const [bills, setBills] = useState<Bill[]>([]);
+    const [departments, setDepartments] = useState<Department[]>([]);
     const { user } = useAuth();
 
     const fetchData = async () => {
         if (!user) return;
         try {
-            const [assetsRes, companiesRes, usersRes, billsRes] = await Promise.all([
+            const [assetsRes, companiesRes, usersRes, billsRes, deptsRes] = await Promise.all([
                 api.get('/assets'),
                 api.get('/companies'),
                 api.get('/users').catch(() => ({ data: [] })),
-                api.get('/bills').catch(() => ({ data: [] }))
+                api.get('/bills').catch(() => ({ data: [] })),
+                api.get('/departments').catch(() => ({ data: [] }))
             ]);
             setAssets(assetsRes.data);
             setCompanies(companiesRes.data);
             setUsers(usersRes.data);
             setBills(billsRes.data);
+            setDepartments(deptsRes.data);
         } catch (err) {
             console.error('Error fetching data:', err);
         }
@@ -51,6 +57,26 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }, [user]);
 
     // ... (existing asset/company/user functions)
+
+    const addDepartment = async (name: string) => {
+        try {
+            const res = await api.post('/departments', { name });
+            setDepartments((prev) => [...prev, res.data].sort((a, b) => a.name.localeCompare(b.name)));
+        } catch (err) {
+            console.error('Error adding department:', err);
+            throw err;
+        }
+    };
+
+    const deleteDepartment = async (id: string) => {
+        try {
+            await api.delete(`/departments/${id}`);
+            setDepartments((prev) => prev.filter((d) => d.id !== id));
+        } catch (err) {
+            console.error('Error deleting department:', err);
+            throw err;
+        }
+    };
 
     const addBill = async (billData: Partial<Bill>) => {
         try {
@@ -143,6 +169,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 companies,
                 users,
                 bills,
+                departments,
                 addAsset,
                 updateAsset,
                 deleteAsset,
@@ -151,6 +178,8 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 deleteUser,
                 addBill,
                 deleteBill,
+                addDepartment,
+                deleteDepartment,
                 getCompanyAssets,
             }}
         >

@@ -28,6 +28,7 @@ model Company {
   users     User[]
   assets    Asset[]
   bills     Bill[]
+  departments Department[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -46,6 +47,8 @@ model Asset {
   company            Company  @relation(fields: [companyId], references: [id])
   maintenanceHistory Json?    // Storing history as JSON for simplicity
   isPowered          Boolean  @default(false)
+  departmentId       String?
+  department         Department? @relation(fields: [departmentId], references: [id])
   bills              Bill[]
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
@@ -61,6 +64,16 @@ model Bill {
   asset     Asset?   @relation(fields: [assetId], references: [id])
   companyId String
   company   Company  @relation(fields: [companyId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Department {
+  id        String   @id @default(uuid())
+  name      String
+  companyId String
+  company   Company  @relation(fields: [companyId], references: [id])
+  assets    Asset[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

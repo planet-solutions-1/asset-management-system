@@ -31,6 +31,13 @@ export interface MaintenanceRecord {
   resolvedDate?: string;
 }
 
+export interface Department {
+  id: string;
+  name: string;
+  companyId: string;
+  _count?: { assets: number };
+}
+
 export interface Asset {
   id: string;
   name: string;
@@ -43,6 +50,8 @@ export interface Asset {
   amcExpiry?: string;
   image?: string; // URL or base64
   isPowered?: boolean; // [NEW] Status
+  departmentId?: string; // [NEW]
+  department?: Department; // [NEW]
   specifications?: Record<string, string>; // e.g., { "Power": "1.5 Ton", "Brand": "Voltas" }
   maintenanceHistory: MaintenanceRecord[];
 }

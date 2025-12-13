@@ -7,12 +7,13 @@ import { Plus, Search, MoreVertical, Image as ImageIcon, Calendar, AlertCircle, 
 
 export const Assets: React.FC = () => {
     const { user } = useAuth();
-    const { assets, addAsset, updateAsset, deleteAsset, getCompanyAssets } = useData();
+    const { assets, addAsset, updateAsset, deleteAsset, getCompanyAssets, departments } = useData();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingAsset, setEditingAsset] = useState<Asset | null>(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [filterType, setFilterType] = useState<AssetType | 'ALL'>('ALL');
     const [filterStatus, setFilterStatus] = useState<AssetStatus | 'ALL'>('ALL');
+    const [filterDepartment, setFilterDepartment] = useState<string>('ALL');
     const [isComplaintModalOpen, setIsComplaintModalOpen] = useState(false);
     const [selectedAssetForComplaint, setSelectedAssetForComplaint] = useState<Asset | null>(null);
 
@@ -23,7 +24,8 @@ export const Assets: React.FC = () => {
             asset.location.toLowerCase().includes(searchTerm.toLowerCase());
         const matchesType = filterType === 'ALL' || asset.type === filterType;
         const matchesStatus = filterStatus === 'ALL' || asset.status === filterStatus;
-        return matchesSearch && matchesType && matchesStatus;
+        const matchesDepartment = filterDepartment === 'ALL' || asset.departmentId === filterDepartment;
+        return matchesSearch && matchesType && matchesStatus && matchesDepartment;
     });
 
     const handleEdit = (asset: Asset) => {
@@ -145,6 +147,12 @@ export const Assets: React.FC = () => {
                                     <div className={`px-2 py-0.5 rounded text-xs font-bold border ${asset.isPowered ? 'bg-green-50 text-green-700 border-green-200' : 'bg-gray-50 text-gray-500 border-gray-200'}`}>
                                         {asset.isPowered ? '⚡ Powered' : '🔌 Non-Powered'}
                                     </div>
+                                    {asset.department && (
+                                        <div className="px-2 py-0.5 rounded text-xs font-bold border bg-purple-50 text-purple-700 border-purple-200 flex items-center gap-1">
+                                            <Building2 size={10} />
+                                            {asset.department.name}
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div className="space-y-2 text-sm text-gray-600 mb-4">
@@ -230,7 +238,9 @@ export const Assets: React.FC = () => {
                             console.error(error);
                         }
                     }}
-                    user={user}
+                    }}
+                user={user}
+                departments={departments}
                 />
             </Modal>
 
@@ -275,8 +285,9 @@ const AssetForm: React.FC<{
     initialData: Asset | null;
     onClose: () => void;
     onSubmit: (data: Partial<Asset>) => void;
-    user: any; // Using any for simplicity here, ideally User type
-}> = ({ initialData, onClose, onSubmit, user }) => {
+    user: any;
+    departments: any[];
+}> = ({ initialData, onClose, onSubmit, user, departments }) => {
     const [formData, setFormData] = useState<Partial<Asset>>(
         initialData || {
             name: '',
@@ -288,6 +299,7 @@ const AssetForm: React.FC<{
             amcExpiry: '',
             image: '',
             isPowered: false,
+            departmentId: '',
         }
     );
 
@@ -311,6 +323,20 @@ const AssetForm: React.FC<{
             className="space-y-4"
         >
             <div className="grid grid-cols-2 gap-4">
+                {/* ... existing fields ... */}
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Department</label>
+                    <select
+                        value={formData.departmentId || ''}
+                        onChange={(e) => setFormData({ ...formData, departmentId: e.target.value })}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                    >
+                        <option value="">No Department</option>
+                        {departments.map((dept) => (
+                            <option key={dept.id} value={dept.id}>{dept.name}</option>
+                        ))}
+                    </select>
+                </div>
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Asset Name</label>
                     <input
