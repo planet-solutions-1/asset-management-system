@@ -88,7 +88,7 @@ export const Users: React.FC = () => {
                             {user.id !== currentUser?.id && (
                                 <button
                                     onClick={() => handleDelete(user.id)}
-                                    className="text-gray-400 hover:text-red-600 transition-colors"
+                                    className="p-2 text-red-500 bg-red-50 hover:bg-red-100 hover:text-red-700 rounded-lg transition-colors shadow-sm"
                                     title="Remove User"
                                 >
                                     <Trash2 size={18} />
@@ -191,7 +191,9 @@ const AddUserForm: React.FC<{
                 <div className="grid grid-cols-2 gap-4">
                     <label className={`
                         relative flex items-center justify-center p-3 border rounded-lg cursor-pointer transition-all
-                        ${formData.role === 'USER' ? 'border-blue-500 bg-blue-50 ring-2 ring-blue-500/20' : 'border-gray-200 hover:border-gray-300'}
+                        ${formData.role === 'USER'
+                            ? 'border-blue-500 bg-blue-50 text-blue-700 ring-2 ring-blue-500/20 shadow-sm'
+                            : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300 hover:bg-gray-50'}
                     `}>
                         <input
                             type="radio"
@@ -201,12 +203,14 @@ const AddUserForm: React.FC<{
                             onChange={(e) => setFormData({ ...formData, role: e.target.value })}
                             className="sr-only"
                         />
-                        <span className="font-medium text-sm">Regular User</span>
+                        <span className="font-bold text-sm">Regular User</span>
                     </label>
 
                     <label className={`
                         relative flex items-center justify-center p-3 border rounded-lg cursor-pointer transition-all
-                        ${formData.role === 'ADMIN' ? 'border-blue-500 bg-blue-50 ring-2 ring-blue-500/20' : 'border-gray-200 hover:border-gray-300'}
+                        ${formData.role === 'ADMIN'
+                            ? 'border-blue-500 bg-blue-50 text-blue-700 ring-2 ring-blue-500/20 shadow-sm'
+                            : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300 hover:bg-gray-50'}
                     `}>
                         <input
                             type="radio"
@@ -216,7 +220,7 @@ const AddUserForm: React.FC<{
                             onChange={(e) => setFormData({ ...formData, role: e.target.value })}
                             className="sr-only"
                         />
-                        <span className="font-medium text-sm">Admin</span>
+                        <span className="font-bold text-sm">Admin</span>
                     </label>
                 </div>
             </div>
