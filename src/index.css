@@ -36,7 +36,8 @@ body {
 }
 
 /* Light Glass Utilities */
-.glass-panel {
+.glass-panel,
+.glass-card {
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -46,10 +47,6 @@ body {
     0 2px 4px -1px rgba(0, 0, 0, 0.02),
     0 10px 15px -3px rgba(0, 0, 0, 0.03);
   border-radius: 20px;
-}
-
-.glass-card {
-  @apply glass-panel;
 }
 
 .premium-card {
