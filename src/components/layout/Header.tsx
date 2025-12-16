@@ -6,7 +6,7 @@ export const Header: React.FC<{ onMenuClick: () => void }> = ({ onMenuClick }) =
     const { user, logout } = useAuth();
 
     return (
-        <header className="h-16 px-4 md:px-8 flex items-center justify-between bg-white/80 backdrop-blur-md border-b border-gray-100 z-30 sticky top-0 transition-all duration-200">
+        <header className="h-16 px-4 md:px-8 flex items-center justify-between premium-header z-30 sticky top-0 transition-all duration-200">
             <div className="flex items-center gap-4">
                 <button
                     onClick={onMenuClick}
@@ -24,7 +24,7 @@ export const Header: React.FC<{ onMenuClick: () => void }> = ({ onMenuClick }) =
                     <input
                         type="text"
                         placeholder="Search assets, invoices..."
-                        className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-transparent focus:bg-white focus:border-gray-200 focus:ring-4 focus:ring-gray-100 rounded-lg text-sm transition-all outline-none"
+                        className="w-full pl-10 pr-4 py-2 border border-transparent rounded-lg text-sm transition-all outline-none"
                     />
                 </div>
             </div>

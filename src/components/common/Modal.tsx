@@ -24,7 +24,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-            <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col animate-in fade-in zoom-in duration-200">
+            <div className="bg-white/90 backdrop-blur-xl rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col animate-in fade-in zoom-in duration-200">
                 <div className="flex items-center justify-between p-6 border-b border-gray-100">
                     <h2 className="text-xl font-bold text-gray-900">{title}</h2>
                     <button

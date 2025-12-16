@@ -37,7 +37,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
 
             {/* Sidebar */}
             <aside className={clsx(
-                "fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-100 transform transition-transform duration-200 ease-in-out lg:transform-none lg:translate-x-0 flex flex-col h-full",
+                "fixed lg:static inset-y-0 left-0 z-50 w-64 glass-panel border-r-0 m-4 mb-0 lg:mb-4 transform transition-transform duration-200 ease-in-out lg:transform-none lg:translate-x-0 flex flex-col h-[calc(100vh-2rem)]",
                 isOpen ? "translate-x-0" : "-translate-x-full"
             )}>
                 <div className="p-6 h-full flex flex-col">
@@ -68,8 +68,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                                     clsx(
                                         'flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200',
                                         isActive
-                                            ? 'bg-black text-white shadow-lg shadow-black/5'
-                                            : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900'
+                                            ? 'bg-blue-600/20 text-blue-700 shadow-sm backdrop-blur-md border border-blue-200/50'
+                                            : 'text-gray-600 hover:bg-white/40 hover:text-gray-900 hover:backdrop-blur-sm'
                                     )
                                 }
 
@@ -80,7 +80,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                         ))}
                     </nav>
 
-                    <div className="mt-auto pt-6 border-t border-gray-100 lg:hidden">
+
+                    <div className="mt-auto pt-6 border-t border-gray-200/30 lg:hidden">
                         <div className="flex items-center gap-3 px-2">
                             <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-sm">
                                 {user?.name?.charAt(0).toUpperCase()}

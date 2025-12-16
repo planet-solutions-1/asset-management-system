@@ -44,8 +44,8 @@ export const Register: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
-            <div className="w-full max-w-md bg-white p-10 rounded-2xl shadow-xl border border-gray-100 animate-in fade-in zoom-in duration-300">
+        <div className="min-h-screen flex items-center justify-center p-4">
+            <div className="w-full max-w-md glass-card p-10 animate-in fade-in zoom-in duration-300">
                 <div className="text-center mb-10">
                     <div className="mx-auto w-12 h-12 bg-black text-white rounded-xl flex items-center justify-center mb-4">
                         <Building2 size={24} />
@@ -66,7 +66,7 @@ export const Register: React.FC = () => {
                                 name="companyName"
                                 value={formData.companyName}
                                 onChange={handleChange}
-                                className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:bg-white focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all font-medium text-sm"
+                                className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all font-medium text-sm"
                                 placeholder="Tech Solutions Inc."
                                 required
                             />
@@ -81,7 +81,7 @@ export const Register: React.FC = () => {
                                 name="sector"
                                 value={formData.sector}
                                 onChange={handleChange}
-                                className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:bg-white focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all font-medium text-sm appearance-none"
+                                className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all font-medium text-sm appearance-none"
                                 required
                             >
                                 <option value="" disabled>Select Sector</option>
@@ -106,7 +106,7 @@ export const Register: React.FC = () => {
                                 name="email"
                                 value={formData.email}
                                 onChange={handleChange}
-                                className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:bg-white focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all font-medium text-sm"
+                                className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all font-medium text-sm"
                                 placeholder="admin@company.com"
                                 required
                             />
@@ -122,7 +122,7 @@ export const Register: React.FC = () => {
                                 name="password"
                                 value={formData.password}
                                 onChange={handleChange}
-                                className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:bg-white focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all font-medium text-sm"
+                                className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all font-medium text-sm"
                                 placeholder="••••••••"
                                 required
                             />
@@ -138,7 +138,7 @@ export const Register: React.FC = () => {
                                 name="confirmPassword"
                                 value={formData.confirmPassword}
                                 onChange={handleChange}
-                                className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:bg-white focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all font-medium text-sm"
+                                className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all font-medium text-sm"
                                 placeholder="••••••••"
                                 required
                             />
