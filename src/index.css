@@ -5,43 +5,44 @@
 
   /* Glassmorphism Palette */
   --bg-primary: transparent;
-  /* Let body gradient show */
   --text-primary: #1e293b;
-  --text-secondary: #475569;
+  --text-secondary: #334155;
+  /* Darker for better contrast on glass */
 
-  --glass-bg: rgba(255, 255, 255, 0.65);
-  --glass-border: rgba(255, 255, 255, 0.5);
+  /* More transparent glass for "Frosted" effect */
+  --glass-bg: rgba(255, 255, 255, 0.25);
+  --glass-border: rgba(255, 255, 255, 0.4);
   --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
 
   /* Vivid Accents */
-  --accent-blue: #3b82f6;
-  --accent-purple: #8b5cf6;
-  --accent-pink: #ec4899;
-  --accent-orange: #f97316;
+  --accent-blue: #2563eb;
+  --accent-purple: #7c3aed;
+  --accent-pink: #db2777;
+  --accent-orange: #ea580c;
 }
 
 body {
   font-family: var(--font-family-sans);
-  /* Vivid Mesh Gradient Background */
-  background:
-    radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 1) 0, transparent 50%),
-    radial-gradient(at 50% 0%, hsla(225, 39%, 30%, 1) 0, transparent 50%),
-    radial-gradient(at 100% 0%, hsla(339, 49%, 30%, 1) 0, transparent 50%);
-  background-color: #0f172a;
-  /* Dark fallback */
-  background-image:
-    linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%),
-    linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
 
-  /* More vivid multi-color gradient */
-  background:
-    linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%),
-    linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);
-
-  /* Final Choice: Strong Vivid Gradient */
-  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-  background-size: 300% 300%;
-  animation: gradientBG 15s ease infinite;
+  /* Intense, Vivid Animated Gradient */
+  background: linear-gradient(-45deg,
+      #ff3366,
+      /* Vivid Red/Pink */
+      #ba265d,
+      /* Deep Rose */
+      #ef4444,
+      /* Bright Red */
+      #f59e0b,
+      /* Amber */
+      #3b82f6,
+      /* Blue */
+      #6366f1,
+      /* Indigo */
+      #8b5cf6
+      /* Violet */
+    );
+  background-size: 400% 400%;
+  animation: gradientBG 10s ease infinite;
 
   min-height: 100vh;
   margin: 0;
@@ -63,65 +64,75 @@ body {
   }
 }
 
-/* Glass Utilities */
+/* Glass Utilities - HIGHER TRANSPARENCY */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.25);
+  /* Very transparent */
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
-  border-radius: 16px;
+  border-radius: 20px;
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
-  border-radius: 16px;
+  border-radius: 20px;
 }
 
-/* Update Existing Card Classes to use Glass */
+/* Update Existing Card Classes */
 .premium-card {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.35);
+  /* Slightly more opaque context */
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
-  border-radius: 16px;
+  border-radius: 20px;
   transition: all 0.3s;
 }
 
 .premium-card:hover {
-  transform: translateY(-2px);
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.2);
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.45);
+  box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.25);
+  border-color: rgba(255, 255, 255, 0.8);
 }
 
 .premium-header {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 /* Form Elements in Glass Style */
 input,
 select,
 textarea {
-  background: rgba(255, 255, 255, 0.5) !important;
-  border: 1px solid rgba(255, 255, 255, 0.5) !important;
-  backdrop-filter: blur(4px);
+  background: rgba(255, 255, 255, 0.2) !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  backdrop-filter: blur(10px);
+  color: #0f172a !important;
+  /* Ensure text is dark readable */
+  font-weight: 500;
   transition: all 0.2s;
 }
 
 input:focus,
 select:focus,
 textarea:focus {
-  background: rgba(255, 255, 255, 0.9) !important;
-  border-color: var(--accent-blue) !important;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2) !important;
+  background: rgba(255, 255, 255, 0.6) !important;
+  border-color: #fff !important;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3) !important;
+}
+
+input::placeholder {
+  color: rgba(30, 41, 59, 0.6);
 }
 
 /* Custom Scrollbar */
@@ -134,11 +145,12 @@ textarea:focus {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.3);
   border-radius: 4px;
   backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.5);
 }

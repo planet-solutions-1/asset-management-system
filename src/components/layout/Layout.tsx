@@ -7,7 +7,7 @@ export const Layout: React.FC = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     return (
-        <div className="flex h-screen bg-gray-50 overflow-hidden">
+        <div className="flex h-screen bg-transparent overflow-hidden">
             <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
             <div className="flex-1 flex flex-col overflow-hidden">
                 <Header onMenuClick={() => setIsSidebarOpen(true)} />
