@@ -27,7 +27,10 @@ async function seed() {
                 data: {
                     id: 'comp_default',
                     name: 'Planet Solutions',
-                    address: 'HQ - Silicon Valley',
+                    address: 'HQ - Silicon Valley, 1 Infinite Loop',
+                    location: 'San Francisco, CA',
+                    contact: '+1 (555) 123-4567',
+                    sector: 'IT Company',
                     logo: 'https://ui-avatars.com/api/?name=Planet+Solutions&background=0D8ABC&color=fff'
                 }
             });
