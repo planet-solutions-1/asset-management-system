@@ -10,13 +10,13 @@ export const Header: React.FC<{ onMenuClick: () => void }> = ({ onMenuClick }) =
             <div className="flex items-center gap-4">
                 <button
                     onClick={onMenuClick}
-                    className="p-2 -ml-2 text-gray-600 hover:bg-gray-100 rounded-lg lg:hidden transition-colors"
+                    className="p-2 -ml-2 text-gray-400 hover:bg-white/10 rounded-lg lg:hidden transition-colors"
                 >
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
                 </button>
-                <h1 className="text-xl md:text-2xl font-bold tracking-tight text-gray-900 truncate lg:hidden">Asset.Sys</h1>
+                <h1 className="text-xl md:text-2xl font-bold tracking-tight text-white truncate lg:hidden">Asset.Sys</h1>
 
                 {/* Search Bar - Desktop */}
                 <div className="hidden md:block relative w-96 ml-4">
@@ -31,15 +31,15 @@ export const Header: React.FC<{ onMenuClick: () => void }> = ({ onMenuClick }) =
 
             <div className="flex items-center gap-6">
                 <div className="hidden md:block text-right">
-                    <p className="text-sm font-bold text-gray-900 leading-tight">{user?.name}</p>
-                    <p className="text-xs font-medium text-gray-500">{user?.role === 'ADMIN' ? 'Administrator' : 'Team Member'}</p>
+                    <p className="text-sm font-bold text-white leading-tight">{user?.name}</p>
+                    <p className="text-xs font-medium text-gray-400">{user?.role === 'ADMIN' ? 'Administrator' : 'Team Member'}</p>
                 </div>
 
-                <div className="h-8 w-px bg-gray-200 hidden md:block"></div>
+                <div className="h-8 w-px bg-white/10 hidden md:block"></div>
 
                 <button
                     onClick={logout}
-                    className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all duration-200"
+                    className="p-2 text-gray-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all duration-200"
                     title="Sign Out"
                 >
                     <LogOut size={20} />

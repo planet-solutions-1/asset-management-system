@@ -40,15 +40,15 @@ export const Dashboard: React.FC = () => {
             {/* Welcome Section */}
             <div className="flex justify-between items-center">
                 <div>
-                    <h2 className="text-2xl font-bold text-gray-800">Dashboard Overview</h2>
-                    <p className="text-gray-500">Welcome back, {user?.name}</p>
+                    <h2 className="text-2xl font-bold text-white">Dashboard Overview</h2>
+                    <p className="text-gray-400">Welcome back, {user?.name}</p>
                     {user?.companyId && companies.find(c => c.id === user.companyId)?.sector && (
-                        <span className="inline-block mt-1 px-2 py-0.5 rounded text-xs font-semibold bg-gray-100 text-gray-600 border border-gray-200">
+                        <span className="inline-block mt-1 px-2 py-0.5 rounded text-xs font-semibold bg-white/10 text-gray-300 border border-white/20">
                             {companies.find(c => c.id === user.companyId)?.sector}
                         </span>
                     )}
                 </div>
-                <div className="text-sm text-gray-500 bg-white px-4 py-2 rounded-lg shadow-sm">
+                <div className="text-sm text-gray-400 bg-white/5 border border-white/10 px-4 py-2 rounded-lg backdrop-blur-sm">
                     {new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
                 </div>
             </div>

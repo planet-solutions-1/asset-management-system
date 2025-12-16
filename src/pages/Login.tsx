@@ -47,41 +47,41 @@ export const Login: React.FC = () => {
 
                         {/* Left: Hero Text */}
                         <div className="hidden lg:block text-white space-y-6">
-                            <h1 className="text-6xl font-bold leading-tight tracking-tighter">
+                            <h1 className="text-6xl font-bold leading-tight tracking-tighter drop-shadow-2xl">
                                 Manage Assets <br />
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 filter drop-shadow-lg">
                                     Like a Pro
                                 </span>
                             </h1>
-                            <p className="text-lg text-blue-100/80 max-w-lg leading-relaxed">
+                            <p className="text-lg text-blue-100/90 max-w-lg leading-relaxed drop-shadow-md font-medium">
                                 Experience the next generation of asset tracking.
                                 Real-time immersive dashboard, seamless interactions, and premium insights.
                             </p>
                             <div className="flex gap-4 pt-4">
-                                <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
+                                <div className="flex items-center gap-2 bg-black/40 backdrop-blur-md px-4 py-2 rounded-full border border-white/20 shadow-lg hover:bg-black/60 transition-colors">
                                     <ShieldCheck className="text-blue-400" size={20} />
-                                    <span className="text-sm font-medium">Enterprise Security</span>
+                                    <span className="text-sm font-medium text-white">Enterprise Security</span>
                                 </div>
-                                <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
+                                <div className="flex items-center gap-2 bg-black/40 backdrop-blur-md px-4 py-2 rounded-full border border-white/20 shadow-lg hover:bg-black/60 transition-colors">
                                     <Zap className="text-yellow-400" size={20} />
-                                    <span className="text-sm font-medium">Lightning Fast</span>
+                                    <span className="text-sm font-medium text-white">Lightning Fast</span>
                                 </div>
                             </div>
                         </div>
 
                         {/* Right: Login Card */}
-                        <div className="w-full max-w-md mx-auto">
-                            <div className="glass-card p-8 backdrop-blur-xl bg-white/10 border border-white/20 shadow-2xl relative overflow-hidden">
+                        <div className="w-full max-w-md mx-auto relative z-20">
+                            <div className="glass-card p-8 backdrop-blur-2xl bg-black/40 border border-white/10 shadow-[0_0_50px_rgba(59,130,246,0.15)] relative overflow-hidden">
                                 {/* Decorator Blob */}
-                                <div className="absolute -top-20 -right-20 w-40 h-40 bg-purple-500/30 rounded-full blur-3xl"></div>
-                                <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-blue-500/30 rounded-full blur-3xl"></div>
+                                <div className="absolute -top-20 -right-20 w-40 h-40 bg-purple-500/20 rounded-full blur-3xl"></div>
+                                <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-blue-500/20 rounded-full blur-3xl"></div>
 
                                 <div className="text-center mb-8 relative">
-                                    <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-blue-500/20 transform rotate-3 hover:rotate-6 transition-transform">
+                                    <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-blue-500/30 transform rotate-3 hover:rotate-6 transition-transform">
                                         <Building2 className="text-white" size={32} />
                                     </div>
-                                    <h2 className="text-3xl font-bold text-white mb-2">Welcome Back</h2>
-                                    <p className="text-blue-200 text-sm">Sign in to your premium dashboard</p>
+                                    <h2 className="text-3xl font-bold text-white mb-2 tracking-tight">Welcome Back</h2>
+                                    <p className="text-blue-200/80 text-sm font-medium">Sign in to your premium dashboard</p>
                                 </div>
 
                                 {error && (
@@ -93,30 +93,30 @@ export const Login: React.FC = () => {
 
                                 <form onSubmit={handleSubmit} className="space-y-5 relative">
                                     <div className="space-y-2">
-                                        <label className="text-xs font-semibold text-blue-200 uppercase tracking-wider ml-1">Email</label>
+                                        <label className="text-xs font-bold text-blue-200/80 uppercase tracking-wider ml-1">Email</label>
                                         <div className="relative group">
-                                            <User className="absolute left-4 top-1/2 -translate-y-1/2 text-blue-300 group-focus-within:text-white transition-colors" size={18} />
+                                            <User className="absolute left-4 top-1/2 -translate-y-1/2 text-blue-400 group-focus-within:text-white transition-colors" size={18} />
                                             <input
                                                 type="email"
                                                 required
                                                 value={formData.email}
                                                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                                className="w-full pl-12 pr-4 py-3.5 bg-black/20 border border-white/10 rounded-xl text-white placeholder-blue-300/30 focus:outline-none focus:bg-black/40 focus:border-blue-400/50 transition-all font-medium"
+                                                className="w-full pl-12 pr-4 py-3.5 bg-black/30 border border-white/10 rounded-xl text-white placeholder-blue-300/30 focus:outline-none focus:bg-black/50 focus:border-blue-400/50 transition-all font-medium"
                                                 placeholder="Enter your email"
                                             />
                                         </div>
                                     </div>
 
                                     <div className="space-y-2">
-                                        <label className="text-xs font-semibold text-blue-200 uppercase tracking-wider ml-1">Password</label>
+                                        <label className="text-xs font-bold text-blue-200/80 uppercase tracking-wider ml-1">Password</label>
                                         <div className="relative group">
-                                            <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-blue-300 group-focus-within:text-white transition-colors" size={18} />
+                                            <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-blue-400 group-focus-within:text-white transition-colors" size={18} />
                                             <input
                                                 type="password"
                                                 required
                                                 value={formData.password}
                                                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                                                className="w-full pl-12 pr-4 py-3.5 bg-black/20 border border-white/10 rounded-xl text-white placeholder-blue-300/30 focus:outline-none focus:bg-black/40 focus:border-blue-400/50 transition-all font-medium"
+                                                className="w-full pl-12 pr-4 py-3.5 bg-black/30 border border-white/10 rounded-xl text-white placeholder-blue-300/30 focus:outline-none focus:bg-black/50 focus:border-blue-400/50 transition-all font-medium"
                                                 placeholder="••••••••"
                                             />
                                         </div>
@@ -124,7 +124,7 @@ export const Login: React.FC = () => {
 
                                     <button
                                         type="submit"
-                                        className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-blue-900/20 transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-2"
+                                        className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-blue-500/25 transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-2"
                                     >
                                         <span>Sign In</span>
                                         <CheckCircle2 size={18} className="opacity-80" />
@@ -132,17 +132,17 @@ export const Login: React.FC = () => {
                                 </form>
 
                                 <div className="mt-8 pt-6 border-t border-white/10">
-                                    <p className="text-xs text-blue-200/60 text-center mb-4 uppercase tracking-widest font-semibold">Quick Access</p>
+                                    <p className="text-xs text-blue-200/50 text-center mb-4 uppercase tracking-widest font-bold">Quick Access</p>
                                     <div className="grid grid-cols-2 gap-3">
                                         <button
                                             onClick={() => handleDemoLogin('ADMIN')}
-                                            className="px-4 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-xs font-medium text-blue-100 transition-colors"
+                                            className="px-4 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-xs font-semibold text-blue-100 transition-colors"
                                         >
                                             Demo Admin
                                         </button>
                                         <button
                                             onClick={() => handleDemoLogin('USER')}
-                                            className="px-4 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-xs font-medium text-blue-100 transition-colors"
+                                            className="px-4 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-xs font-semibold text-blue-100 transition-colors"
                                         >
                                             Demo User
                                         </button>
@@ -151,7 +151,7 @@ export const Login: React.FC = () => {
                                     <div className="mt-6 text-center">
                                         <button
                                             onClick={() => navigate('/register')}
-                                            className="text-sm text-blue-300 hover:text-white transition-colors font-medium border-b border-transparent hover:border-white/50 pb-0.5"
+                                            className="text-sm text-blue-400 hover:text-white transition-colors font-medium border-b border-transparent hover:border-blue-400/50 pb-0.5"
                                         >
                                             Need an account? Create one
                                         </button>

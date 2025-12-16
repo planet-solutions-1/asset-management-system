@@ -3,143 +3,123 @@
 :root {
   --font-family-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
-  /* Lumina Premium Palette */
-  --bg-primary: transparent;
-  --text-primary: #1e293b;
-  --text-secondary: #64748b;
+  /* Deep Space Palette */
+  --bg-primary: #0f172a;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
 
-  /* Milky Glass Configuration */
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.6);
-  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
+  /* Dark Glass Configuration */
+  --glass-bg: rgba(15, 23, 42, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
 
-  /* Soft Accents */
-  --accent-blue: #6366f1;
-  --accent-purple: #a855f7;
-  --accent-pink: #ec4899;
+  /* Neon Accents */
+  --accent-blue: #3b82f6;
+  --accent-purple: #8b5cf6;
+  --accent-pink: #db2777;
 }
 
 body {
   font-family: var(--font-family-sans);
-
-  /* Soft Pastel Mesh Gradient */
-  background-color: #fdf2f8;
-  /* Soft pink fallback */
+  background-color: #0f172a;
+  color: var(--text-primary);
+  /* Optional starfield or subtle texture for dashboard */
   background-image:
-    radial-gradient(at 0% 0%, hsla(253, 16%, 96%, 1) 0, transparent 50%),
-    radial-gradient(at 50% 0%, hsla(225, 39%, 96%, 1) 0, transparent 50%),
-    radial-gradient(at 100% 0%, hsla(339, 49%, 96%, 1) 0, transparent 50%);
-
-  background:
-    radial-gradient(circle at 15% 50%, rgba(255, 228, 230, 0.8), transparent 25%),
-    /* Soft Pink */
-    radial-gradient(circle at 85% 30%, rgba(233, 213, 255, 0.8), transparent 25%),
-    /* Soft Purple */
-    radial-gradient(circle at 50% 80%, rgba(255, 247, 237, 0.8), transparent 25%);
-  /* Cream */
-
-  background-size: 100% 100%;
+    radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.15), transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15), transparent 40%);
   min-height: 100vh;
   margin: 0;
   padding: 0;
-  color: var(--text-primary);
 }
 
-/* Glass Utilities - Lumina Style */
+/* Glass Utilities - Dark Mode */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.65);
-  /* Milky White */
-  backdrop-filter: blur(24px) saturate(120%);
-  -webkit-backdrop-filter: blur(24px) saturate(120%);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  box-shadow:
-    0 4px 6px -1px rgba(0, 0, 0, 0.02),
-    0 2px 4px -1px rgba(0, 0, 0, 0.02),
-    0 0 0 1px rgba(255, 255, 255, 0.5) inset;
-  border-radius: 24px;
+  background: rgba(30, 41, 59, 0.7);
+  /* Dark Semi-Transparent */
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.65);
-  /* Milky White */
-  backdrop-filter: blur(24px) saturate(120%);
-  -webkit-backdrop-filter: blur(24px) saturate(120%);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  box-shadow:
-    0 4px 6px -1px rgba(0, 0, 0, 0.02),
-    0 2px 4px -1px rgba(0, 0, 0, 0.02),
-    0 0 0 1px rgba(255, 255, 255, 0.5) inset;
-  border-radius: 24px;
+  background: rgba(30, 41, 59, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
 }
 
-/* Premium Card with Soft Glow */
 .premium-card {
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  border-radius: 24px;
-  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.05);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  background: rgba(30, 41, 59, 0.6);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  /* Subtle border */
+  border-radius: 20px;
+  transition: all 0.3s ease;
 }
 
 .premium-card:hover {
-  transform: translateY(-4px) scale(1.01);
-  background: rgba(255, 255, 255, 0.85);
-  box-shadow:
-    0 20px 40px -5px rgba(0, 0, 0, 0.05),
-    0 0 20px rgba(255, 255, 255, 0.5) inset;
-  border-color: #fff;
+  background: rgba(30, 41, 59, 0.8);
+  border-color: rgba(59, 130, 246, 0.4);
+  /* Blue neon glow on hover */
+  transform: translateY(-2px);
+  box-shadow: 0 10px 40px -10px rgba(59, 130, 246, 0.15);
 }
 
 .premium-header {
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(15, 23, 42, 0.7);
   backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Inputs - Clean & Minimal */
+/* Sidebar Specific - Dark Mode */
+.sidebar-panel {
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(24px);
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 10px 0 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Inputs - Dark Mode */
 input,
 select,
 textarea {
-  background: rgba(255, 255, 255, 0.6) !important;
-  border: 1px solid rgba(255, 255, 255, 0.6) !important;
-  color: #1e293b !important;
+  background: rgba(15, 23, 42, 0.6) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #f8fafc !important;
   border-radius: 12px !important;
-  font-size: 0.95rem;
   transition: all 0.3s ease;
 }
 
 input:focus,
 select:focus,
 textarea:focus {
-  background: #fff !important;
+  background: rgba(30, 41, 59, 0.8) !important;
   border-color: var(--accent-blue) !important;
-  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1) !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2) !important;
 }
 
-/* Sidebar Specific - Floating & Soft */
-.sidebar-panel {
-  background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(30px);
-  border-right: 1px solid rgba(255, 255, 255, 0.6);
-  box-shadow: 20px 0 40px rgba(0, 0, 0, 0.02);
+input::placeholder {
+  color: rgba(148, 163, 184, 0.5);
 }
 
-/* Custom Scrollbar */
+/* Scrollbar - Dark */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: rgba(15, 23, 42, 0.5);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.3);
-  border-radius: 20px;
+  background: rgba(51, 65, 85, 0.8);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(148, 163, 184, 0.5);
+  background: rgba(71, 85, 105, 1);
 }

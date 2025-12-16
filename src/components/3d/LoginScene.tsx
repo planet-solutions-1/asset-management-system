@@ -40,7 +40,7 @@ export const LoginScene: React.FC = () => {
                 <PerspectiveCamera makeDefault position={[0, 0, 6]} />
                 <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
                 <Environment preset="city" />
-                <group position={[2, 0, 0]}>
+                <group position={[-3, 0, 0]}>
                     <GeometricShape />
                 </group>
                 <ContactShadows position={[0, -2.5, 0]} opacity={0.5} scale={10} blur={2.5} far={4} />

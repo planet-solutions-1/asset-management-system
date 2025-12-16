@@ -13,12 +13,12 @@ export const StatsCard: React.FC<StatsCardProps> = ({ title, value, gradient, cl
     const gradientClass = `stat-card-${gradient.split('-')[1]}`;
 
     return (
-        <div className={`premium-card p-6 ${className} ${gradientClass} transition-transform hover:scale-105 duration-200`}> {/* Merged className with existing classes */}
+        <div className={`premium-card p-6 ${className} ${gradientClass} transition-transform hover:scale-105 duration-200 bg-white/5 border border-white/10`}>
             <div className="flex justify-between items-start">
-                <h3 className="text-gray-500 text-sm font-medium uppercase tracking-wider mb-2">{title}</h3>
+                <h3 className="text-gray-400 text-sm font-bold uppercase tracking-wider mb-2">{title}</h3>
                 {/* Icon would go here if it were used */}
             </div>
-            <p className="text-3xl font-bold text-gray-900">{value}</p>
+            <p className="text-3xl font-bold text-white drop-shadow-md">{value}</p>
         </div>
     );
 };
