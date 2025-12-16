@@ -13,8 +13,10 @@ export interface Company {
   id: string;
   name: string;
   address: string;
+  location?: string; // [NEW]
+  contact?: string;  // [NEW]
+  sector?: string;   // [NEW]
   logo?: string;
-  sector?: string;
 }
 
 export type AssetType = 'AC' | 'FAN' | 'GENERATOR' | 'COMPUTER' | 'PRINTER' | 'PROJECTOR' | 'VEHICLE' | 'FURNITURE' | 'SERVER' | 'OTHER';

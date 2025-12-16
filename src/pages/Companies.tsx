@@ -8,6 +8,22 @@ export const Companies: React.FC = () => {
     const { user } = useAuth();
     const [searchTerm, setSearchTerm] = useState('');
     const [filterSector, setFilterSector] = useState('ALL');
+    const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+    const [newCompany, setNewCompany] = useState({
+        name: '',
+        address: '',
+        location: '',
+        contact: '',
+        sector: '',
+        logo: ''
+    });
+
+    const handleAddCompany = async (e: React.FormEvent) => {
+        e.preventDefault();
+        await useData().addCompany(newCompany);
+        setIsAddModalOpen(false);
+        setNewCompany({ name: '', address: '', location: '', contact: '', sector: '', logo: '' });
+    };
 
     const filteredCompanies = companies.filter(c =>
         (filterSector === 'ALL' || c.sector === filterSector) &&
@@ -43,11 +59,19 @@ export const Companies: React.FC = () => {
                             <p className="text-gray-500">Manage all companies using the platform</p>
                         </div>
 
-                        <div className="flex gap-4 w-full sm:w-auto">
+                        <div className="flex gap-4 w-full sm:w-auto items-center">
+                            <button
+                                onClick={() => setIsAddModalOpen(true)}
+                                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium flex items-center gap-2 shadow-lg shadow-blue-600/20"
+                            >
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5V19M5 12H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                                Add Company
+                            </button>
+                            {/* ... filters ... */}
                             <select
                                 value={filterSector}
                                 onChange={(e) => setFilterSector(e.target.value)}
-                                className="px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-[#667eea] transition-colors bg-white text-gray-700"
+                                className="px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:border-[#667eea] transition-colors bg-white text-gray-700 hidden sm:block"
                             >
                                 <option value="ALL">All Categories</option>
                                 {sectors.map(s => (
@@ -70,17 +94,17 @@ export const Companies: React.FC = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {filteredCompanies.map((company) => (
-                            <div key={company.id} className="premium-card p-6 hover:shadow-lg transition-shadow">
+                            <div key={company.id} className="premium-card p-6 hover:shadow-lg transition-shadow bg-white/80 backdrop-blur-xl group">
                                 <div className="flex items-center gap-4 mb-4">
                                     <img
-                                        src={company.logo}
+                                        src={company.logo || 'https://images.unsplash.com/photo-1560179707-f14e90ef3dab?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80'}
                                         alt={company.name}
-                                        className="w-16 h-16 rounded-xl object-cover shadow-sm"
+                                        className="w-16 h-16 rounded-xl object-cover shadow-sm group-hover:scale-105 transition-transform"
                                     />
                                     <div>
                                         <h3 className="font-bold text-lg text-gray-800">{company.name}</h3>
-                                        <div className="flex gap-2 mt-1">
-                                            <span className="text-xs font-medium px-2 py-1 bg-blue-50 text-blue-600 rounded-full">
+                                        <div className="flex flex-wrap gap-2 mt-1">
+                                            <span className="text-xs font-medium px-2 py-1 bg-blue-50 text-blue-600 rounded-full border border-blue-100">
                                                 {getCompanyAssetCount(company.id)} Assets
                                             </span>
                                             {company.sector && (
@@ -92,22 +116,130 @@ export const Companies: React.FC = () => {
                                     </div>
                                 </div>
 
-                                <div className="flex items-start gap-2 text-gray-500 text-sm">
-                                    <MapPin size={16} className="mt-0.5 shrink-0" />
-                                    <p>{company.address}</p>
+                                <div className="space-y-2 text-gray-500 text-sm mb-4">
+                                    <div className="flex items-start gap-2">
+                                        <MapPin size={16} className="mt-0.5 shrink-0 text-gray-400" />
+                                        <p className="line-clamp-2">{company.address}</p>
+                                    </div>
+                                    {company.location && (
+                                        <div className="flex items-start gap-2">
+                                            <svg className="mt-0.5 shrink-0 text-gray-400" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /></svg>
+                                            <p>{company.location}</p>
+                                        </div>
+                                    )}
+                                    {company.contact && (
+                                        <div className="flex items-start gap-2">
+                                            <svg className="mt-0.5 shrink-0 text-gray-400" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.05 12.05 0 0 0 .57 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.05 12.05 0 0 0 2.81.57A2 2 0 0 1 22 16.92z" /></svg>
+                                            <p>{company.contact}</p>
+                                        </div>
+                                    )}
                                 </div>
 
-                                <div className="mt-6 pt-4 border-t border-gray-100 flex justify-between items-center">
-                                    <button className="text-[#667eea] font-semibold text-sm hover:underline">
-                                        View Details
-                                    </button>
-                                    <button className="text-gray-400 hover:text-red-500 transition-colors">
-                                        <Building2 size={20} />
+                                <div className="mt-4 pt-4 border-t border-gray-100 flex justify-between items-center">
+                                    <button className="text-blue-600 font-semibold text-sm hover:underline flex items-center gap-1">
+                                        View Dashboard
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
                                     </button>
                                 </div>
                             </div>
                         ))}
                     </div>
+
+                    {/* Add Company Modal */}
+                    {isAddModalOpen && (
+                        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+                            <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg overflow-hidden animate-in fade-in zoom-in duration-200">
+                                <div className="p-6 border-b border-gray-100 flex justify-between items-center">
+                                    <h3 className="text-xl font-bold text-gray-900">Register New Company</h3>
+                                    <button onClick={() => setIsAddModalOpen(false)} className="text-gray-400 hover:text-gray-600">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18M6 6l12 12" /></svg>
+                                    </button>
+                                </div>
+                                <form onSubmit={handleAddCompany} className="p-6 space-y-4">
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
+                                        <input
+                                            type="text"
+                                            required
+                                            value={newCompany.name}
+                                            onChange={e => setNewCompany({ ...newCompany, name: e.target.value })}
+                                            className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"
+                                            placeholder="e.g. Acme Corp"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Sector</label>
+                                        <select
+                                            value={newCompany.sector}
+                                            onChange={e => setNewCompany({ ...newCompany, sector: e.target.value })}
+                                            className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"
+                                        >
+                                            <option value="">Select Sector</option>
+                                            {sectors.map(s => <option key={s} value={s}>{s}</option>)}
+                                        </select>
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Contact Number</label>
+                                            <input
+                                                type="text"
+                                                value={newCompany.contact}
+                                                onChange={e => setNewCompany({ ...newCompany, contact: e.target.value })}
+                                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"
+                                                placeholder="+1 234..."
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Location</label>
+                                            <input
+                                                type="text"
+                                                value={newCompany.location}
+                                                onChange={e => setNewCompany({ ...newCompany, location: e.target.value })}
+                                                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"
+                                                placeholder="City, Country"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Full Address</label>
+                                        <textarea
+                                            required
+                                            value={newCompany.address}
+                                            onChange={e => setNewCompany({ ...newCompany, address: e.target.value })}
+                                            className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all h-24 resize-none"
+                                            placeholder="Detailed address..."
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Logo URL (Optional)</label>
+                                        <input
+                                            type="text"
+                                            value={newCompany.logo}
+                                            onChange={e => setNewCompany({ ...newCompany, logo: e.target.value })}
+                                            className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"
+                                            placeholder="https://..."
+                                        />
+                                    </div>
+
+                                    <div className="pt-4 flex justify-end gap-3">
+                                        <button
+                                            type="button"
+                                            onClick={() => setIsAddModalOpen(false)}
+                                            className="px-4 py-2 text-gray-600 font-medium hover:bg-gray-50 rounded-lg transition-colors"
+                                        >
+                                            Cancel
+                                        </button>
+                                        <button
+                                            type="submit"
+                                            className="px-6 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors shadow-lg shadow-blue-600/25"
+                                        >
+                                            Register Company
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    )}
                 </>
             )}
         </div>
