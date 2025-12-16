@@ -57,7 +57,7 @@ export const Assets: React.FC = () => {
                 </div>
                 <button
                     onClick={() => setIsModalOpen(true)}
-                    className="btn btn-primary gap-2"
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl font-semibold shadow-lg shadow-blue-500/30 transition-all duration-200 flex items-center gap-2"
                 >
                     <Plus size={20} />
                     Add New Asset
@@ -72,7 +72,7 @@ export const Assets: React.FC = () => {
                         placeholder="Search assets..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                        className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-medium"
                     />
                 </div>
                 <div className="flex gap-4">
@@ -118,18 +118,18 @@ export const Assets: React.FC = () => {
                     </div>
                 ) : (
                     filteredAssets.map((asset) => (
-                        <div key={asset.id} className="card group overflow-hidden">
-                            <div className="relative h-48 bg-gray-100">
+                        <div key={asset.id} className="premium-card group overflow-hidden bg-white border border-gray-200 hover:shadow-xl transition-all duration-300">
+                            <div className="relative h-48 bg-gray-50 group-hover:scale-105 transition-transform duration-500">
                                 {asset.image ? (
                                     <img src={asset.image} alt={asset.name} className="w-full h-full object-cover" />
                                 ) : (
-                                    <div className="w-full h-full flex items-center justify-center text-gray-400">
+                                    <div className="w-full h-full flex items-center justify-center text-gray-300">
                                         <ImageIcon size={48} />
                                     </div>
                                 )}
-                                <div className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide
-                    ${asset.status === 'AVAILABLE' ? 'bg-green-100 text-green-700' :
-                                        asset.status === 'MAINTENANCE' ? 'bg-orange-100 text-orange-700' :
+                                <div className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide shadow-sm
+                    ${asset.status === 'AVAILABLE' ? 'bg-emerald-100 text-emerald-700' :
+                                        asset.status === 'MAINTENANCE' ? 'bg-amber-100 text-amber-700' :
                                             asset.status === 'BROKEN' ? 'bg-red-100 text-red-700' :
                                                 'bg-blue-100 text-blue-700'}`}
                                 >
@@ -137,11 +137,11 @@ export const Assets: React.FC = () => {
                                 </div>
                             </div>
 
-                            <div className="p-5">
+                            <div className="p-5 relative bg-white">
                                 <div className="flex items-start justify-between mb-2">
                                     <div>
-                                        <h3 className="font-bold text-gray-900 text-lg">{asset.name}</h3>
-                                        <p className="text-sm text-gray-500">{asset.type}</p>
+                                        <h3 className="font-bold text-gray-900 text-lg group-hover:text-blue-600 transition-colors">{asset.name}</h3>
+                                        <p className="text-sm text-gray-500 font-medium">{asset.type}</p>
                                     </div>
                                     <div className="relative">
                                         <button className="p-2 text-gray-400 hover:bg-gray-100 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">

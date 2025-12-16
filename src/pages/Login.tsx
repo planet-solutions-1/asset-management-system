@@ -47,7 +47,7 @@ export const Login: React.FC = () => {
 
                         {/* Left: Hero Text */}
                         <div className="hidden lg:block text-white space-y-6">
-                            <h1 className="text-6xl font-bold leading-tight tracking-tighter drop-shadow-2xl">
+                            <h1 className="text-6xl font-bold leading-tight tracking-tighter drop-shadow-2xl text-white">
                                 Manage Assets <br />
                                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 filter drop-shadow-lg">
                                     Like a Pro
