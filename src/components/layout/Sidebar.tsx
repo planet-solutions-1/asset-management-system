@@ -37,10 +37,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
 
             {/* Sidebar */}
             <aside className={clsx(
-                "fixed lg:static inset-y-0 left-0 z-50 w-64 glass-panel border-r-0 m-4 mb-0 lg:mb-4 transform transition-transform duration-200 ease-in-out lg:transform-none lg:translate-x-0 flex flex-col h-[calc(100vh-2rem)]",
-                isOpen ? "translate-x-0" : "-translate-x-full"
+                "fixed lg:static inset-y-0 left-0 z-50 w-72 m-4 sidebar-panel rounded-3xl transform transition-transform duration-300 cubic-bezier(0.4, 0, 0.2, 1) lg:transform-none lg:translate-x-0 flex flex-col h-[calc(100vh-2rem)]",
+                isOpen ? "translate-x-0" : "-translate-x-[120%]"
             )}>
-                <div className="p-6 h-full flex flex-col">
+                <div className="p-8 h-full flex flex-col">
                     <div className="flex items-center justify-between lg:hidden mb-8">
                         <span className="text-xl font-bold text-gray-900 tracking-tight">Menu</span>
                         <button
