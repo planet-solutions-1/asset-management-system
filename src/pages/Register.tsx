@@ -9,7 +9,10 @@ export const Register: React.FC = () => {
         email: '',
         password: '',
         confirmPassword: '',
-        sector: ''
+        sector: '',
+        address: '',
+        location: '',
+        contact: ''
     });
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
@@ -32,9 +35,15 @@ export const Register: React.FC = () => {
         setLoading(true);
 
         try {
-            // Register User and Company (Backend handles transaction)
-            await register(formData.companyName, formData.email, formData.password, formData.sector);
-
+            await register(
+                formData.companyName,
+                formData.email,
+                formData.password,
+                formData.sector,
+                formData.address,
+                formData.location,
+                formData.contact
+            );
             navigate('/');
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Registration failed');
@@ -45,7 +54,7 @@ export const Register: React.FC = () => {
 
     return (
         <div className="min-h-screen flex items-center justify-center p-4">
-            <div className="w-full max-w-md glass-card p-10 animate-in fade-in zoom-in duration-300">
+            <div className="w-full max-w-xl glass-card p-10 animate-in fade-in zoom-in duration-300">
                 <div className="text-center mb-10">
                     <div className="mx-auto w-12 h-12 bg-black text-white rounded-xl flex items-center justify-center mb-4">
                         <Building2 size={24} />
@@ -57,31 +66,31 @@ export const Register: React.FC = () => {
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-5">
-                    <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">Company Name</label>
-                        <div className="relative">
-                            <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-                            <input
-                                type="text"
-                                name="companyName"
-                                value={formData.companyName}
-                                onChange={handleChange}
-                                className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all font-medium text-sm"
-                                placeholder="Tech Solutions Inc."
-                                required
-                            />
+                    {/* Access to Address, Location, Contact */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="md:col-span-2">
+                            <label className="block text-sm font-semibold text-gray-700 mb-2">Company Name</label>
+                            <div className="relative">
+                                <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                                <input
+                                    type="text"
+                                    name="companyName"
+                                    value={formData.companyName}
+                                    onChange={handleChange}
+                                    className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all font-medium text-sm"
+                                    placeholder="Tech Solutions Inc."
+                                    required
+                                />
+                            </div>
                         </div>
-                    </div>
 
-                    <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">Sector / Institution Type</label>
-                        <div className="relative">
-                            <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                        <div>
+                            <label className="block text-sm font-semibold text-gray-700 mb-2">Sector</label>
                             <select
                                 name="sector"
                                 value={formData.sector}
                                 onChange={handleChange}
-                                className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all font-medium text-sm appearance-none"
+                                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all font-medium text-sm appearance-none"
                                 required
                             >
                                 <option value="" disabled>Select Sector</option>
@@ -91,9 +100,48 @@ export const Register: React.FC = () => {
                                 <option value="Private Office">Private Office</option>
                                 <option value="Government Office">Government Office</option>
                                 <option value="College">College / Education</option>
-                                <option value="Cooperative">Co-operative / Society</option>
+                                <option value="Cooperative">Co-operative</option>
                                 <option value="Other">Other</option>
                             </select>
+                        </div>
+                        <div>
+                            <label className="block text-sm font-semibold text-gray-700 mb-2">Contact Number</label>
+                            <input
+                                type="text"
+                                name="contact"
+                                value={formData.contact}
+                                onChange={handleChange}
+                                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all font-medium text-sm"
+                                placeholder="+1 234 567 890"
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="md:col-span-2">
+                            <label className="block text-sm font-semibold text-gray-700 mb-2">Full Address</label>
+                            <input
+                                type="text"
+                                name="address"
+                                value={formData.address}
+                                onChange={handleChange}
+                                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all font-medium text-sm"
+                                placeholder="123 Business Ave, Suite 100"
+                                required
+                            />
+                        </div>
+                        <div className="md:col-span-2">
+                            <label className="block text-sm font-semibold text-gray-700 mb-2">City / Location</label>
+                            <input
+                                type="text"
+                                name="location"
+                                value={formData.location}
+                                onChange={handleChange}
+                                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all font-medium text-sm"
+                                placeholder="New York, NY"
+                                required
+                            />
                         </div>
                     </div>
 
@@ -113,35 +161,37 @@ export const Register: React.FC = () => {
                         </div>
                     </div>
 
-                    <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">Password</label>
-                        <div className="relative">
-                            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-                            <input
-                                type="password"
-                                name="password"
-                                value={formData.password}
-                                onChange={handleChange}
-                                className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all font-medium text-sm"
-                                placeholder="••••••••"
-                                required
-                            />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-sm font-semibold text-gray-700 mb-2">Password</label>
+                            <div className="relative">
+                                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                                <input
+                                    type="password"
+                                    name="password"
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                    className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all font-medium text-sm"
+                                    placeholder="••••••••"
+                                    required
+                                />
+                            </div>
                         </div>
-                    </div>
 
-                    <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">Confirm Password</label>
-                        <div className="relative">
-                            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-                            <input
-                                type="password"
-                                name="confirmPassword"
-                                value={formData.confirmPassword}
-                                onChange={handleChange}
-                                className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all font-medium text-sm"
-                                placeholder="••••••••"
-                                required
-                            />
+                        <div>
+                            <label className="block text-sm font-semibold text-gray-700 mb-2">Confirm PW</label>
+                            <div className="relative">
+                                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                                <input
+                                    type="password"
+                                    name="confirmPassword"
+                                    value={formData.confirmPassword}
+                                    onChange={handleChange}
+                                    className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all font-medium text-sm"
+                                    placeholder="••••••••"
+                                    required
+                                />
+                            </div>
                         </div>
                     </div>
 

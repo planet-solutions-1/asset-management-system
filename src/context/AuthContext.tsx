@@ -5,7 +5,7 @@ import api from '../services/api';
 interface AuthContextType {
     user: User | null;
     login: (email: string, password: string) => Promise<void>;
-    register: (companyName: string, email: string, password: string, sector: string) => Promise<void>;
+    register: (companyName: string, email: string, password: string, sector: string, address: string, location: string, contact: string) => Promise<void>;
     logout: () => void;
     isAuthenticated: boolean;
     loading: boolean;
@@ -50,9 +50,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     };
 
-    const register = async (companyName: string, email: string, password: string, sector: string) => {
+    const register = async (companyName: string, email: string, password: string, sector: string, address: string, location: string, contact: string) => {
         try {
-            const res = await api.post('/auth/register', { companyName, email, password, sector });
+            const res = await api.post('/auth/register', { companyName, email, password, sector, address, location, contact });
             const { token, user } = res.data;
 
             localStorage.setItem('token', token);
