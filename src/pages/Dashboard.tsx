@@ -59,22 +59,26 @@ export const Dashboard: React.FC = () => {
                     title="Total Assets"
                     value={totalAssets}
                     gradient="card-1"
+                    icon={Activity}
                 />
                 <StatsCard
                     title="Available"
                     value={availableAssets}
                     gradient="card-2"
+                    icon={CheckCircle}
                 />
                 <StatsCard
                     title="In Maintenance"
                     value={maintenanceAssets}
                     gradient="card-3"
+                    icon={Clock}
                 />
                 {user?.role === 'ADMIN' && (
                     <StatsCard
                         title="Registered Companies"
                         value={totalCompanies}
                         gradient="card-4"
+                        icon={Building2}
                     />
                 )}
             </div>

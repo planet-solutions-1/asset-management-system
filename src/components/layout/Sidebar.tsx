@@ -66,23 +66,24 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                                 onClick={() => onClose()}
                                 className={({ isActive }) =>
                                     clsx(
-                                        'flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 group',
+                                        'flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-bold transition-all duration-300 group relative overflow-hidden',
                                         isActive
-                                            ? 'bg-blue-50 text-gray-900 shadow-sm'
-                                            : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900'
+                                            ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-[0_8px_20px_-6px_rgba(59,130,246,0.5)] transform scale-[1.02]'
+                                            : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900 active:scale-95'
                                     )
                                 }
-
                             >
-                                <div className={clsx(
-                                    "p-1.5 rounded-lg transition-colors",
-                                    // Use a simpler approach: Apply colors based on active state or hover
-                                    // But user asked for "only add colour to the icons"
-                                    "text-blue-600 bg-blue-100/50 group-hover:bg-blue-600 group-hover:text-white"
-                                )}>
-                                    <item.icon size={18} />
-                                </div>
-                                <span>{item.label}</span>
+                                {({ isActive }) => (
+                                    <>
+                                        <div className={clsx(
+                                            "p-1 rounded-lg transition-colors",
+                                            isActive ? "text-white bg-white/20" : "text-gray-400 group-hover:text-blue-500"
+                                        )}>
+                                            <item.icon size={20} strokeWidth={isActive ? 2.5 : 2} />
+                                        </div>
+                                        <span className={clsx(isActive ? "drop-shadow-sm" : "")}>{item.label}</span>
+                                    </>
+                                )}
                             </NavLink>
                         ))}
                     </nav>
