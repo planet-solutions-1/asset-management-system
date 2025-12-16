@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { useData } from '../context/DataContext';
 import { useAuth } from '../context/AuthContext';
-import { MapPin, Search } from 'lucide-react';
+import { MapPin, Search, Trash2 } from 'lucide-react';
+
+import { useNavigate } from 'react-router-dom';
 
 export const Companies: React.FC = () => {
-    const { companies, assets } = useData();
+    const { companies, assets, deleteCompany } = useData();
     const { user } = useAuth();
+    const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState('');
     const [filterSector, setFilterSector] = useState('ALL');
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -136,9 +139,23 @@ export const Companies: React.FC = () => {
                                 </div>
 
                                 <div className="mt-4 pt-4 border-t border-gray-100 flex justify-between items-center">
-                                    <button className="text-blue-600 font-semibold text-sm hover:underline flex items-center gap-1">
+                                    <button
+                                        onClick={() => navigate(`/companies/${company.id}/dashboard`)}
+                                        className="text-blue-600 font-semibold text-sm hover:underline flex items-center gap-1"
+                                    >
                                         View Dashboard
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+                                    </button>
+                                    <button
+                                        onClick={async () => {
+                                            if (window.confirm(`Are you sure you want to delete ${company.name}? This cannot be undone.`)) {
+                                                await deleteCompany(company.id);
+                                            }
+                                        }}
+                                        className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                        title="Delete Company"
+                                    >
+                                        <Trash2 size={18} />
                                     </button>
                                 </div>
                             </div>

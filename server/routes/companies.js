@@ -73,4 +73,21 @@ router.put('/:id', auth, async (req, res) => {
     }
 });
 
+// Delete company (Admin only)
+router.delete('/:id', auth, async (req, res) => {
+    if (req.user.role !== 'ADMIN') {
+        return res.status(403).json({ msg: 'Not authorized' });
+    }
+
+    try {
+        await prisma.company.delete({
+            where: { id: req.params.id }
+        });
+        res.json({ msg: 'Company removed' });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
 module.exports = router;

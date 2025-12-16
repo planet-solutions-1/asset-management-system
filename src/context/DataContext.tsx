@@ -13,6 +13,7 @@ interface DataContextType {
     updateAsset: (asset: Asset) => void;
     deleteAsset: (id: string) => void;
     addCompany: (company: Omit<Company, 'id'>) => Promise<void>;
+    deleteCompany: (id: string) => Promise<void>;
     addUser: (userData: Partial<User> & { password?: string }) => Promise<void>;
     deleteUser: (id: string) => Promise<void>;
     addBill: (bill: Partial<Bill>) => Promise<void>;
@@ -140,6 +141,16 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     };
 
+    const deleteCompany = async (id: string) => {
+        try {
+            await api.delete(`/companies/${id}`);
+            setCompanies((prev) => prev.filter((c) => c.id !== id));
+        } catch (err) {
+            console.error('Error deleting company:', err);
+            throw err;
+        }
+    };
+
     const addUser = async (userData: Partial<User> & { password?: string }) => {
         try {
             const res = await api.post('/users', userData);
@@ -176,6 +187,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 updateAsset,
                 deleteAsset,
                 addCompany,
+                deleteCompany,
                 addUser,
                 deleteUser,
                 addBill,

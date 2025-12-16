@@ -4,14 +4,22 @@ import { useData } from '../context/DataContext';
 import { StatsCard } from '../components/dashboard/StatsCard';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, PieChart, Pie } from 'recharts';
 import { Activity, AlertTriangle, CheckCircle, Clock, Building2, User as UserIcon } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export const Dashboard: React.FC = () => {
     const { user } = useAuth();
     const { assets, companies, getCompanyAssets } = useData();
     const navigate = useNavigate();
+    const { companyId } = useParams();
 
-    const relevantAssets = user?.role === 'ADMIN' ? assets : getCompanyAssets(user?.companyId || '');
+    // If Admin is viewing a specific company dashboard, use that ID. Otherwise fallback to user's company or show all for admin on main dash.
+    // If Admin is on main dashboard '/', companyId is undefined, so they see ALL assets.
+    // If Admin is on '/companies/:id/dashboard', they see THAT company's assets.
+    const targetCompanyId = user?.role === 'ADMIN' && companyId ? companyId : user?.companyId;
+
+    const relevantAssets = user?.role === 'ADMIN' && !targetCompanyId
+        ? assets
+        : getCompanyAssets(targetCompanyId || '');
 
     const totalAssets = relevantAssets.length;
     const availableAssets = relevantAssets.filter(a => a.status === 'AVAILABLE').length;
@@ -41,11 +49,15 @@ export const Dashboard: React.FC = () => {
             {/* Welcome Section */}
             <div className="flex justify-between items-center">
                 <div>
-                    <h2 className="text-2xl font-bold text-gray-900">Dashboard Overview</h2>
+                    <h2 className="text-2xl font-bold text-gray-900">
+                        {targetCompanyId
+                            ? `${companies.find(c => c.id === targetCompanyId)?.name} Dashboard`
+                            : 'Dashboard Overview'}
+                    </h2>
                     <p className="text-gray-500">Welcome back, {user?.name}</p>
-                    {user?.companyId && companies.find(c => c.id === user.companyId)?.sector && (
+                    {targetCompanyId && companies.find(c => c.id === targetCompanyId)?.sector && (
                         <span className="inline-block mt-1 px-2 py-0.5 rounded text-xs font-semibold bg-gray-100 text-gray-600 border border-gray-200">
-                            {companies.find(c => c.id === user.companyId)?.sector}
+                            {companies.find(c => c.id === targetCompanyId)?.sector}
                         </span>
                     )}
                 </div>
