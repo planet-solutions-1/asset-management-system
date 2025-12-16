@@ -32,8 +32,9 @@ export const Dashboard: React.FC = () => {
         { name: 'Issues', value: maintenanceAssets + brokenAssets },
     ];
 
-    const COLORS = ['#4facfe', '#43e97b', '#fa709a', '#f5576c'];
-    const PIE_COLORS = ['#4facfe', '#43e97b', '#f5576c'];
+    const PIE_COLORS = ['#3b82f6', '#10b981', '#ef4444'];
+
+
 
     return (
         <div className="space-y-8">
@@ -92,19 +93,60 @@ export const Dashboard: React.FC = () => {
                         <h3 className="text-xl font-bold text-gray-800 mb-6">Asset Status Distribution</h3>
                         <div className="h-80">
                             <ResponsiveContainer width="100%" height="100%">
-                                <BarChart data={barData} barSize={50}>
-                                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
-                                    <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#888' }} />
-                                    <YAxis axisLine={false} tickLine={false} tick={{ fill: '#888' }} />
-                                    <Tooltip
-                                        cursor={{ fill: 'transparent' }}
-                                        contentStyle={{ borderRadius: '10px', border: 'none', boxShadow: '0 5px 15px rgba(0,0,0,0.1)' }}
-                                        formatter={(value, name) => [value, name]}
+                                <BarChart data={barData} barSize={40}>
+                                    <defs>
+                                        <linearGradient id="colorAvailable" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8} />
+                                            <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.2} />
+                                        </linearGradient>
+                                        <linearGradient id="colorInUse" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="5%" stopColor="#10b981" stopOpacity={0.8} />
+                                            <stop offset="95%" stopColor="#10b981" stopOpacity={0.2} />
+                                        </linearGradient>
+                                        <linearGradient id="colorMaintenance" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.8} />
+                                            <stop offset="95%" stopColor="#f59e0b" stopOpacity={0.2} />
+                                        </linearGradient>
+                                        <linearGradient id="colorBroken" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="5%" stopColor="#ef4444" stopOpacity={0.8} />
+                                            <stop offset="95%" stopColor="#ef4444" stopOpacity={0.2} />
+                                        </linearGradient>
+                                    </defs>
+                                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                                    <XAxis
+                                        dataKey="name"
+                                        axisLine={false}
+                                        tickLine={false}
+                                        tick={{ fill: '#64748b', fontSize: 12, fontWeight: 600 }}
+                                        dy={10}
                                     />
-                                    <Bar dataKey="value" radius={[10, 10, 0, 0]}>
-                                        {barData.map((_entry, index) => (
-                                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                        ))}
+                                    <YAxis
+                                        axisLine={false}
+                                        tickLine={false}
+                                        tick={{ fill: '#94a3b8', fontSize: 12 }}
+                                    />
+                                    <Tooltip
+                                        cursor={{ fill: '#f8fafc', radius: 4 }}
+                                        contentStyle={{
+                                            backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                                            borderRadius: '12px',
+                                            border: 'none',
+                                            boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)',
+                                            color: '#1e293b',
+                                            padding: '12px 16px'
+                                        }}
+                                        itemStyle={{ color: '#1e293b', fontWeight: 600 }}
+                                    />
+                                    <Bar dataKey="value" radius={[8, 8, 0, 0]}>
+                                        {barData.map((entry, index) => {
+                                            const colorMap: Record<string, string> = {
+                                                'Available': 'url(#colorAvailable)',
+                                                'In Use': 'url(#colorInUse)',
+                                                'Maintenance': 'url(#colorMaintenance)',
+                                                'Broken': 'url(#colorBroken)'
+                                            };
+                                            return <Cell key={`cell-${index}`} fill={colorMap[entry.name] || '#3b82f6'} />;
+                                        })}
                                     </Bar>
                                 </BarChart>
                             </ResponsiveContainer>
@@ -190,40 +232,47 @@ export const Dashboard: React.FC = () => {
                     {/* Quick Actions */}
                     <div className="premium-card p-6">
                         <h3 className="text-xl font-bold text-gray-900 mb-6 tracking-tight">Quick Actions</h3>
-                        <div className="space-y-3">
+                        <div className="grid grid-cols-2 gap-4">
                             <button
                                 onClick={() => navigate('/assets')}
-                                className="w-full py-3 bg-white border border-gray-200 text-gray-700 font-medium rounded-xl hover:bg-gray-50 hover:border-blue-300 hover:text-blue-600 transition-all text-left px-4 flex items-center gap-3 group"
+                                className="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-2xl hover:bg-blue-600 group transition-all duration-300"
                             >
-                                <div className="p-2 bg-blue-50 text-blue-600 rounded-lg group-hover:bg-blue-100 transition-colors"><CheckCircle size={18} /></div>
-                                Manage Assets
+                                <div className="p-3 bg-white rounded-xl shadow-sm text-blue-600 group-hover:bg-white/20 group-hover:text-white transition-colors mb-3">
+                                    <CheckCircle size={24} />
+                                </div>
+                                <span className="font-bold text-gray-700 group-hover:text-white text-sm">Manage Assets</span>
                             </button>
-                            {/* Reports Button - Hidden until implemented correctly or requested */}
 
                             {user?.role === 'ADMIN' && (
                                 <>
                                     <button
                                         onClick={() => navigate('/companies')}
-                                        className="w-full py-3 bg-white border border-gray-200 text-gray-700 font-medium rounded-xl hover:bg-gray-50 hover:border-green-300 hover:text-green-600 transition-all text-left px-4 flex items-center gap-3 group"
+                                        className="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-2xl hover:bg-emerald-600 group transition-all duration-300"
                                     >
-                                        <div className="p-2 bg-green-50 text-green-600 rounded-lg group-hover:bg-green-100 transition-colors"><Building2 size={18} /></div>
-                                        Manage Companies
+                                        <div className="p-3 bg-white rounded-xl shadow-sm text-emerald-600 group-hover:bg-white/20 group-hover:text-white transition-colors mb-3">
+                                            <Building2 size={24} />
+                                        </div>
+                                        <span className="font-bold text-gray-700 group-hover:text-white text-sm">Companies</span>
                                     </button>
                                     <button
                                         onClick={() => navigate('/users')}
-                                        className="w-full py-3 bg-white border border-gray-200 text-gray-700 font-medium rounded-xl hover:bg-gray-50 hover:border-indigo-300 hover:text-indigo-600 transition-all text-left px-4 flex items-center gap-3 group"
+                                        className="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-2xl hover:bg-violet-600 group transition-all duration-300"
                                     >
-                                        <div className="p-2 bg-indigo-50 text-indigo-600 rounded-lg group-hover:bg-indigo-100 transition-colors"><UserIcon size={18} /></div>
-                                        Manage Users
+                                        <div className="p-3 bg-white rounded-xl shadow-sm text-violet-600 group-hover:bg-white/20 group-hover:text-white transition-colors mb-3">
+                                            <UserIcon size={24} />
+                                        </div>
+                                        <span className="font-bold text-gray-700 group-hover:text-white text-sm">Users</span>
                                     </button>
                                 </>
                             )}
                             <button
                                 onClick={() => navigate('/bills')}
-                                className="w-full py-3 bg-white border border-gray-200 text-gray-700 font-medium rounded-xl hover:bg-gray-50 hover:border-cyan-300 hover:text-cyan-600 transition-all text-left px-4 flex items-center gap-3 group"
+                                className="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-2xl hover:bg-cyan-600 group transition-all duration-300"
                             >
-                                <div className="p-2 bg-cyan-50 text-cyan-600 rounded-lg group-hover:bg-cyan-100 transition-colors"><Activity size={18} /></div>
-                                Manage Bills
+                                <div className="p-3 bg-white rounded-xl shadow-sm text-cyan-600 group-hover:bg-white/20 group-hover:text-white transition-colors mb-3">
+                                    <Activity size={24} />
+                                </div>
+                                <span className="font-bold text-gray-700 group-hover:text-white text-sm">Manage Bills</span>
                             </button>
                         </div>
                     </div>
