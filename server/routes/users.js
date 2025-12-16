@@ -28,8 +28,12 @@ router.get('/', auth, async (req, res) => {
     }
 });
 
-// Add a new user to the company
+// Add a new user to the company (Admin only)
 router.post('/', auth, async (req, res) => {
+    if (req.user.role !== 'ADMIN') {
+        return res.status(403).json({ message: 'Not authorized. Only Admins can create users.' });
+    }
+
     try {
         const { name, email, password, role } = req.body;
 
@@ -64,8 +68,12 @@ router.post('/', auth, async (req, res) => {
     }
 });
 
-// Delete a user
+// Delete a user (Admin only)
 router.delete('/:id', auth, async (req, res) => {
+    if (req.user.role !== 'ADMIN') {
+        return res.status(403).json({ message: 'Not authorized' });
+    }
+
     try {
         const user = await prisma.user.findUnique({ where: { id: req.params.id } });
 
