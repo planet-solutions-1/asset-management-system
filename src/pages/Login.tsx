@@ -71,7 +71,7 @@ export const Login: React.FC = () => {
 
                         {/* Right: Login Card */}
                         <div className="w-full max-w-md mx-auto relative z-20">
-                            <div className="glass-card p-8 backdrop-blur-2xl bg-black/40 border border-white/10 shadow-[0_0_50px_rgba(59,130,246,0.15)] relative overflow-hidden">
+                            <div className="p-8 backdrop-blur-xl bg-slate-900/80 border border-white/10 shadow-[0_0_50px_rgba(59,130,246,0.3)] rounded-3xl relative overflow-hidden">
                                 {/* Decorator Blob */}
                                 <div className="absolute -top-20 -right-20 w-40 h-40 bg-purple-500/20 rounded-full blur-3xl"></div>
                                 <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-blue-500/20 rounded-full blur-3xl"></div>
@@ -101,7 +101,7 @@ export const Login: React.FC = () => {
                                                 required
                                                 value={formData.email}
                                                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                                className="w-full pl-12 pr-4 py-3.5 bg-black/30 border border-white/10 rounded-xl text-white placeholder-blue-300/30 focus:outline-none focus:bg-black/50 focus:border-blue-400/50 transition-all font-medium"
+                                                className="w-full pl-12 pr-4 py-3.5 !bg-black/30 border border-white/10 rounded-xl !text-white placeholder-blue-300/30 focus:outline-none !focus:bg-black/50 focus:border-blue-400/50 transition-all font-medium"
                                                 placeholder="Enter your email"
                                             />
                                         </div>
