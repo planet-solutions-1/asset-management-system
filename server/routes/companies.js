@@ -74,19 +74,28 @@ router.put('/:id', auth, async (req, res) => {
 });
 
 // Delete company (Admin only)
+// Delete company (Admin only)
 router.delete('/:id', auth, async (req, res) => {
     if (req.user.role !== 'ADMIN') {
         return res.status(403).json({ msg: 'Not authorized' });
     }
 
+    const companyId = req.params.id;
+
     try {
-        await prisma.company.delete({
-            where: { id: req.params.id }
-        });
-        res.json({ msg: 'Company removed' });
+        // Transaction to delete all related data first
+        await prisma.$transaction([
+            prisma.bill.deleteMany({ where: { companyId } }),
+            prisma.asset.deleteMany({ where: { companyId } }),
+            prisma.department.deleteMany({ where: { companyId } }),
+            prisma.user.deleteMany({ where: { companyId } }),
+            prisma.company.delete({ where: { id: companyId } })
+        ]);
+
+        res.json({ msg: 'Company and all related data removed' });
     } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error');
+        console.error('Delete Error:', err.message);
+        res.status(500).json({ msg: 'Server Error during deletion', error: err.message });
     }
 });
 
