@@ -205,32 +205,46 @@ export const Dashboard: React.FC = () => {
                 {/* Right Column: Quick Actions & Alerts */}
                 <div className="space-y-8">
                     {/* Company Profile Card */}
-                    {user?.role !== 'ADMIN' && (
+                    {(user?.role !== 'ADMIN' || targetCompanyId) && (
                         <div className="premium-card p-6 bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-100">
                             <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
                                 <Building2 size={20} className="text-blue-600" />
-                                Company Profile
+                                {user?.role === 'ADMIN' ? 'Company Details' : 'Company Profile'}
                             </h3>
-                            {companies.find(c => c.id === user?.companyId) ? (
+                            {companies.find(c => c.id === (targetCompanyId || user?.companyId)) ? (
                                 <div className="flex items-start gap-4">
                                     <img
-                                        src={companies.find(c => c.id === user?.companyId)?.logo}
+                                        src={companies.find(c => c.id === (targetCompanyId || user?.companyId))?.logo}
                                         alt="Company Logo"
                                         className="w-16 h-16 rounded-lg object-cover bg-white shadow-sm"
                                     />
                                     <div>
                                         <h4 className="font-bold text-lg text-gray-900">
-                                            {companies.find(c => c.id === user?.companyId)?.name}
+                                            {companies.find(c => c.id === (targetCompanyId || user?.companyId))?.name}
                                         </h4>
-                                        <p className="text-sm text-gray-600 mt-1">
-                                            {companies.find(c => c.id === user?.companyId)?.address}
-                                        </p>
+                                        <div className="space-y-1 mt-2 text-sm text-gray-600">
+                                            {companies.find(c => c.id === (targetCompanyId || user?.companyId))?.address && (
+                                                <p className="flex items-start gap-2">
+                                                    <span className="font-semibold text-gray-700 shrink-0">Address:</span>
+                                                    {companies.find(c => c.id === (targetCompanyId || user?.companyId))?.address}
+                                                </p>
+                                            )}
+                                            {companies.find(c => c.id === (targetCompanyId || user?.companyId))?.location && (
+                                                <p className="flex items-center gap-2">
+                                                    <span className="font-semibold text-gray-700 shrink-0">Location:</span>
+                                                    {companies.find(c => c.id === (targetCompanyId || user?.companyId))?.location}
+                                                </p>
+                                            )}
+                                            {companies.find(c => c.id === (targetCompanyId || user?.companyId))?.contact && (
+                                                <p className="flex items-center gap-2">
+                                                    <span className="font-semibold text-gray-700 shrink-0">Contact:</span>
+                                                    {companies.find(c => c.id === (targetCompanyId || user?.companyId))?.contact}
+                                                </p>
+                                            )}
+                                        </div>
                                         <div className="mt-3 flex gap-2">
                                             <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-md font-medium">
-                                                Premium Plan
-                                            </span>
-                                            <span className="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-md font-medium">
-                                                Active
+                                                Active Plan
                                             </span>
                                         </div>
                                     </div>
