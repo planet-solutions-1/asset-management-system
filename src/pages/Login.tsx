@@ -1,112 +1,195 @@
-import { useState } from 'react';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
+import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { Building2, Lock, User } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Building2, Lock, User, CheckCircle2, ShieldCheck, Zap } from 'lucide-react';
+import { LoginScene } from '../components/3d/LoginScene';
 
 export const Login: React.FC = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [formData, setFormData] = useState({
+        email: '',
+        password: ''
+    });
     const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
     const { login } = useAuth();
     const navigate = useNavigate();
-    const location = useLocation();
-
-    const from = location.state?.from?.pathname || '/';
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
-        setLoading(true);
-
         try {
-            await login(email, password);
-            navigate(from, { replace: true });
-        } catch (err) {
-            setError(err instanceof Error ? err.message : 'Login failed');
-        } finally {
-            setLoading(false);
+            await login(formData.email, formData.password);
+            navigate('/');
+        } catch (err: any) {
+            setError(err.response?.data?.message || 'Login failed');
+        }
+    };
+
+    const handleDemoLogin = (role: 'ADMIN' | 'USER') => {
+        if (role === 'ADMIN') {
+            setFormData({ email: 'admin@demo.com', password: 'password123' });
+        } else {
+            setFormData({ email: 'user@demo.com', password: 'password123' });
         }
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center p-4">
-            <div className="w-full max-w-md glass-card p-10 animate-in fade-in zoom-in duration-300">
-                <div className="text-center mb-10">
-                    <div className="mx-auto w-12 h-12 bg-black text-white rounded-xl flex items-center justify-center mb-4">
-                        <Building2 size={24} />
+        <div className="relative w-full min-h-screen overflow-x-hidden bg-[#0f172a]">
+            {/* 3D Background Layer */}
+            <div className="fixed inset-0 z-0">
+                <LoginScene />
+            </div>
+
+            {/* Content Layer */}
+            <div className="relative z-10 min-h-screen flex flex-col">
+                {/* Hero Section with Login Form */}
+                <div className="min-h-screen flex items-center justify-center p-4 lg:p-8">
+                    <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+                        {/* Left: Hero Text */}
+                        <div className="hidden lg:block text-white space-y-6">
+                            <h1 className="text-6xl font-bold leading-tight tracking-tighter">
+                                Manage Assets <br />
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
+                                    Like a Pro
+                                </span>
+                            </h1>
+                            <p className="text-lg text-blue-100/80 max-w-lg leading-relaxed">
+                                Experience the next generation of asset tracking.
+                                Real-time immersive dashboard, seamless interactions, and premium insights.
+                            </p>
+                            <div className="flex gap-4 pt-4">
+                                <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
+                                    <ShieldCheck className="text-blue-400" size={20} />
+                                    <span className="text-sm font-medium">Enterprise Security</span>
+                                </div>
+                                <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
+                                    <Zap className="text-yellow-400" size={20} />
+                                    <span className="text-sm font-medium">Lightning Fast</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Right: Login Card */}
+                        <div className="w-full max-w-md mx-auto">
+                            <div className="glass-card p-8 backdrop-blur-xl bg-white/10 border border-white/20 shadow-2xl relative overflow-hidden">
+                                {/* Decorator Blob */}
+                                <div className="absolute -top-20 -right-20 w-40 h-40 bg-purple-500/30 rounded-full blur-3xl"></div>
+                                <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-blue-500/30 rounded-full blur-3xl"></div>
+
+                                <div className="text-center mb-8 relative">
+                                    <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-blue-500/20 transform rotate-3 hover:rotate-6 transition-transform">
+                                        <Building2 className="text-white" size={32} />
+                                    </div>
+                                    <h2 className="text-3xl font-bold text-white mb-2">Welcome Back</h2>
+                                    <p className="text-blue-200 text-sm">Sign in to your premium dashboard</p>
+                                </div>
+
+                                {error && (
+                                    <div className="bg-red-500/20 border border-red-500/50 text-red-200 px-4 py-3 rounded-xl mb-6 flex items-center gap-2 text-sm backdrop-blur-sm">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-red-400" />
+                                        {error}
+                                    </div>
+                                )}
+
+                                <form onSubmit={handleSubmit} className="space-y-5 relative">
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-semibold text-blue-200 uppercase tracking-wider ml-1">Email</label>
+                                        <div className="relative group">
+                                            <User className="absolute left-4 top-1/2 -translate-y-1/2 text-blue-300 group-focus-within:text-white transition-colors" size={18} />
+                                            <input
+                                                type="email"
+                                                required
+                                                value={formData.email}
+                                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                                className="w-full pl-12 pr-4 py-3.5 bg-black/20 border border-white/10 rounded-xl text-white placeholder-blue-300/30 focus:outline-none focus:bg-black/40 focus:border-blue-400/50 transition-all font-medium"
+                                                placeholder="Enter your email"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-semibold text-blue-200 uppercase tracking-wider ml-1">Password</label>
+                                        <div className="relative group">
+                                            <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-blue-300 group-focus-within:text-white transition-colors" size={18} />
+                                            <input
+                                                type="password"
+                                                required
+                                                value={formData.password}
+                                                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                                                className="w-full pl-12 pr-4 py-3.5 bg-black/20 border border-white/10 rounded-xl text-white placeholder-blue-300/30 focus:outline-none focus:bg-black/40 focus:border-blue-400/50 transition-all font-medium"
+                                                placeholder="••••••••"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <button
+                                        type="submit"
+                                        className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-blue-900/20 transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-2"
+                                    >
+                                        <span>Sign In</span>
+                                        <CheckCircle2 size={18} className="opacity-80" />
+                                    </button>
+                                </form>
+
+                                <div className="mt-8 pt-6 border-t border-white/10">
+                                    <p className="text-xs text-blue-200/60 text-center mb-4 uppercase tracking-widest font-semibold">Quick Access</p>
+                                    <div className="grid grid-cols-2 gap-3">
+                                        <button
+                                            onClick={() => handleDemoLogin('ADMIN')}
+                                            className="px-4 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-xs font-medium text-blue-100 transition-colors"
+                                        >
+                                            Demo Admin
+                                        </button>
+                                        <button
+                                            onClick={() => handleDemoLogin('USER')}
+                                            className="px-4 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-xs font-medium text-blue-100 transition-colors"
+                                        >
+                                            Demo User
+                                        </button>
+                                    </div>
+
+                                    <div className="mt-6 text-center">
+                                        <button
+                                            onClick={() => navigate('/register')}
+                                            className="text-sm text-blue-300 hover:text-white transition-colors font-medium border-b border-transparent hover:border-white/50 pb-0.5"
+                                        >
+                                            Need an account? Create one
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <h1 className="text-2xl font-bold text-gray-900 tracking-tight mb-2">
-                        Welcome Back
-                    </h1>
-                    <p className="text-gray-500 text-sm">Sign in to your asset management dashboard</p>
+
+                    {/* Scroll indicator */}
+                    <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/50 animate-bounce flex flex-col items-center gap-2">
+                        <span className="text-xs uppercase tracking-widest">Scroll to explore</span>
+                        <div className="w-5 h-8 border-2 border-white/30 rounded-full flex justify-center pt-1">
+                            <div className="w-1 h-2 bg-white/50 rounded-full animate-pulse" />
+                        </div>
+                    </div>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
-                    <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">Email Address</label>
-                        <div className="relative">
-                            <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-                            <input
-                                type="text"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all font-medium text-sm"
-                                placeholder="name@company.com"
-                                required
-                            />
+                {/* Scrollytelling Section - Features */}
+                <div className="min-h-[50vh] bg-black/80 backdrop-blur-xl relative z-20 py-24 px-4 border-t border-white/10">
+                    <div className="max-w-6xl mx-auto">
+                        <div className="text-center mb-16">
+                            <h2 className="text-4xl font-bold text-white mb-4">Premium Asset Intelligence</h2>
+                            <p className="text-xl text-gray-400">Everything you need to manage your inventory with precision.</p>
+                        </div>
+
+                        <div className="grid md:grid-cols-3 gap-8 text-white">
+                            {[1, 2, 3].map((i) => (
+                                <div key={i} className="p-8 rounded-3xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
+                                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl mb-6"></div>
+                                    <h3 className="text-xl font-bold mb-3">Feature {i}</h3>
+                                    <p className="text-gray-400 leading-relaxed">
+                                        Advanced tracking capabilities allowing for real-time monitoring and predictive maintenance alerts.
+                                    </p>
+                                </div>
+                            ))}
                         </div>
                     </div>
-
-                    <div>
-                        <div className="flex justify-between items-center mb-2">
-                            <label className="block text-sm font-semibold text-gray-700">Password</label>
-                            <a href="#" className="text-xs font-semibold text-gray-500 hover:text-gray-800">Forgot password?</a>
-                        </div>
-                        <div className="relative">
-                            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-                            <input
-                                type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all font-medium text-sm"
-                                placeholder="••••••••"
-                                required
-                            />
-                        </div>
-                    </div>
-
-                    {error && (
-                        <div className="p-3 bg-red-50 text-red-600 text-sm rounded-lg border border-red-100 font-medium">
-                            {error}
-                        </div>
-                    )}
-
-                    <button
-                        type="submit"
-                        disabled={loading}
-                        className="w-full py-3 bg-black text-white font-bold rounded-lg hover:bg-gray-800 transition-all disabled:opacity-70 shadow-lg shadow-gray-200"
-                    >
-                        {loading ? 'Logging in...' : 'Sign In'}
-                    </button>
-                </form>
-
-                <div className="mt-8 p-4 bg-white/40 rounded-xl text-sm border border-white/50">
-                    <p className="font-bold text-gray-900 mb-2 text-xs uppercase tracking-wide">Demo Credentials</p>
-                    <div className="flex justify-between items-center cursor-pointer hover:bg-gray-100 p-2 -mx-2 rounded-lg transition-colors" onClick={() => setEmail('admin@planet.com')}>
-                        <div>
-                            <span className="font-medium text-gray-900 block">Super Admin</span>
-                            <span className="font-mono text-xs text-gray-500">admin@planet.com</span>
-                        </div>
-                        <span className="text-xs font-mono bg-white border border-gray-200 px-2 py-1 rounded">pass: admin123</span>
-                    </div>
-                </div>
-
-                <div className="mt-8 text-center text-sm text-gray-500">
-                    Don't have an account?{' '}
-                    <Link to="/register" className="text-black font-bold hover:underline">
-                        Create Company
-                    </Link>
                 </div>
             </div>
         </div>
