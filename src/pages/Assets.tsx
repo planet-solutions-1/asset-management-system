@@ -1,9 +1,10 @@
+
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useData } from '../context/DataContext';
 import type { Asset, AssetStatus, AssetType } from '../types';
 import { Modal } from '../components/common/Modal';
-import { Plus, Search, MoreVertical, Image as ImageIcon, Calendar, AlertCircle, X, Building2 } from 'lucide-react';
+import { Plus, Search, MoreVertical, Image as ImageIcon, AlertCircle, X, Building2 } from 'lucide-react';
 
 export const Assets: React.FC = () => {
     const { user } = useAuth();
@@ -145,7 +146,8 @@ export const Assets: React.FC = () => {
                     ${asset.status === 'AVAILABLE' ? 'bg-emerald-500/90 text-white' :
                                         asset.status === 'MAINTENANCE' ? 'bg-amber-500/90 text-white' :
                                             asset.status === 'BROKEN' ? 'bg-red-500/90 text-white' :
-                                                'bg-blue-500/90 text-white'}`}
+                                                'bg-blue-500/90 text-white'
+                                    } `}
                                 >
                                     {asset.status.replace('_', ' ')}
                                 </div>
@@ -260,7 +262,7 @@ export const Assets: React.FC = () => {
                             handleCloseModal();
                         } catch (error: any) {
                             const msg = error.response?.data?.message || error.message || 'Failed to save asset';
-                            alert(`Error: ${msg}`);
+                            alert(`Error: ${msg} `);
                             console.error(error);
                         }
                     }}
@@ -286,7 +288,7 @@ export const Assets: React.FC = () => {
                                 maintenanceHistory: [
                                     ...(selectedAssetForComplaint.maintenanceHistory || []),
                                     {
-                                        id: `m${Date.now()}`,
+                                        id: `m${Date.now()} `,
                                         assetId: selectedAssetForComplaint.id,
                                         date: new Date().toISOString().split('T')[0],
                                         type: 'COMPLAINT',

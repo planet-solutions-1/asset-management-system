@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useData } from '../context/DataContext';
 import { useAuth } from '../context/AuthContext';
-import { Building2, MapPin, Search } from 'lucide-react';
+import { MapPin, Search } from 'lucide-react';
 
 export const Companies: React.FC = () => {
     const { companies, assets } = useData();
