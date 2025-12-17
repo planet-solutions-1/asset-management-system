@@ -8,6 +8,10 @@ export interface User {
   companyId?: string; // Admin has no companyId or 'all'
   avatar?: string;
   sector?: string; // [NEW] Added sector field
+  company?: {
+    name: string;
+    logo?: string;
+  };
 }
 
 export interface Company {

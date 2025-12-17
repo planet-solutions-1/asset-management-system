@@ -19,7 +19,13 @@ router.get('/', auth, async (req, res) => {
                 role: true,
                 sector: true, // [NEW] Return Sector
                 avatar: true,
-                createdAt: true
+                createdAt: true,
+                company: {
+                    select: {
+                        logo: true,
+                        name: true
+                    }
+                }
             }
         });
         res.json(users);
@@ -57,6 +63,14 @@ router.post('/', auth, async (req, res) => {
                 sector: req.body.sector || '',  // [NEW] Save Sector
                 companyId: req.user.companyId,
                 avatar: `https://ui-avatars.com/api/?name=${name}&background=random`
+            },
+            include: { // [NEW] Include Company in response
+                company: {
+                    select: {
+                        logo: true,
+                        name: true
+                    }
+                }
             }
         });
 

@@ -74,15 +74,25 @@ export const Users: React.FC = () => {
                                     )}
                                 </div>
                             </div>
-                            {user.role === 'ADMIN' ? (
-                                <span className="bg-blue-100 text-blue-700 p-1.5 rounded-lg" title="Admin">
-                                    <Shield size={16} />
-                                </span>
-                            ) : (
-                                <span className="bg-gray-100 text-gray-500 p-1.5 rounded-lg" title="User">
-                                    <UserIcon size={16} />
-                                </span>
-                            )}
+                            <div className="flex items-center gap-2">
+                                {user.company?.logo && (
+                                    <img
+                                        src={user.company.logo}
+                                        alt={user.company.name}
+                                        className="w-8 h-8 rounded-lg object-contain bg-white border border-gray-100 p-0.5"
+                                        title={`Registered to: ${user.company.name}`}
+                                    />
+                                )}
+                                {user.role === 'ADMIN' ? (
+                                    <span className="bg-blue-100 text-blue-700 p-1.5 rounded-lg" title="Admin">
+                                        <Shield size={16} />
+                                    </span>
+                                ) : (
+                                    <span className="bg-gray-100 text-gray-500 p-1.5 rounded-lg" title="User">
+                                        <UserIcon size={16} />
+                                    </span>
+                                )}
+                            </div>
                         </div>
 
                         <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between text-sm">
