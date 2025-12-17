@@ -86,14 +86,12 @@ export const Dashboard: React.FC = () => {
                     gradient="card-3"
                     icon={Clock}
                 />
-                {user?.role === 'ADMIN' && (
-                    <StatsCard
-                        title="Registered Companies"
-                        value={totalCompanies}
-                        gradient="card-4"
-                        icon={Building2}
-                    />
-                )}
+                <StatsCard
+                    title="Registered Companies"
+                    value={totalCompanies}
+                    gradient="card-4"
+                    icon={Building2}
+                />
             </div>
 
             {/* Main Content Area */}

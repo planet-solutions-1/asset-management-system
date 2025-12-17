@@ -7,10 +7,11 @@ const prisma = new PrismaClient();
 // Get all companies (Admin only) or current company
 router.get('/', auth, async (req, res) => {
     try {
+        // Allow all users to see all companies (for Dashboard stats and directory)
         let where = {};
-        if (req.user.role !== 'ADMIN') {
-            where.id = req.user.companyId;
-        }
+        // if (req.user.role !== 'ADMIN') {
+        //     where.id = req.user.companyId;
+        // }
 
         const companies = await prisma.company.findMany({ where });
         res.json(companies);
