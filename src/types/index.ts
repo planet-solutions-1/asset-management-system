@@ -7,6 +7,7 @@ export interface User {
   role: Role;
   companyId?: string; // Admin has no companyId or 'all'
   avatar?: string;
+  sector?: string; // [NEW] Added sector field
 }
 
 export interface Company {

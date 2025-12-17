@@ -67,6 +67,11 @@ export const Users: React.FC = () => {
                                 <div>
                                     <h3 className="font-bold text-gray-900">{user.name}</h3>
                                     <p className="text-sm text-gray-500">{user.email}</p>
+                                    {user.sector && (
+                                        <p className="text-xs px-2 py-0.5 mt-1 bg-gray-50 text-gray-600 rounded-md inline-block border border-gray-100">
+                                            {user.sector}
+                                        </p>
+                                    )}
                                 </div>
                             </div>
                             {user.role === 'ADMIN' ? (
@@ -128,7 +133,8 @@ const AddUserForm: React.FC<{
         name: '',
         email: '',
         password: '',
-        role: 'USER'
+        role: 'USER',
+        sector: ''
     });
 
     return (
@@ -184,6 +190,25 @@ const AddUserForm: React.FC<{
                     />
                 </div>
                 <p className="text-xs text-gray-500 mt-1">Must be at least 6 characters</p>
+            </div>
+
+            <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Industry / Sector</label>
+                <select
+                    value={formData.sector}
+                    onChange={(e) => setFormData({ ...formData, sector: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 bg-white"
+                >
+                    <option value="">Select Sector</option>
+                    <option value="IT Company">IT Company</option>
+                    <option value="Production Company">Production Company</option>
+                    <option value="Public Sector">Public Sector</option>
+                    <option value="Private Office">Private Office</option>
+                    <option value="Government Office">Government Office</option>
+                    <option value="College">College</option>
+                    <option value="Cooperative">Cooperative</option>
+                    <option value="Other">Other</option>
+                </select>
             </div>
 
             <div>
