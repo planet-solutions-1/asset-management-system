@@ -41,6 +41,14 @@ router.post('/register', async (req, res) => {
                     role: 'USER', // Default role
                     companyId: company.id,
                     avatar: `https://ui-avatars.com/api/?name=${companyName}`
+                },
+                include: { // [NEW] Return company details
+                    company: {
+                        select: {
+                            name: true,
+                            logo: true
+                        }
+                    }
                 }
             });
 
@@ -77,7 +85,17 @@ router.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        let user = await prisma.user.findUnique({ where: { email } });
+        let user = await prisma.user.findUnique({
+            where: { email },
+            include: { // [NEW] Include Company
+                company: {
+                    select: {
+                        name: true,
+                        logo: true
+                    }
+                }
+            }
+        });
         if (!user) {
             return res.status(400).json({ message: 'Invalid Credentials' });
         }
