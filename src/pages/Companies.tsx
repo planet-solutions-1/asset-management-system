@@ -35,7 +35,21 @@ export const Companies: React.FC = () => {
             setIsAddModalOpen(false);
             setNewCompany({ name: '', address: '', location: '', contact: '', sector: '', logo: '', email: '', password: '' });
         } catch (err: any) {
-            setError(err.response?.data?.message || 'Failed to register company. Check if email already exists.');
+            console.error('Registration Error:', err);
+            let errorMessage = err.response?.data?.message;
+            if (!errorMessage) {
+                if (err.response) {
+                    // Server responded but no message field (e.g., 404, 500 HTML)
+                    errorMessage = `Server Error (${err.response.status}): ${typeof err.response.data === 'string' ? err.response.data.substring(0, 100) : JSON.stringify(err.response.data)}`;
+                } else if (err.request) {
+                    // Request made but no response (Network Error)
+                    errorMessage = 'Network Error: No response from server. Check your connection.';
+                } else {
+                    // Something happened setting up the request
+                    errorMessage = err.message || 'Unknown Error';
+                }
+            }
+            setError(errorMessage);
         } finally {
             setIsSubmitting(false);
         }
