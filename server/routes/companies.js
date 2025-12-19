@@ -68,8 +68,12 @@ router.post('/', auth, async (req, res) => {
 
         res.json(result);
     } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error');
+        console.error('Registration Error:', err);
+        // Check for Prisma unique constraint error
+        if (err.code === 'P2002') {
+            return res.status(400).json({ message: 'A duplicate record exists (Email or Company Name).' });
+        }
+        res.status(500).json({ message: err.message || 'Server Error' });
     }
 });
 
