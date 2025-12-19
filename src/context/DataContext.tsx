@@ -12,7 +12,7 @@ interface DataContextType {
     addAsset: (asset: Asset) => Promise<any>;
     updateAsset: (asset: Asset) => void;
     deleteAsset: (id: string) => void;
-    addCompany: (company: Omit<Company, 'id'>) => Promise<void>;
+    addCompany: (company: Omit<Company, 'id'> & { email?: string; password?: string }) => Promise<void>;
     deleteCompany: (id: string) => Promise<void>;
     addUser: (userData: Partial<User> & { password?: string }) => Promise<void>;
     deleteUser: (id: string) => Promise<void>;
@@ -132,7 +132,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     };
 
-    const addCompany = async (company: Omit<Company, 'id'>) => {
+    const addCompany = async (company: Omit<Company, 'id'> & { email?: string; password?: string }) => {
         try {
             const res = await api.post('/companies', company);
             setCompanies((prev) => [...prev, res.data]);

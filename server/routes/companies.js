@@ -21,26 +21,52 @@ router.get('/', auth, async (req, res) => {
     }
 });
 
-// Create new company (Admin only)
+// Create new company and admin user (Admin only)
 router.post('/', auth, async (req, res) => {
     if (req.user.role !== 'ADMIN') {
         return res.status(403).json({ msg: 'Not authorized' });
     }
 
-    const { name, address, location, contact, sector, logo } = req.body;
+    const { name, address, location, contact, sector, logo, email, password } = req.body;
 
     try {
-        const newCompany = await prisma.company.create({
-            data: {
-                name,
-                address,
-                location,
-                contact,
-                sector,
-                logo
-            }
+        // Check if user exists
+        let existingUser = await prisma.user.findUnique({ where: { email } });
+        if (existingUser) {
+            return res.status(400).json({ message: 'User with this email already exists' });
+        }
+
+        const bcrypt = require('bcryptjs'); // Ensure bcrypt is available
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        const result = await prisma.$transaction(async (prisma) => {
+            const newCompany = await prisma.company.create({
+                data: {
+                    name,
+                    address,
+                    location,
+                    contact,
+                    sector,
+                    logo
+                }
+            });
+
+            const newAdmin = await prisma.user.create({
+                data: {
+                    name: `${name} Admin`,
+                    email,
+                    password: hashedPassword,
+                    role: 'USER', // Or 'COMPANY_ADMIN' if we had that role, but logic suggests 'USER' for now, acting as admin for that company
+                    companyId: newCompany.id,
+                    avatar: `https://ui-avatars.com/api/?name=${name}`
+                }
+            });
+
+            return newCompany;
         });
-        res.json(newCompany);
+
+        res.json(result);
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
