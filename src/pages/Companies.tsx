@@ -6,7 +6,7 @@ import { MapPin, Search, Trash2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export const Companies: React.FC = () => {
-    const { companies, assets, deleteCompany } = useData();
+    const { companies, assets, deleteCompany, addCompany } = useData();
     const { user } = useAuth();
     const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState('');
@@ -31,7 +31,7 @@ export const Companies: React.FC = () => {
         setError('');
         setIsSubmitting(true);
         try {
-            await useData().addCompany(newCompany);
+            await addCompany(newCompany);
             setIsAddModalOpen(false);
             setNewCompany({ name: '', address: '', location: '', contact: '', sector: '', logo: '', email: '', password: '' });
         } catch (err: any) {
