@@ -138,6 +138,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
             setCompanies((prev) => [...prev, res.data]);
         } catch (err) {
             console.error('Error adding company:', err);
+            throw err; // [NEW] Propagate error to component
         }
     };
 

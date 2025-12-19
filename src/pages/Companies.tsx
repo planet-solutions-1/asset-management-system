@@ -23,11 +23,18 @@ export const Companies: React.FC = () => {
         password: ''
     });
 
+    const [error, setError] = useState('');
+
     const handleAddCompany = async (e: React.FormEvent) => {
         e.preventDefault();
-        await useData().addCompany(newCompany);
-        setIsAddModalOpen(false);
-        setNewCompany({ name: '', address: '', location: '', contact: '', sector: '', logo: '', email: '', password: '' });
+        setError('');
+        try {
+            await useData().addCompany(newCompany);
+            setIsAddModalOpen(false);
+            setNewCompany({ name: '', address: '', location: '', contact: '', sector: '', logo: '', email: '', password: '' });
+        } catch (err: any) {
+            setError(err.response?.data?.message || 'Failed to register company. Check if email already exists.');
+        }
     };
 
     const filteredCompanies = companies.filter(c =>
@@ -170,11 +177,17 @@ export const Companies: React.FC = () => {
                             <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg overflow-hidden animate-in fade-in zoom-in duration-200">
                                 <div className="p-6 border-b border-gray-100 flex justify-between items-center">
                                     <h3 className="text-xl font-bold text-gray-900">Register New Company</h3>
-                                    <button onClick={() => setIsAddModalOpen(false)} className="text-gray-400 hover:text-gray-600">
+                                    <button onClick={() => { setIsAddModalOpen(false); setError(''); }} className="text-gray-400 hover:text-gray-600">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18M6 6l12 12" /></svg>
                                     </button>
                                 </div>
                                 <form onSubmit={handleAddCompany} className="p-6 space-y-4">
+                                    {error && (
+                                        <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm mb-4 border border-red-100 flex items-center gap-2">
+                                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                            {error}
+                                        </div>
+                                    )}
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
                                         <input
@@ -267,7 +280,7 @@ export const Companies: React.FC = () => {
                                     <div className="pt-4 flex justify-end gap-3">
                                         <button
                                             type="button"
-                                            onClick={() => setIsAddModalOpen(false)}
+                                            onClick={() => { setIsAddModalOpen(false); setError(''); }}
                                             className="px-4 py-2 text-gray-600 font-medium hover:bg-gray-50 rounded-lg transition-colors"
                                         >
                                             Cancel
