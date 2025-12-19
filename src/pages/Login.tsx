@@ -24,13 +24,13 @@ export const Login: React.FC = () => {
         }
     };
 
-    const handleDemoLogin = (role: 'ADMIN' | 'USER') => {
-        if (role === 'ADMIN') {
-            setFormData({ email: 'admin@demo.com', password: 'password123' });
-        } else {
-            setFormData({ email: 'user@demo.com', password: 'password123' });
-        }
-    };
+    // const handleDemoLogin = (role: 'ADMIN' | 'USER') => {
+    //     if (role === 'ADMIN') {
+    //         setFormData({ email: 'admin@demo.com', password: 'password123' });
+    //     } else {
+    //         setFormData({ email: 'user@demo.com', password: 'password123' });
+    //     }
+    // };
 
     return (
         <div className="relative w-full min-h-screen overflow-x-hidden bg-[#0f172a]">
@@ -131,7 +131,7 @@ export const Login: React.FC = () => {
                                     </button>
                                 </form>
 
-                                <div className="mt-8 pt-6 border-t border-white/10">
+                                {/* <div className="mt-8 pt-6 border-t border-white/10">
                                     <p className="text-xs text-blue-200/50 text-center mb-4 uppercase tracking-widest font-bold">Quick Access</p>
                                     <div className="grid grid-cols-2 gap-3">
                                         <button
@@ -156,7 +156,7 @@ export const Login: React.FC = () => {
                                             Need an account? Create one
                                         </button>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     </div>
