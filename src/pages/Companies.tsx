@@ -24,16 +24,20 @@ export const Companies: React.FC = () => {
     });
 
     const [error, setError] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleAddCompany = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
+        setIsSubmitting(true);
         try {
             await useData().addCompany(newCompany);
             setIsAddModalOpen(false);
             setNewCompany({ name: '', address: '', location: '', contact: '', sector: '', logo: '', email: '', password: '' });
         } catch (err: any) {
             setError(err.response?.data?.message || 'Failed to register company. Check if email already exists.');
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
