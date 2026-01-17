@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useData } from '../context/DataContext';
 import { useAuth } from '../context/AuthContext';
 import { Modal } from '../components/common/Modal';
@@ -7,6 +8,7 @@ import { Plus, Search, Trash2, User as UserIcon, Shield, Lock } from 'lucide-rea
 export const Users: React.FC = () => {
     const { users, addUser, deleteUser } = useData();
     const { user: currentUser } = useAuth();
+    const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -68,9 +70,13 @@ export const Users: React.FC = () => {
                                     <h3 className="font-bold text-gray-900">{user.name}</h3>
                                     <p className="text-sm text-gray-500">{user.email}</p>
                                     {user.sector && (
-                                        <p className="text-xs px-2 py-0.5 mt-1 bg-gray-50 text-gray-600 rounded-md inline-block border border-gray-100">
+                                        <button
+                                            onClick={() => navigate(`/companies?sector=${encodeURIComponent(user.sector!)}`)}
+                                            className="text-xs px-2 py-0.5 mt-1 bg-gray-50 text-gray-600 rounded-md inline-block border border-gray-100 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition-colors cursor-pointer"
+                                            title={`View all ${user.sector}s`}
+                                        >
                                             {user.sector}
-                                        </p>
+                                        </button>
                                     )}
                                 </div>
                             </div>

@@ -3,14 +3,23 @@ import { useData } from '../context/DataContext';
 import { useAuth } from '../context/AuthContext';
 import { MapPin, Search, Trash2 } from 'lucide-react';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useEffect } from 'react';
 
 export const Companies: React.FC = () => {
     const { companies, assets, deleteCompany, addCompany } = useData();
     const { user } = useAuth();
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const initialSector = searchParams.get('sector');
     const [searchTerm, setSearchTerm] = useState('');
-    const [filterSector, setFilterSector] = useState('ALL');
+    const [filterSector, setFilterSector] = useState(initialSector || 'ALL');
+
+    // Update filter if URL param changes
+    useEffect(() => {
+        const sector = searchParams.get('sector');
+        if (sector) setFilterSector(sector);
+    }, [searchParams]);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [newCompany, setNewCompany] = useState({
         name: '',
