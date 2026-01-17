@@ -14,10 +14,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
 
     const navItems = [
         { icon: LayoutDashboard, label: 'Dashboard', path: '/' },
-        { icon: Box, label: 'Assets', path: '/assets' },
-        { icon: FileText, label: 'Bills', path: '/bills' },
         ...(user?.role === 'ADMIN'
             ? [
+                { icon: Box, label: 'Assets', path: '/assets' },
+                { icon: FileText, label: 'Bills', path: '/bills' },
                 { icon: Building2, label: 'Companies', path: '/companies' },
                 { icon: UserIcon, label: 'Users', path: '/users' }
             ]
