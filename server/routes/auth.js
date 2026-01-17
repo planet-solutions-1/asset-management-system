@@ -122,8 +122,8 @@ router.post('/login', async (req, res) => {
             if (failedAttempts > 2) {
                 // Set Lockout for 30 minutes (Only for non-Admins)
                 if (user.role !== 'ADMIN') {
-                    lockoutUntil = new Date(Date.now() + 30 * 60 * 1000);
-                    alertMessage = `USER LOCKED: ${user.name} (${user.email}) has been locked out for 30 minutes after ${failedAttempts} failed attempts.`;
+                    lockoutUntil = new Date(Date.now() + 10 * 60 * 1000);
+                    alertMessage = `USER LOCKED: ${user.name} (${user.email}) has been locked out for 10 minutes after ${failedAttempts} failed attempts.`;
                 } else {
                     alertMessage = `ADMIN LOGIN FAILED: Super Admin ${user.name} (${user.email}) has ${failedAttempts} consecutive failed attempts.`;
                 }
