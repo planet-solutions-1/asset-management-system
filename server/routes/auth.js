@@ -87,7 +87,7 @@ router.post('/login', async (req, res) => {
     try {
         let user = await prisma.user.findUnique({
             where: { email },
-            include: { // [NEW] Include Company
+            include: {
                 company: {
                     select: {
                         name: true,
@@ -96,13 +96,51 @@ router.post('/login', async (req, res) => {
                 }
             }
         });
+
         if (!user) {
             return res.status(400).json({ message: 'Invalid Credentials' });
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
+
         if (!isMatch) {
+            // Increment failed attempts
+            const updatedUser = await prisma.user.update({
+                where: { id: user.id },
+                data: { failedAttempts: (user.failedAttempts || 0) + 1 },
+                select: { failedAttempts: true, name: true, company: { select: { name: true } } }
+            });
+
+            // Check if threshold exceeded (Greater than 2 means at least 3rd failure)
+            if (updatedUser.failedAttempts > 2) {
+                // Create Security Alert for Super Admin if not already recent unresolved alert
+                const pendingAlert = await prisma.alert.findFirst({
+                    where: {
+                        message: { contains: `Suspicious activity for user ${updatedUser.name}` },
+                        isResolved: false
+                    }
+                });
+
+                if (!pendingAlert) {
+                    await prisma.alert.create({
+                        data: {
+                            message: `Suspicious activity for user ${updatedUser.name} (${user.email}) at ${updatedUser.company?.name || 'Unknown Company'} - ${updatedUser.failedAttempts} failed login attempts.`,
+                            type: 'SECURITY'
+                        }
+                    });
+                    console.log(`Security Alert Created for ${user.email}`);
+                }
+            }
+
             return res.status(400).json({ message: 'Invalid Credentials' });
+        }
+
+        // Login Success - Reset Failed Attempts
+        if (user.failedAttempts > 0) {
+            await prisma.user.update({
+                where: { id: user.id },
+                data: { failedAttempts: 0 }
+            });
         }
 
         const payload = {

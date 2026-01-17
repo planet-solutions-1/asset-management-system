@@ -3,8 +3,17 @@ import { useAuth } from '../context/AuthContext';
 import { useData } from '../context/DataContext';
 import { StatsCard } from '../components/dashboard/StatsCard';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, PieChart, Pie } from 'recharts';
-import { Activity, AlertTriangle, CheckCircle, Clock, Building2, User as UserIcon } from 'lucide-react';
+import { Activity, AlertTriangle, CheckCircle, Clock, Building2, User as UserIcon, ShieldAlert, Check } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
+import api from '../services/api';
+
+interface ThreadAlert {
+    id: string;
+    message: string;
+    type: string;
+    isResolved: boolean;
+    createdAt: string;
+}
 
 export const Dashboard: React.FC = () => {
     const { user } = useAuth();
@@ -12,9 +21,26 @@ export const Dashboard: React.FC = () => {
     const navigate = useNavigate();
     const { companyId } = useParams();
 
+    // Security Alerts State
+    const [securityAlerts, setSecurityAlerts] = React.useState<ThreadAlert[]>([]);
+
+    // Fetch alerts for Admin
+    React.useEffect(() => {
+        if (user?.role === 'ADMIN') {
+            api.get('/alerts').then(res => setSecurityAlerts(res.data)).catch(console.error);
+        }
+    }, [user]);
+
+    const handleResolveAlert = async (id: string) => {
+        try {
+            await api.put(`/alerts/${id}/resolve`);
+            setSecurityAlerts(prev => prev.map(a => a.id === id ? { ...a, isResolved: true } : a));
+        } catch (err) {
+            console.error('Failed to resolve alert', err);
+        }
+    };
+
     // If Admin is viewing a specific company dashboard, use that ID. Otherwise fallback to user's company or show all for admin on main dash.
-    // If Admin is on main dashboard '/', companyId is undefined, so they see ALL assets.
-    // If Admin is on '/companies/:id/dashboard', they see THAT company's assets.
     const targetCompanyId = user?.role === 'ADMIN' && companyId ? companyId : user?.companyId;
 
     const relevantAssets = user?.role === 'ADMIN' && !targetCompanyId
@@ -42,8 +68,6 @@ export const Dashboard: React.FC = () => {
 
     const PIE_COLORS = ['#3b82f6', '#10b981', '#ef4444'];
 
-
-
     return (
         <div className="space-y-8">
             {/* Welcome Section */}
@@ -65,6 +89,34 @@ export const Dashboard: React.FC = () => {
                     {new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
                 </div>
             </div>
+
+            {/* SECURITY ALERTS SECTION (ADMIN ONLY) */}
+            {user?.role === 'ADMIN' && securityAlerts.some(a => !a.isResolved) && (
+                <div className="bg-red-50 border border-red-100 rounded-2xl p-6 animate-in fade-in slide-in-from-top-4">
+                    <h3 className="text-xl font-bold text-red-800 mb-4 flex items-center gap-2">
+                        <ShieldAlert className="text-red-600" />
+                        Security Warnings
+                    </h3>
+                    <div className="space-y-3">
+                        {securityAlerts.filter(a => !a.isResolved).map(alert => (
+                            <div key={alert.id} className="bg-white p-4 rounded-xl shadow-sm border-l-4 border-red-500 flex justify-between items-start gap-4">
+                                <div>
+                                    <p className="font-bold text-gray-800 text-sm">Suspicious Activity Detected</p>
+                                    <p className="text-gray-600 text-sm mt-1">{alert.message}</p>
+                                    <p className="text-xs text-gray-400 mt-2">{new Date(alert.createdAt).toLocaleString()}</p>
+                                </div>
+                                <button
+                                    onClick={() => handleResolveAlert(alert.id)}
+                                    className="px-3 py-1.5 bg-red-100 text-red-700 text-xs font-bold rounded-lg hover:bg-red-200 transition-colors flex items-center gap-1 shrink-0"
+                                >
+                                    <Check size={14} />
+                                    Dismiss
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
 
             {/* Stats Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

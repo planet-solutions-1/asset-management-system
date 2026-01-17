@@ -20,6 +20,7 @@ app.use('/api/companies', require('./routes/companies'));
 app.use('/api/users', require('./routes/users'));
 app.use('/api/bills', require('./routes/bills'));
 app.use('/api/departments', require('./routes/departments'));
+app.use('/api/alerts', require('./routes/alerts'));
 
 // Serve static files in production
 if (process.env.NODE_ENV === 'production') {
