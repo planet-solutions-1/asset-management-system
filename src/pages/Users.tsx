@@ -72,10 +72,11 @@ export const Users: React.FC = () => {
                                     {user.sector && (
                                         <button
                                             onClick={() => navigate(`/companies?sector=${encodeURIComponent(user.sector!)}`)}
-                                            className="text-xs px-2 py-0.5 mt-1 bg-gray-50 text-gray-600 rounded-md inline-block border border-gray-100 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition-colors cursor-pointer"
-                                            title={`View all ${user.sector}s`}
+                                            className="flex items-center gap-1.5 text-xs px-2.5 py-1 mt-1 bg-blue-50 text-blue-600 rounded-full border border-blue-100 hover:bg-blue-100 hover:border-blue-200 transition-colors cursor-pointer font-medium"
+                                            title={`Filter Companies: ${user.sector}`}
                                         >
                                             {user.sector}
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-70"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
                                         </button>
                                     )}
                                 </div>
