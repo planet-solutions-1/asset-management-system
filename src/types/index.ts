@@ -7,7 +7,6 @@ export interface User {
   role: Role;
   companyId?: string; // Admin has no companyId or 'all'
   avatar?: string;
-  avatar?: string;
   lockoutUntil?: string | null;
   sector?: string;
   company?: {
