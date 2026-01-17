@@ -101,8 +101,8 @@ router.post('/login', async (req, res) => {
             return res.status(400).json({ message: 'Invalid Credentials' });
         }
 
-        // [NEW] Check for Lockout
-        if (user.lockoutUntil && new Date(user.lockoutUntil) > new Date()) {
+        // [NEW] Check for Lockout (Skip for Admin)
+        if (user.role !== 'ADMIN' && user.lockoutUntil && new Date(user.lockoutUntil) > new Date()) {
             const minutesLeft = Math.ceil((new Date(user.lockoutUntil) - new Date()) / 60000);
             return res.status(403).json({
                 message: `Account is temporarily locked due to multiple failed attempts. Please try again in ${minutesLeft} minutes or contact Admin.`,
@@ -120,9 +120,13 @@ router.post('/login', async (req, res) => {
 
             // Check if threshold exceeded (Greater than 2 means at least 3rd failure)
             if (failedAttempts > 2) {
-                // Set Lockout for 30 minutes
-                lockoutUntil = new Date(Date.now() + 30 * 60 * 1000);
-                alertMessage = `USER LOCKED: ${user.name} (${user.email}) has been locked out for 30 minutes after ${failedAttempts} failed attempts.`;
+                // Set Lockout for 30 minutes (Only for non-Admins)
+                if (user.role !== 'ADMIN') {
+                    lockoutUntil = new Date(Date.now() + 30 * 60 * 1000);
+                    alertMessage = `USER LOCKED: ${user.name} (${user.email}) has been locked out for 30 minutes after ${failedAttempts} failed attempts.`;
+                } else {
+                    alertMessage = `ADMIN LOGIN FAILED: Super Admin ${user.name} (${user.email}) has ${failedAttempts} consecutive failed attempts.`;
+                }
             }
 
             await prisma.user.update({
