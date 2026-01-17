@@ -17,7 +17,10 @@ router.get('/', auth, async (req, res) => {
                 name: true,
                 email: true,
                 role: true,
-                sector: true, // [NEW] Return Sector
+                role: true,
+                sector: true,
+                failedAttempts: true, // [NEW]
+                lockoutUntil: true,   // [NEW]
                 avatar: true,
                 createdAt: true,
                 company: {
@@ -109,6 +112,50 @@ router.delete('/:id', auth, async (req, res) => {
 
         await prisma.user.delete({ where: { id: req.params.id } });
         res.json({ message: 'User removed' });
+
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+}
+});
+
+// Unlock a user (Admin only)
+router.put('/:id/unlock', auth, async (req, res) => {
+    if (req.user.role !== 'ADMIN') {
+        return res.status(403).json({ message: 'Not authorized' });
+    }
+
+    try {
+        const user = await prisma.user.findUnique({ where: { id: req.params.id } });
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        if (user.companyId !== req.user.companyId) {
+            return res.status(401).json({ message: 'Not authorized' });
+        }
+
+        await prisma.user.update({
+            where: { id: req.params.id },
+            data: {
+                failedAttempts: 0,
+                lockoutUntil: null
+            }
+        });
+
+        // Also resolve associated Alerts for this user
+        // This is a nice-to-have UX enhancement so Admin doesn't have to dismiss the alert manually after unlocking
+        await prisma.alert.updateMany({
+            where: {
+                message: { contains: `Suspicious activity for user ${user.name}` },
+                isResolved: false
+            },
+            data: { isResolved: true }
+        });
+
+        res.json({ message: 'User unlocked successfully' });
 
     } catch (err) {
         console.error(err.message);

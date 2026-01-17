@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useData } from '../context/DataContext';
 import { useAuth } from '../context/AuthContext';
 import { Modal } from '../components/common/Modal';
-import { Plus, Search, Trash2, User as UserIcon, Shield, Lock } from 'lucide-react';
+import { Plus, Search, Trash2, User as UserIcon, Shield, Lock, Unlock } from 'lucide-react';
+import api from '../services/api';
 
 export const Users: React.FC = () => {
     const { users, addUser, deleteUser } = useData();
@@ -23,6 +24,18 @@ export const Users: React.FC = () => {
                 await deleteUser(id);
             } catch (error: any) {
                 alert(error.response?.data?.message || 'Failed to delete user');
+            }
+        }
+    };
+
+    const handleUnlock = async (id: string) => {
+        if (confirm('Unlock this user? They will be able to login immediately.')) {
+            try {
+                await api.put(`/users/${id}/unlock`);
+                // Ideally refresh users list, but for now we can rely on page reload or optimistic update if we had local state
+                window.location.reload();
+            } catch (error: any) {
+                alert(error.response?.data?.message || 'Failed to unlock user');
             }
         }
     };
@@ -82,6 +95,23 @@ export const Users: React.FC = () => {
                                 </div>
                             </div>
                             <div className="flex items-center gap-2">
+                                {/* Lockout Status Badge */}
+                                {user.lockoutUntil && new Date(user.lockoutUntil) > new Date() && (
+                                    <div className="flex items-center gap-2 animate-pulse">
+                                        <span className="bg-red-100 text-red-700 px-2 py-1 rounded-md text-xs font-bold border border-red-200 flex items-center gap-1">
+                                            <Lock size={12} />
+                                            LOCKED
+                                        </span>
+                                        <button
+                                            onClick={() => handleUnlock(user.id)}
+                                            className="bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded-md text-xs font-bold transition-colors flex items-center gap-1 shadow-sm"
+                                            title="Unlock User"
+                                        >
+                                            <Unlock size={12} />
+                                            Unlock
+                                        </button>
+                                    </div>
+                                )}
                                 {user.company?.logo && (
                                     <img
                                         src={user.company.logo}

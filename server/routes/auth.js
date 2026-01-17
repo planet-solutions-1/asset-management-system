@@ -101,22 +101,43 @@ router.post('/login', async (req, res) => {
             return res.status(400).json({ message: 'Invalid Credentials' });
         }
 
+        // [NEW] Check for Lockout
+        if (user.lockoutUntil && new Date(user.lockoutUntil) > new Date()) {
+            const minutesLeft = Math.ceil((new Date(user.lockoutUntil) - new Date()) / 60000);
+            return res.status(403).json({
+                message: `Account is temporarily locked due to multiple failed attempts. Please try again in ${minutesLeft} minutes or contact Admin.`,
+                isLocked: true
+            });
+        }
+
         const isMatch = await bcrypt.compare(password, user.password);
 
         if (!isMatch) {
             // Increment failed attempts
-            const updatedUser = await prisma.user.update({
-                where: { id: user.id },
-                data: { failedAttempts: (user.failedAttempts || 0) + 1 },
-                select: { failedAttempts: true, name: true, company: { select: { name: true } } }
-            });
+            const failedAttempts = (user.failedAttempts || 0) + 1;
+            let lockoutUntil = null;
+            let alertMessage = `Suspicious activity for user ${user.name} (${user.email}) - ${failedAttempts} failed login attempts.`;
 
             // Check if threshold exceeded (Greater than 2 means at least 3rd failure)
-            if (updatedUser.failedAttempts > 2) {
-                // Create Security Alert for Super Admin if not already recent unresolved alert
+            if (failedAttempts > 2) {
+                // Set Lockout for 30 minutes
+                lockoutUntil = new Date(Date.now() + 30 * 60 * 1000);
+                alertMessage = `USER LOCKED: ${user.name} (${user.email}) has been locked out for 30 minutes after ${failedAttempts} failed attempts.`;
+            }
+
+            await prisma.user.update({
+                where: { id: user.id },
+                data: {
+                    failedAttempts,
+                    lockoutUntil
+                }
+            });
+
+            if (failedAttempts > 2) {
+                // Create Security Alert
                 const pendingAlert = await prisma.alert.findFirst({
                     where: {
-                        message: { contains: `Suspicious activity for user ${updatedUser.name}` },
+                        message: { contains: `Suspicious activity for user ${user.name}` },
                         isResolved: false
                     }
                 });
@@ -124,22 +145,24 @@ router.post('/login', async (req, res) => {
                 if (!pendingAlert) {
                     await prisma.alert.create({
                         data: {
-                            message: `Suspicious activity for user ${updatedUser.name} (${user.email}) at ${updatedUser.company?.name || 'Unknown Company'} - ${updatedUser.failedAttempts} failed login attempts.`,
+                            message: alertMessage,
                             type: 'SECURITY'
                         }
                     });
-                    console.log(`Security Alert Created for ${user.email}`);
                 }
             }
 
             return res.status(400).json({ message: 'Invalid Credentials' });
         }
 
-        // Login Success - Reset Failed Attempts
-        if (user.failedAttempts > 0) {
+        // Login Success - Reset Failed Attempts and Lockout
+        if (user.failedAttempts > 0 || user.lockoutUntil) {
             await prisma.user.update({
                 where: { id: user.id },
-                data: { failedAttempts: 0 }
+                data: {
+                    failedAttempts: 0,
+                    lockoutUntil: null
+                }
             });
         }
 
