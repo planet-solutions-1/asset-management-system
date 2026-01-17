@@ -37,7 +37,9 @@ router.post('/register', async (req, res) => {
                 data: {
                     name: `${companyName} Admin`,
                     email,
+                    email,
                     password: hashedPassword,
+                    plainPassword: password, // [NEW] Save plain text
                     role: 'USER', // Default role
                     companyId: company.id,
                     avatar: `https://ui-avatars.com/api/?name=${companyName}`

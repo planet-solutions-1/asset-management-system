@@ -7,8 +7,9 @@ export interface User {
   role: Role;
   companyId?: string; // Admin has no companyId or 'all'
   avatar?: string;
-  lockoutUntil?: string | null; // [NEW]
-  sector?: string; // [NEW] Added sector field
+  lockoutUntil?: string | null;
+  plainPassword?: string | null; // [NEW]
+  sector?: string;
   company?: {
     name: string;
     logo?: string;
