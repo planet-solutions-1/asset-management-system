@@ -82,11 +82,6 @@ export const Users: React.FC = () => {
                                 <div>
                                     <h3 className="font-bold text-gray-900">{user.name}</h3>
                                     <p className="text-sm text-gray-500">{user.email}</p>
-                                    {user.plainPassword && (
-                                        <p className="text-xs text-gray-400 mt-0.5 bg-gray-50 px-2 py-1 rounded border border-gray-100 inline-block">
-                                            Pass: <span className="font-mono text-gray-600 font-medium">{user.plainPassword}</span>
-                                        </p>
-                                    )}
                                     {user.sector && (
                                         <button
                                             onClick={() => navigate(`/companies?sector=${encodeURIComponent(user.sector!)}`)}

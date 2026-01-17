@@ -21,7 +21,6 @@ router.get('/', auth, async (req, res) => {
                 sector: true,
                 failedAttempts: true,
                 lockoutUntil: true,
-                plainPassword: true, // [NEW] Return plain password
                 avatar: true,
                 createdAt: true,
                 company: {
@@ -62,9 +61,7 @@ router.post('/', auth, async (req, res) => {
             data: {
                 name,
                 email,
-                email,
                 password: hashedPassword,
-                plainPassword: password, // [NEW] Save plain text
                 role: role || 'USER',
                 sector: req.body.sector || '',  // [NEW] Save Sector
                 companyId: req.user.companyId,
