@@ -7,6 +7,8 @@ import { Activity, AlertTriangle, CheckCircle, Clock, Building2, User as UserIco
 import { useNavigate, useParams } from 'react-router-dom';
 import api from '../services/api';
 
+import { Modal } from '../components/common/Modal';
+
 interface ThreadAlert {
     id: string;
     message: string;
@@ -21,6 +23,7 @@ export const Dashboard: React.FC = () => {
     const navigate = useNavigate();
     const { companyId } = useParams();
 
+    const [isBreakdownOpen, setIsBreakdownOpen] = React.useState(false);
     // Security Alerts State
     const [securityAlerts, setSecurityAlerts] = React.useState<ThreadAlert[]>([]);
 
@@ -125,6 +128,7 @@ export const Dashboard: React.FC = () => {
                     value={totalAssets}
                     gradient="card-1"
                     icon={Activity}
+                    onClick={() => setIsBreakdownOpen(true)}
                 />
                 <StatsCard
                     title="Available"
@@ -138,12 +142,14 @@ export const Dashboard: React.FC = () => {
                     gradient="card-3"
                     icon={Clock}
                 />
-                <StatsCard
-                    title="Registered Companies"
-                    value={totalCompanies}
-                    gradient="card-4"
-                    icon={Building2}
-                />
+                {!targetCompanyId && (
+                    <StatsCard
+                        title="Registered Companies"
+                        value={totalCompanies}
+                        gradient="card-4"
+                        icon={Building2}
+                    />
+                )}
             </div>
 
             {/* Main Content Area */}
@@ -415,6 +421,34 @@ export const Dashboard: React.FC = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Asset Breakdown Modal */}
+            <Modal isOpen={isBreakdownOpen} onClose={() => setIsBreakdownOpen(false)} title="Asset Inventory Breakdown">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                    {Object.entries(relevantAssets.reduce((acc, asset) => {
+                        acc[asset.type] = (acc[asset.type] || 0) + 1;
+                        return acc;
+                    }, {} as Record<string, number>))
+                        .sort(([, a], [, b]) => b - a)
+                        .map(([type, count]) => (
+                            <div key={type} className="bg-gray-50 p-4 rounded-xl text-center border border-gray-100 hover:bg-blue-50 hover:border-blue-100 transition-colors">
+                                <h4 className="text-gray-500 text-xs font-bold uppercase mb-1">{type}</h4>
+                                <p className="text-2xl font-bold text-gray-800">{count}</p>
+                            </div>
+                        ))}
+                    {relevantAssets.length === 0 && (
+                        <p className="col-span-full text-center text-gray-500 py-4">No assets found</p>
+                    )}
+                </div>
+                <div className="mt-6 flex justify-end">
+                    <button
+                        onClick={() => navigate('/assets')}
+                        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+                    >
+                        View Full Asset List
+                    </button>
+                </div>
+            </Modal>
         </div>
     );
 };

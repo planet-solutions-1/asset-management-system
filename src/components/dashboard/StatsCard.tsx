@@ -6,9 +6,10 @@ interface StatsCardProps {
     icon?: LucideIcon; // Made optional to match user's simple card if needed
     gradient: 'card-1' | 'card-2' | 'card-3' | 'card-4';
     className?: string;
+    onClick?: () => void;
 }
 
-export const StatsCard: React.FC<StatsCardProps> = ({ title, value, icon: Icon, gradient, className }) => {
+export const StatsCard: React.FC<StatsCardProps> = ({ title, value, icon: Icon, gradient, className, onClick }) => {
     // Simplified gradient map for the 3D icon background
     const gradientColors: Record<string, string> = {
         'card-1': 'from-blue-400 to-blue-600 shadow-blue-500/40',
@@ -21,7 +22,11 @@ export const StatsCard: React.FC<StatsCardProps> = ({ title, value, icon: Icon, 
     const colorClass = gradientColors[gradient] || 'from-blue-400 to-blue-600 shadow-blue-500/40';
 
     return (
-        <div className={`premium-card p-6 ${className} bg-white border border-slate-100/60 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.05)] hover:shadow-xl transition-all duration-300 group`}>
+        <div
+            onClick={onClick}
+            className={`premium-card p-6 ${className} bg-white border border-slate-100/60 shadow-[0_4px_20px_-2px_rgba(0,0,0,0.05)] 
+            ${onClick ? 'cursor-pointer hover:border-blue-200 hover:-translate-y-1' : ''} 
+            hover:shadow-xl transition-all duration-300 group`}>
             <div className="flex justify-between items-start mb-4">
                 {/* 3D Icon Container */}
                 <div className={`p-3.5 rounded-2xl bg-gradient-to-br ${colorClass} shadow-lg transform transition-transform group-hover:scale-110 group-hover:-rotate-3 duration-300 flex items-center justify-center text-white`}>
