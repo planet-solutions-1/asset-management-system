@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { useData } from '../context/DataContext';
 import type { Asset, AssetStatus, AssetType } from '../types';
 import { Modal } from '../components/common/Modal';
-import { Plus, Search, MoreVertical, Image as ImageIcon, AlertCircle, X, Building2 } from 'lucide-react';
+import { Plus, Search, MoreVertical, Image as ImageIcon, AlertCircle, Building2 } from 'lucide-react';
 import { AssetForm } from '../components/forms/AssetForm';
 
 export const Assets: React.FC = () => {

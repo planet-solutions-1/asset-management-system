@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Asset } from '../../types';
+import type { Asset } from '../../types';
 
 interface BillFormProps {
     onClose: () => void;

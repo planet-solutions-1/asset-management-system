@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useData } from '../context/DataContext';
 import { useAuth } from '../context/AuthContext';
-import { MapPin, Search, Trash2, Box, FileText, Plus } from 'lucide-react';
+import { MapPin, Search, Trash2, Box, FileText, Plus, X, AlertCircle } from 'lucide-react';
 import { AssetForm } from '../components/forms/AssetForm';
 import { BillForm } from '../components/forms/BillForm';
 import { Modal } from '../components/common/Modal';
