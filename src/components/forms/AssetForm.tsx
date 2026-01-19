@@ -8,9 +8,10 @@ interface AssetFormProps {
     onSubmit: (data: Partial<Asset>, newDeptName?: string) => void;
     user: any;
     departments: any[];
+    companies?: any[]; // Allow companies to be passed
 }
 
-export const AssetForm: React.FC<AssetFormProps> = ({ initialData, onClose, onSubmit, user, departments }) => {
+export const AssetForm: React.FC<AssetFormProps> = ({ initialData, onClose, onSubmit, user, departments, companies = [] }) => {
     const [formData, setFormData] = useState<Partial<Asset>>(
         initialData || {
             name: '',
@@ -65,6 +66,22 @@ export const AssetForm: React.FC<AssetFormProps> = ({ initialData, onClose, onSu
                         <option value="Other">Other</option>
                     </select>
                 </div>
+
+                {user?.role === 'ADMIN' && (
+                    <div className="col-span-2 md:col-span-1">
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Company</label>
+                        <select
+                            value={formData.companyId || ''}
+                            onChange={(e) => setFormData({ ...formData, companyId: e.target.value })}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                        >
+                            <option value="">Select Company</option>
+                            {companies.map((c: any) => (
+                                <option key={c.id} value={c.id}>{c.name}</option>
+                            ))}
+                        </select>
+                    </div>
+                )}
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Department</label>
                     <div className="space-y-2">

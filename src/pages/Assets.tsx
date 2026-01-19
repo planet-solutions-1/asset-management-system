@@ -9,7 +9,7 @@ import { AssetForm } from '../components/forms/AssetForm';
 
 export const Assets: React.FC = () => {
     const { user } = useAuth();
-    const { assets, addAsset, updateAsset, deleteAsset, getCompanyAssets, departments, addDepartment } = useData();
+    const { assets, addAsset, updateAsset, deleteAsset, getCompanyAssets, departments, addDepartment, companies } = useData();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingAsset, setEditingAsset] = useState<Asset | null>(null);
     const [searchTerm, setSearchTerm] = useState('');
@@ -270,6 +270,7 @@ export const Assets: React.FC = () => {
 
                     user={user}
                     departments={departments}
+                    companies={companies}
                 />
             </Modal>
 
