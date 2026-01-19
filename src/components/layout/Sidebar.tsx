@@ -16,12 +16,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         { icon: LayoutDashboard, label: 'Dashboard', path: '/' },
         ...(user?.role === 'ADMIN'
             ? [
-                { icon: Box, label: 'Assets', path: '/assets' },
-                { icon: FileText, label: 'Bills', path: '/bills' },
                 { icon: Building2, label: 'Companies', path: '/companies' },
                 { icon: UserIcon, label: 'Users', path: '/users' }
             ]
-            : []),
+            : [
+                { icon: Box, label: 'Assets', path: '/assets' },
+                { icon: FileText, label: 'Bills', path: '/bills' },
+            ]),
         { icon: Settings, label: 'Settings', path: '/settings' },
     ];
 

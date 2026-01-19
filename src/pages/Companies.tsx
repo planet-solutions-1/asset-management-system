@@ -1,13 +1,16 @@
 import { useState } from 'react';
 import { useData } from '../context/DataContext';
 import { useAuth } from '../context/AuthContext';
-import { MapPin, Search, Trash2 } from 'lucide-react';
+import { MapPin, Search, Trash2, Box, FileText, Plus } from 'lucide-react';
+import { AssetForm } from '../components/forms/AssetForm';
+import { BillForm } from '../components/forms/BillForm';
+import { Modal } from '../components/common/Modal';
 
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useEffect } from 'react';
 
 export const Companies: React.FC = () => {
-    const { companies, assets, deleteCompany, addCompany } = useData();
+    const { companies, assets, deleteCompany, addCompany, addAsset, addBill, addDepartment, departments } = useData();
     const { user } = useAuth();
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
@@ -20,7 +23,12 @@ export const Companies: React.FC = () => {
         const sector = searchParams.get('sector');
         if (sector) setFilterSector(sector);
     }, [searchParams]);
+
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+    const [selectedCompanyId, setSelectedCompanyId] = useState<string | null>(null);
+    const [isAssetModalOpen, setIsAssetModalOpen] = useState(false);
+    const [isBillModalOpen, setIsBillModalOpen] = useState(false);
+
     const [newCompany, setNewCompany] = useState({
         name: '',
         address: '',
@@ -48,19 +56,56 @@ export const Companies: React.FC = () => {
             let errorMessage = err.response?.data?.message;
             if (!errorMessage) {
                 if (err.response) {
-                    // Server responded but no message field (e.g., 404, 500 HTML)
                     errorMessage = `Server Error (${err.response.status}): ${typeof err.response.data === 'string' ? err.response.data.substring(0, 100) : JSON.stringify(err.response.data)}`;
                 } else if (err.request) {
-                    // Request made but no response (Network Error)
                     errorMessage = 'Network Error: No response from server. Check your connection.';
                 } else {
-                    // Something happened setting up the request
                     errorMessage = err.message || 'Unknown Error';
                 }
             }
             setError(errorMessage);
         } finally {
             setIsSubmitting(false);
+        }
+    };
+
+    const handleAddAsset = async (data: any, newDeptName?: string) => {
+        if (!selectedCompanyId) return;
+        try {
+            let deptId = data.departmentId;
+            // Admin adding asset to a company - Departments are global? Or per company?
+            // The schema says Department has NO companyId. So departments are global?
+            // Let's assume global for now or that it doesn't matter for Admin.
+            // Wait, if departments are global, fine.
+            if (newDeptName) {
+                const newDept = await addDepartment(newDeptName);
+                deptId = newDept.id;
+            }
+            await addAsset({
+                ...data,
+                departmentId: deptId,
+                companyId: selectedCompanyId
+            });
+            setIsAssetModalOpen(false);
+            setSelectedCompanyId(null);
+        } catch (err) {
+            console.error('Failed to add asset', err);
+            alert('Failed to add asset');
+        }
+    };
+
+    const handleAddBill = async (data: any) => {
+        if (!selectedCompanyId) return;
+        try {
+            await addBill({
+                ...data,
+                companyId: selectedCompanyId
+            });
+            setIsBillModalOpen(false);
+            setSelectedCompanyId(null);
+        } catch (err) {
+            console.error('Failed to add bill', err);
+            alert('Failed to add bill');
         }
     };
 
@@ -103,7 +148,7 @@ export const Companies: React.FC = () => {
                                 onClick={() => setIsAddModalOpen(true)}
                                 className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium flex items-center gap-2 shadow-lg shadow-blue-600/20"
                             >
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5V19M5 12H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                                <Plus size={20} />
                                 Add Company
                             </button>
                             {/* ... filters ... */}
@@ -133,7 +178,7 @@ export const Companies: React.FC = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {filteredCompanies.map((company) => (
-                            <div key={company.id} className="premium-card p-6 hover:shadow-lg transition-shadow bg-white/80 backdrop-blur-xl group">
+                            <div key={company.id} className="premium-card p-6 hover:shadow-lg transition-shadow bg-white/80 backdrop-blur-xl group relative">
                                 <div className="flex items-center gap-4 mb-4">
                                     <img
                                         src={company.logo || 'https://images.unsplash.com/photo-1560179707-f14e90ef3dab?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80'}
@@ -160,24 +205,38 @@ export const Companies: React.FC = () => {
                                         <MapPin size={16} className="mt-0.5 shrink-0 text-gray-400" />
                                         <p className="line-clamp-2">{company.address}</p>
                                     </div>
-                                    {company.location && (
-                                        <div className="flex items-start gap-2">
-                                            <svg className="mt-0.5 shrink-0 text-gray-400" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /></svg>
-                                            <p>{company.location}</p>
-                                        </div>
-                                    )}
-                                    {company.contact && (
-                                        <div className="flex items-start gap-2">
-                                            <svg className="mt-0.5 shrink-0 text-gray-400" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.05 12.05 0 0 0 .57 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.05 12.05 0 0 0 2.81.57A2 2 0 0 1 22 16.92z" /></svg>
-                                            <p>{company.contact}</p>
-                                        </div>
-                                    )}
                                 </div>
 
-                                <div className="mt-4 pt-4 border-t border-gray-100 flex justify-between items-center">
+                                {/* Action Buttons Row */}
+                                <div className="flex gap-2 mb-4">
+                                    <button
+                                        onClick={() => {
+                                            setSelectedCompanyId(company.id);
+                                            setIsAssetModalOpen(true);
+                                        }}
+                                        className="flex-1 py-2 bg-blue-50 text-blue-600 rounded-lg text-xs font-medium hover:bg-blue-100 transition-colors flex items-center justify-center gap-1.5"
+                                        title="Add Asset"
+                                    >
+                                        <Box size={14} />
+                                        Add Asset
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            setSelectedCompanyId(company.id);
+                                            setIsBillModalOpen(true);
+                                        }}
+                                        className="flex-1 py-2 bg-purple-50 text-purple-600 rounded-lg text-xs font-medium hover:bg-purple-100 transition-colors flex items-center justify-center gap-1.5"
+                                        title="Add Bill"
+                                    >
+                                        <FileText size={14} />
+                                        Add Bill
+                                    </button>
+                                </div>
+
+                                <div className="pt-4 border-t border-gray-100 flex justify-between items-center">
                                     <button
                                         onClick={() => navigate(`/companies/${company.id}/dashboard`)}
-                                        className="text-blue-600 font-semibold text-sm hover:underline flex items-center gap-1"
+                                        className="text-gray-700 font-semibold text-sm hover:text-blue-600 hover:underline flex items-center gap-1"
                                     >
                                         View Dashboard
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
@@ -205,13 +264,13 @@ export const Companies: React.FC = () => {
                                 <div className="p-6 border-b border-gray-100 flex justify-between items-center">
                                     <h3 className="text-xl font-bold text-gray-900">Register New Company</h3>
                                     <button onClick={() => { setIsAddModalOpen(false); setError(''); }} className="text-gray-400 hover:text-gray-600">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18M6 6l12 12" /></svg>
+                                        <X size={24} />
                                     </button>
                                 </div>
                                 <form onSubmit={handleAddCompany} className="p-6 space-y-4">
                                     {error && (
                                         <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm mb-4 border border-red-100 flex items-center gap-2">
-                                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                            <AlertCircle size={20} />
                                             {error}
                                         </div>
                                     )}
@@ -334,6 +393,27 @@ export const Companies: React.FC = () => {
                             </div>
                         </div>
                     )}
+
+                    {/* Asset Modal */}
+                    <Modal isOpen={isAssetModalOpen} onClose={() => { setIsAssetModalOpen(false); setSelectedCompanyId(null); }} title="Add New Asset">
+                        <AssetForm
+                            initialData={null}
+                            onClose={() => { setIsAssetModalOpen(false); setSelectedCompanyId(null); }}
+                            onSubmit={handleAddAsset}
+                            user={user}
+                            departments={departments}
+                        />
+                    </Modal>
+
+                    {/* Bill Modal */}
+                    <Modal isOpen={isBillModalOpen} onClose={() => { setIsBillModalOpen(false); setSelectedCompanyId(null); }} title="Add New Bill">
+                        <BillForm
+                            onClose={() => { setIsBillModalOpen(false); setSelectedCompanyId(null); }}
+                            onSubmit={handleAddBill}
+                            assets={selectedCompanyId ? assets.filter(a => a.companyId === selectedCompanyId) : []}
+                            companyId={selectedCompanyId || undefined}
+                        />
+                    </Modal>
                 </>
             )}
         </div>

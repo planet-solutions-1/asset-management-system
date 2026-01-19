@@ -37,7 +37,7 @@ router.post('/', auth, async (req, res) => {
                 type,
                 fileUrl,
                 assetId: assetId || null,
-                companyId: req.user.companyId
+                companyId: req.user.role === 'ADMIN' ? (req.body.companyId || req.user.companyId) : req.user.companyId
             }
         });
 
