@@ -110,6 +110,7 @@ export const Companies: React.FC = () => {
     };
 
     const filteredCompanies = companies.filter(c =>
+        c.name !== 'Planet Solutions' &&
         (filterSector === 'ALL' || c.sector === filterSector) &&
         (c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             c.address.toLowerCase().includes(searchTerm.toLowerCase()))
