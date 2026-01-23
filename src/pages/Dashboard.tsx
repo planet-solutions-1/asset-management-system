@@ -142,7 +142,7 @@ export const Dashboard: React.FC = () => {
                     gradient="card-3"
                     icon={Clock}
                 />
-                {!targetCompanyId && (
+                {user?.role === 'ADMIN' && (
                     <StatsCard
                         title="Registered Companies"
                         value={totalCompanies}
