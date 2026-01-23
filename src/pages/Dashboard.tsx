@@ -43,8 +43,10 @@ export const Dashboard: React.FC = () => {
         }
     };
 
-    // If Admin is viewing a specific company dashboard, use that ID. Otherwise fallback to user's company or show all for admin on main dash.
-    const targetCompanyId = user?.role === 'ADMIN' && companyId ? companyId : user?.companyId;
+    // If Admin is viewing a specific company dashboard, use that ID. 
+    // If Admin is on main dashboard, show Global Stats (targetCompanyId = null).
+    // Regular users always see their company dashboard.
+    const targetCompanyId = user?.role === 'ADMIN' ? (companyId || null) : user?.companyId;
 
     const relevantAssets = user?.role === 'ADMIN' && !targetCompanyId
         ? assets
