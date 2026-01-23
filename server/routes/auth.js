@@ -194,4 +194,17 @@ router.post('/login', async (req, res) => {
     }
 });
 
+// Manual Recovery Route (in case of accidental admin deletion)
+router.post('/recover', async (req, res) => {
+    try {
+        const seed = require('../seed');
+        console.log('Manual recovery triggered...');
+        await seed();
+        res.json({ message: 'Recovery process completed. Try logging in as admin@planet.com / admin123' });
+    } catch (err) {
+        console.error('Recovery failed:', err);
+        res.status(500).json({ message: 'Recovery failed', error: err.toString() });
+    }
+});
+
 module.exports = router;
